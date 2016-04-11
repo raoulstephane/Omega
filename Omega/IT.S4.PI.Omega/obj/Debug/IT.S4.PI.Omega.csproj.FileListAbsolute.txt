@@ -1,0 +1,5 @@
+C:\Users\Suarez\Documents\S4\PI\Omega\Omega\IT.S4.PI.Omega\bin\Debug\IT.S4.PI.Omega.dll
+C:\Users\Suarez\Documents\S4\PI\Omega\Omega\IT.S4.PI.Omega\bin\Debug\IT.S4.PI.Omega.pdb
+C:\Users\Suarez\Documents\S4\PI\Omega\Omega\IT.S4.PI.Omega\obj\Debug\IT.S4.PI.Omega.csprojResolveAssemblyReference.cache
+C:\Users\Suarez\Documents\S4\PI\Omega\Omega\IT.S4.PI.Omega\obj\Debug\IT.S4.PI.Omega.dll
+C:\Users\Suarez\Documents\S4\PI\Omega\Omega\IT.S4.PI.Omega\obj\Debug\IT.S4.PI.Omega.pdb

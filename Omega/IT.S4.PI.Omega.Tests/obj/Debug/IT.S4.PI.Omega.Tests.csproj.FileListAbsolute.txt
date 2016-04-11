@@ -1,0 +1,7 @@
+C:\Users\Suarez\Documents\S4\PI\Omega\Omega\IT.S4.PI.Omega.Tests\bin\Debug\IT.S4.PI.Omega.Tests.dll
+C:\Users\Suarez\Documents\S4\PI\Omega\Omega\IT.S4.PI.Omega.Tests\bin\Debug\IT.S4.PI.Omega.Tests.pdb
+C:\Users\Suarez\Documents\S4\PI\Omega\Omega\IT.S4.PI.Omega.Tests\bin\Debug\nunit.framework.dll
+C:\Users\Suarez\Documents\S4\PI\Omega\Omega\IT.S4.PI.Omega.Tests\bin\Debug\nunit.framework.xml
+C:\Users\Suarez\Documents\S4\PI\Omega\Omega\IT.S4.PI.Omega.Tests\obj\Debug\IT.S4.PI.Omega.Tests.csprojResolveAssemblyReference.cache
+C:\Users\Suarez\Documents\S4\PI\Omega\Omega\IT.S4.PI.Omega.Tests\obj\Debug\IT.S4.PI.Omega.Tests.dll
+C:\Users\Suarez\Documents\S4\PI\Omega\Omega\IT.S4.PI.Omega.Tests\obj\Debug\IT.S4.PI.Omega.Tests.pdb
