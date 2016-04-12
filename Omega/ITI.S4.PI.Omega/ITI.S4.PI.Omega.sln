@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITI.S4.PI.Omega", "ITI.S4.PI.Omega\ITI.S4.PI.Omega.csproj", "{055499A2-2525-445B-BC22-B3DD6B3865BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{055499A2-2525-445B-BC22-B3DD6B3865BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{055499A2-2525-445B-BC22-B3DD6B3865BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{055499A2-2525-445B-BC22-B3DD6B3865BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{055499A2-2525-445B-BC22-B3DD6B3865BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
