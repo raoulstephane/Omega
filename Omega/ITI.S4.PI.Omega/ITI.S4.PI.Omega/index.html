@@ -6,6 +6,8 @@
     <meta charset="utf-8" />
 </head>
 <body>
+
+    <!--FaceBook Connection-->
     <script>
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
@@ -99,7 +101,34 @@
     <div id="status">
     </div>
 
-    </br>
-    <button><a href="DeezerConnection.html"> Connexion Deezer</a></button>
+  <!--Deezer Connection-->
+    <br />
+    <button onclick="dzConnection()">Deezer Connection</button>
+
+    <script src="http://cdn-files.deezer.com/js/min/dz.js"></script>
+    <script src="https://e-cdns-files.dzcdn.net/js/min/dz.js"></script>
+
+    <div id="dz-root"></div>
+
+    <script>
+    function dzConnection(){
+	DZ.init({
+		appId  : '176241',
+		channelUrl: 'http://localhost:4014/index.html'
+	});
+
+DZ.login(function (response) {
+    if (response.authResponse) {
+        DZ.api('/user/me', function (response) {
+            alert('Good to see you, ' + response.name + '.');
+        });
+    } else {
+        alert('User cancelled login or did not fully authorize.');
+    }
+}, { perms: 'basic_access,email' });
+    }
+    </script>
+
+
 </body>
 </html>
