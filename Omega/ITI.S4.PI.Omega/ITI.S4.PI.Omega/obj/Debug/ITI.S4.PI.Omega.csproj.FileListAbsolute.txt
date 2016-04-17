@@ -97,3 +97,36 @@ D:\Intech Info\S4\Pi\Omega\Omega\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Micro
 D:\Intech Info\S4\Pi\Omega\Omega\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\obj\Debug\ITI.S4.PI.Omega.csprojResolveAssemblyReference.cache
 D:\Intech Info\S4\Pi\Omega\Omega\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\obj\Debug\ITI.S4.PI.Omega.dll
 D:\Intech Info\S4\Pi\Omega\Omega\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\obj\Debug\ITI.S4.PI.Omega.pdb
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\ApplicationInsights.config
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\roslyn\csc.exe
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\roslyn\vbc.exe
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\roslyn\VBCSCompiler.exe
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\ITI.S4.PI.Omega.dll.config
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\ITI.S4.PI.Omega.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\ITI.S4.PI.Omega.pdb
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Microsoft.AI.Web.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Microsoft.AI.Web.xml
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\obj\Debug\ITI.S4.PI.Omega.csprojResolveAssemblyReference.cache
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\obj\Debug\ITI.S4.PI.Omega.dll
+C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega\ITI.S4.PI.Omega\obj\Debug\ITI.S4.PI.Omega.pdb
