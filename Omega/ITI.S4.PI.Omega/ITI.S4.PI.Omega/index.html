@@ -9,6 +9,10 @@
 </head>
 <body>
 
+
+    <div id="status">
+    </div>
+
     <!-- Initializing SDK -->
     <script>
         window.fbAsyncInit = function () {
@@ -35,11 +39,15 @@
             console.log(response);
             if (response.status === 'connected') {
                 testAPI();
+                document.getElementById('fbGetInfo').style.display = 'block'
+                document.getElementById('fbGetEvents').style.display = 'block'
+                document.getElementById('fbGetGroups').style.display = 'block'
+                document.getElementById('fbLoginButton').style.display = 'none'
             } else if (response.status === 'not_authorized') {
                 document.getElementById('status').innerHTML = 'Please log ' +
                   'into this app.';
             } else {
-                document.getElementById('status').innerHTML = 'Please log ' +
+                document.getElementById('status').innerHTML = 'Please first log ' +
                   'into Facebook.';
             }
         }
@@ -97,7 +105,10 @@
             DZ.login(function (response) {
                 if (response.authResponse) {
                     DZ.api('/user/me', function (response) {
-                        alert('Good to see you, ' + response.name + '.');
+                        document.getElementById('status').innerHTML =
+                  'You are now log on Deezer, ' + response.name + '!';
+                        document.getElementById('dzLoginButton').style.display = 'none'
+
                     });
                 } else {
                     alert('User cancelled login or did not fully authorize.');
@@ -105,16 +116,21 @@
             }, { perms: 'basic_access,email' });
         }
     </script>
-
-    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+   
+     
+    <fb:login-button id="fbLoginButton" style="display:block" onclick="fbButton" scope="public_profile,email" onlogin="checkLoginState();">
     </fb:login-button>
-    <button onclick="dzConnection()">Deezer Connection</button><br />
-    <button onclick="getInfo()">Get infos</button>
-    <button onclick="getEvents()">Get events</button>
-    <button onclick="getGroups()">Get groups</button>
+    <br/><button  id=dzLoginButton onclick="dzConnection()" >Deezer Connection</button><br/><br />
+        <button id=fbGetInfo style ="display:none" onclick="getInfo()">Get infos</button><br />  
+        <button id=fbGetEvents style ="display:none" onclick="getEvents()">Get events</button><br />
+        <button id=fbGetGroups style ="display:none" onclick="getGroups()">Get groups</button>
 
-    <div id="status">
-    </div>
+
+
+
+
+  
+
     <div id="test">
     </div>
 
