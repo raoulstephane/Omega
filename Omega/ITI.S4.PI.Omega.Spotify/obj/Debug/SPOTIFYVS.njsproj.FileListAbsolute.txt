@@ -1,6 +1,0 @@
-C:\Users\Bobby\Desktop\TEST SPOTIFY 2\obj\Debug\SPOTIFYVS.njsprojResolveAssemblyReference.cache
-C:\Users\Bobby\Desktop\TEST SPOTIFY 2\bin\Microsoft.NodejsTools.WebRole.dll
-C:\Users\Bobby\Documents\Intech\S4\PI\Omega\Omega\ITI.S4.PI.Omega.Spotify\obj\Debug\SPOTIFYVS.njsprojResolveAssemblyReference.cache
-C:\Users\Bobby\Documents\Intech\S4\PI\Omega\Omega\ITI.S4.PI.Omega.Spotify\bin\Microsoft.NodejsTools.WebRole.dll
-C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega.Spotify\obj\Debug\SPOTIFYVS.njsprojResolveAssemblyReference.cache
-C:\Users\Bobby\Desktop\Omega\ITI.S4.PI.Omega.Spotify\bin\Microsoft.NodejsTools.WebRole.dll
