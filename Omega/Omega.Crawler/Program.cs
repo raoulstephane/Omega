@@ -10,8 +10,7 @@ namespace Omega.Crawler
     {
         static void Main( string[] args )
         {
-            Console.Write("coucou");
-            Console.ReadKey();
+            
         }
     }
 }
