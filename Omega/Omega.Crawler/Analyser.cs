@@ -8,11 +8,16 @@ namespace Omega.Crawler
 {
     public class Analyser
     {
+        string songIdTest = "06AKEBrKUckW0KREUWRnvT";
+        CredentialAuth c = new CredentialAuth();
+        public async Task AnalyseNewSong()
+        {
+            await c.Connect(songIdTest, true);
+        }
+
         public async Task AnalyseSong()
         {
-            CredentialAuth c = new CredentialAuth();
-            string songIdTest = "06AKEBrKUckW0KREUWRnvT";
-            await c.Connect(songIdTest);
+            await c.Connect(songIdTest, false);
         }
     }
 }

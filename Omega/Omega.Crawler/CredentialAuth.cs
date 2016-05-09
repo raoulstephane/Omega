@@ -11,7 +11,7 @@ namespace Omega.Crawler
 {
     public class CredentialAuth
     {
-        public async Task Connect(string songId)
+        public async Task Connect(string songId, bool newSong)
         {
             string token = await GetAccessToken();
             MetaDonnees information = new MetaDonnees();
@@ -27,12 +27,16 @@ namespace Omega.Crawler
                 string responseFromServer = reader.ReadToEnd();
                 information = JsonConvert.DeserializeObject<MetaDonnees>(responseFromServer);
             }
-            //Console.WriteLine("Acousticness = " + information.acousticness);
-            //Console.WriteLine("Danceability = " + information.danceability);
-            //Console.WriteLine("Energy = " + information.energy);
-            //Console.WriteLine("Instrumentalness = " + information.instrumentalness);
-            //Console.WriteLine("Tempo = " + information.danceability);
-            //Console.ReadKey();
+
+            if(newSong == true)
+            {
+                // On delete la newTrack
+                // On ajoute la track
+            }
+            else
+            {
+                // On met à jour la track
+            }
         }
 
         public async Task<string> GetAccessToken()
@@ -61,10 +65,6 @@ namespace Omega.Crawler
 
                 }
             }
-            //Console.WriteLine("MusicId = 06AKEBrKUckW0KREUWRnvT");
-            //Console.WriteLine("");
-            //Console.WriteLine("Token = " + token.access_token);
-            //Console.WriteLine("");
             return token.access_token;
         }
     }
