@@ -10,12 +10,15 @@ namespace Omega.Crawler.Tests
     public class testClass
     {
         [Test]
-        public void Test_Unduplicate_TrackList()
+        public async Task Test_Unduplicate_TrackList_And_Analyse_Song()
         {
             List<UserInfoAndStuff> users = InsertUser();
+            Dictionary<string, MetaDonnees> trackWithInfo = new Dictionary<string, MetaDonnees>();
             Undeplicate u = new Undeplicate();
+            Analyser a = new Analyser();
+            CredentialAuth c = new CredentialAuth();
 
-            List<string> finale = u.UndeplicateTrackList(users);
+            List<string> finale = u.UndeplicateTrackList(users).Result;
 
             Console.WriteLine("Liste avant Dédoublonnage");
             for (int i = 0; i < users.Count; i++)
@@ -27,7 +30,37 @@ namespace Omega.Crawler.Tests
             for (int i = 0; i < finale.Count; i++)
             {
                 Console.WriteLine(finale[i]);
-            }   
+            }
+
+            Console.WriteLine("");
+
+            foreach(string id in finale)
+            {
+                string tmpId = id.Substring(4);
+                trackWithInfo.Add(id, await a.AnalyseNewSong(c, tmpId));
+                Console.WriteLine(tmpId + " est à jour");
+            }
+        }
+
+        [Test]
+        public void Test_Unduplicate_Song()
+        {
+            List<UserInfoAndStuff> users = InsertUser();
+            Undeplicate u = new Undeplicate();
+
+            List<string> finale = u.UndeplicateTrackList(users).Result;
+
+            Console.WriteLine("Liste avant Dédoublonnage");
+            for (int i = 0; i < users.Count; i++)
+            {
+                Console.WriteLine(users[i].TrackId);
+            }
+
+            Console.WriteLine("\nListe après Dédoublonnage");
+            for (int i = 0; i < finale.Count; i++)
+            {
+                Console.WriteLine(finale[i]);
+            }
         }
 
         [Test]
@@ -56,7 +89,7 @@ namespace Omega.Crawler.Tests
             CredentialAuth c = new CredentialAuth();
             DeezerMetadonnees dm = await d.Connect(DeezerId);
             string spotifyId = await s.Search(dm.title, dm.artist.name, dm.album.title);
-            await c.TrackMetadonnee(spotifyId, false);
+            await c.TrackMetadonnee(spotifyId);
         }
 
         public List<UserInfoAndStuff> InsertUser()
@@ -92,6 +125,12 @@ namespace Omega.Crawler.Tests
             u5.Source = "spotify";
             u5.TrackId = "06AKEBrKUckW0KREUWRnvT";
             Users.Add(u5);
+
+            UserInfoAndStuff u6 = new UserInfoAndStuff();
+            u6.UserId = "e@a.a";
+            u6.Source = "deezer";
+            u6.TrackId = "3135556";
+            Users.Add(u6);
 
             return Users;
         }

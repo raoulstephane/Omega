@@ -4,16 +4,14 @@ namespace Omega.Crawler
 {
     public class Analyser
     {
-        string songIdTest = "06AKEBrKUckW0KREUWRnvT";
-        
-        public async Task AnalyseNewSong(CredentialAuth c)
+        public async Task<MetaDonnees> AnalyseNewSong(CredentialAuth c, string trackId)
         {
-            await c.TrackMetadonnee(songIdTest, true);
+            return await c.TrackMetadonnee(trackId);
         }
 
-        public async Task AnalyseSong(CredentialAuth c)
+        public async Task AnalyseSong(CredentialAuth c, string trackId)
         {
-            await c.TrackMetadonnee(songIdTest, false);
+            await c.TrackMetadonnee(trackId);
         }
     }
 }

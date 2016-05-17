@@ -8,7 +8,7 @@ namespace Omega.Crawler
 {
     public class CredentialAuth
     {
-        public async Task TrackMetadonnee(string songId, bool newSong)
+        public async Task<MetaDonnees> TrackMetadonnee(string songId)
         {
             string token = await GetAccessToken();
             MetaDonnees information = new MetaDonnees();
@@ -23,16 +23,7 @@ namespace Omega.Crawler
             {
                 string responseFromServer = reader.ReadToEnd();
                 information = JsonConvert.DeserializeObject<MetaDonnees>(responseFromServer);
-            }
-
-            if(newSong == true)
-            {
-                // On delete la newTrack
-                // On ajoute la track
-            }
-            else
-            {
-                // On met à jour la track
+                return information;
             }
         }
 

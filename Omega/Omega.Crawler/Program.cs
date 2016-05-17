@@ -13,9 +13,7 @@
                 // Les ranger dans une liste
                 // envoyer cette liste dans l'analyser si la liste n'est pas vide
 
-                // Reprendre l'analyse des track déja connu 
-
-                // Console.WriteLine("coucou");
+                // Reprendre l'analyse des track déja connu
             }
         }
     }

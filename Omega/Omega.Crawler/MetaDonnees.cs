@@ -1,6 +1,6 @@
 ﻿namespace Omega.Crawler
 {
-    class MetaDonnees
+    public class MetaDonnees
     {
         public string danceability { get; set; }
         public string energy { get; set; }
