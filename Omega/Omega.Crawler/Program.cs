@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Omega.Crawler
+﻿namespace Omega.Crawler
 {
     class Program
     {
         static void Main( string[] args )
         {
             Analyser a = new Analyser();
+            CredentialAuth c = new CredentialAuth();
+
             for (;;)
             {
                 // verifier si la table contient des track sous la forme "New_track"
@@ -19,7 +15,7 @@ namespace Omega.Crawler
 
                 // Reprendre l'analyse des track déja connu 
 
-                //Console.WriteLine("coucou");
+                // Console.WriteLine("coucou");
             }
         }
     }

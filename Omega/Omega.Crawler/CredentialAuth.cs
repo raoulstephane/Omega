@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +8,7 @@ namespace Omega.Crawler
 {
     public class CredentialAuth
     {
-        public async Task Connect(string songId, bool newSong)
+        public async Task TrackMetadonnee(string songId, bool newSong)
         {
             string token = await GetAccessToken();
             MetaDonnees information = new MetaDonnees();

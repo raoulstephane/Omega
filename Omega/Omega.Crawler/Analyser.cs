@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Omega.Crawler
 {
     public class Analyser
     {
         string songIdTest = "06AKEBrKUckW0KREUWRnvT";
-        CredentialAuth c = new CredentialAuth();
-        public async Task AnalyseNewSong()
+        
+        public async Task AnalyseNewSong(CredentialAuth c)
         {
-            await c.Connect(songIdTest, true);
+            await c.TrackMetadonnee(songIdTest, true);
         }
 
-        public async Task AnalyseSong()
+        public async Task AnalyseSong(CredentialAuth c)
         {
-            await c.Connect(songIdTest, false);
+            await c.TrackMetadonnee(songIdTest, false);
         }
     }
 }
