@@ -1,0 +1,30 @@
+﻿using Owin;
+using System;
+
+namespace Omega
+{
+    public static class SpotifyAuthenticationExtensions
+    {
+        public static IAppBuilder UseSpotifyAuthentication(this IAppBuilder app,
+            SpotifyAuthenticationOptions options)
+        {
+            if (app == null)
+                throw new ArgumentNullException(nameof(app));
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
+            app.Use(typeof(SpotifyAuthenticationMiddleware), app, options);
+
+            return app;
+        }
+
+        public static IAppBuilder UseSpotifyAuthentication(this IAppBuilder app, string clientId, string clientSecret)
+        {
+            return app.UseSpotifyAuthentication(new SpotifyAuthenticationOptions
+            {
+                ClientId = clientId,
+                ClientSecret = clientSecret
+            });
+        }
+    }
+}
