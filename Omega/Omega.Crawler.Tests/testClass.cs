@@ -31,7 +31,7 @@ namespace Omega.Crawler.Tests
             {
                 Console.WriteLine(finale[i]);
             }
-
+            
             Console.WriteLine("");
 
             foreach(string id in finale)

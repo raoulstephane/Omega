@@ -50,6 +50,7 @@
     <Compile Include="Analyser.cs" />
     <Compile Include="CredentialAuth.cs" />
     <Compile Include="DeezerConnect.cs" />
+    <Compile Include="EventLimiter.cs" />
     <Compile Include="MetaDonnees.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
