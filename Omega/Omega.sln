@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omega", "Omega\Omega.csproj", "{21B95CF2-70F4-43C5-B939-2908AEEB8EBA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omega.Crawler", "Omega.Crawler\Omega.Crawler.csproj", "{648B6540-93A4-4663-B0A3-EEF834622849}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omega.Model.Tests", "Omega.Model.Tests\Omega.Model.Tests.csproj", "{2A6DE634-CCC8-4D50-85C3-5793BEBFEB19}"
@@ -15,16 +13,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omega.Front", "Omega.Front\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omega.Model", "Omega.Model\Omega.Model.csproj", "{40EF09D9-67D8-407A-92D0-CE44271CED3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmegaSPA", "OmegaSPA\OmegaSPA.csproj", "{B19635A3-971E-4A98-B7C0-B609770AC791}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{21B95CF2-70F4-43C5-B939-2908AEEB8EBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{21B95CF2-70F4-43C5-B939-2908AEEB8EBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{21B95CF2-70F4-43C5-B939-2908AEEB8EBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{21B95CF2-70F4-43C5-B939-2908AEEB8EBA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{648B6540-93A4-4663-B0A3-EEF834622849}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{648B6540-93A4-4663-B0A3-EEF834622849}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{648B6540-93A4-4663-B0A3-EEF834622849}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{40EF09D9-67D8-407A-92D0-CE44271CED3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40EF09D9-67D8-407A-92D0-CE44271CED3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40EF09D9-67D8-407A-92D0-CE44271CED3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B19635A3-971E-4A98-B7C0-B609770AC791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B19635A3-971E-4A98-B7C0-B609770AC791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B19635A3-971E-4A98-B7C0-B609770AC791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B19635A3-971E-4A98-B7C0-B609770AC791}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
