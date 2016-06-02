@@ -1,4 +1,4 @@
-﻿namespace Omega.Crawler
+﻿namespace Omega.DataManager
 {
     public class MetaDonnees
     {

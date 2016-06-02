@@ -1,18 +1,20 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Omega.Crawler
 {
-    public class DeezerConnect
+    public class GetATrack
     {
-        public async Task<Track> Connect(string id)
+        public async Task<Track> GetTrack(string id)
         {
             Track track = new Track();
-
-            WebRequest request = HttpWebRequest.Create("http://api.deezer.com/track/" + id);
+            WebRequest request = HttpWebRequest.Create("https://api.spotify.com/v1/tracks/" + id);
             request.Method = "GET";
             request.ContentType = "application/json";
             using (WebResponse response = await request.GetResponseAsync())
@@ -21,11 +23,12 @@ namespace Omega.Crawler
             {
                 string responseFromServer = reader.ReadToEnd();
                 JObject rss = JObject.Parse(responseFromServer);
-                track.AlbumName = (string)rss["album"]["title"];
-                track.Artist = (string)rss["artist"]["name"];
-                track.Title = (string)rss["title"];
+                track.AlbumName = (string)rss["album"]["name"];
+                track.Popularity = (string)rss["popularity"];
+                track.Title = (string)rss["name"];
+
                 return track;
-            }  
+            }
         }
     }
 }

@@ -42,7 +42,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Livefusion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Omega.Crawler\Omega.Crawler.csproj">
+      <Project>{648b6540-93a4-4663-b0a3-eef834622849}</Project>
+      <Name>Omega.Crawler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Omega.DataManager\Omega.DataManager.csproj">
+      <Project>{2335b04d-421d-4d59-a36c-c704a02b0939}</Project>
+      <Name>Omega.DataManager</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Omega.Crawler;
+using Omega.DataManager;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -37,7 +38,7 @@ namespace Omega.Crawler.Tests
             foreach(string id in finale)
             {
                 string tmpId = id.Substring(4);
-                trackWithInfo.Add(id, await a.AnalyseNewSong(c, tmpId));
+                //trackWithInfo.Add(id, await a.AnalyseNewSong(c, tmpId));
                 Console.WriteLine(tmpId + " est à jour");
             }
         }
@@ -67,7 +68,10 @@ namespace Omega.Crawler.Tests
         public async Task Test_Connect_Deezer()
         {
             DeezerConnect d = new DeezerConnect();
-            await d.Connect("3135556");
+            Track t = await d.Connect("3135556");
+            Console.WriteLine(t.Artist);
+            Console.WriteLine(t.AlbumName);
+            Console.WriteLine(t.Title);
         }
 
         [Test]
@@ -87,9 +91,18 @@ namespace Omega.Crawler.Tests
             DeezerConnect d = new DeezerConnect();
             Spotifycation s = new Spotifycation();
             CredentialAuth c = new CredentialAuth();
-            DeezerMetadonnees dm = await d.Connect(DeezerId);
-            string spotifyId = await s.Search(dm.title, dm.artist.name, dm.album.title);
+            Track dm = await d.Connect(DeezerId);
+            string spotifyId = await s.Search(dm.Title, dm.Artist, dm.AlbumName);
             await c.TrackMetadonnee(spotifyId);
+        }
+
+        [Test]
+        public async Task TestAllBase()
+        {
+            DatabaseCreator db = new DatabaseCreator();
+            db.CreateCleanTrackTable();
+            Analyser a = new Analyser();
+            await a.AnalyseNewSong(new Controller(), "0eGsygTp906u18L0Oimnem", "spotify");
         }
 
         public List<UserInfoAndStuff> InsertUser()

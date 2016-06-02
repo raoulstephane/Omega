@@ -32,16 +32,8 @@ namespace Omega.Crawler
             using (StreamReader reader = new StreamReader(responseStream))
             {
                 string responseFromServer = reader.ReadToEnd();
-                Console.WriteLine(responseFromServer);
                 JObject rss = JObject.Parse(responseFromServer);
                 string rssId = (string)rss["tracks"]["items"][0]["id"];
-                Console.WriteLine("Deezer -----> Spotify");
-                Console.WriteLine("titre = " + title);
-                Console.WriteLine("artiste = " + artist);
-                Console.WriteLine("album = " + album);
-                Console.WriteLine("----------------------------------------");
-                Console.WriteLine("Spotify Id = " + rssId);
-                Console.WriteLine("----------------------------------------");
                 return rssId;
             }
         }

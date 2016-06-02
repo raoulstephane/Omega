@@ -1,4 +1,5 @@
 ﻿using Omega.Crawler;
+using Omega.DataManager;
 using System.Collections.Generic;
 
 namespace Omega.Model
@@ -9,7 +10,6 @@ namespace Omega.Model
         {
             List<string> FilteredList = new List<string>();
             
-
             return FilteredList;
         }
     }

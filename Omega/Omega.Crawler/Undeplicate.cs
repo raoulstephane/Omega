@@ -16,8 +16,8 @@ namespace Omega.Crawler
             {
                 if(u.Source == "deezer")
                 {
-                    DeezerMetadonnees DeezerTrack = await dc.Connect(u.TrackId);
-                    string id = await s.Search(DeezerTrack.title, DeezerTrack.artist.name, DeezerTrack.album.title);
+                    Track DeezerTrack = await dc.Connect(u.TrackId);
+                    string id = await s.Search(DeezerTrack.Title, DeezerTrack.Artist, DeezerTrack.AlbumName);
                     if (!tmp.Exists(w => w == ("New_" + id) || w == id))
                     {
                         tmp.Add("New_" + id);

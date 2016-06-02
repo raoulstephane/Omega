@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System;
+using Omega.DataManager;
 
 namespace Omega.Crawler
 {
@@ -24,7 +25,6 @@ namespace Omega.Crawler
             {
                 string responseFromServer = reader.ReadToEnd();
                 information = JsonConvert.DeserializeObject<MetaDonnees>(responseFromServer);
-                Console.WriteLine(responseFromServer);
                 return information;
             }
         }
