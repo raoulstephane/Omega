@@ -4,26 +4,71 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Omega.DataManager
 {
-    class DatabaseQueries
+    public class DatabaseQueries
     {
-        public void InsertUser(UserEntity user)
+        static readonly CloudStorageAccount storageAccount;
+        static readonly CloudTableClient tableClient;
+        static readonly CloudTable tableUser;
+
+        static DatabaseQueries()
         {
             // Retrieve the storage account from the connection string.
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
+            storageAccount = CloudStorageAccount.Parse(
                CloudConfigurationManager.GetSetting( "StorageConnectionString" ) );
 
             // Create the table client.
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+            tableClient = storageAccount.CreateCloudTableClient();
 
-            // Create the CloudTable object that represents the "people" table.
-            CloudTable table = tableClient.GetTableReference( "people" );
-
-            // Create the TableOperation object that inserts the customer entity.
-            TableOperation insertOperation = TableOperation.Insert( user );
-
-            // Execute the insert operation.
-            table.Execute( insertOperation );
+            // Create the CloudTables objects that represent the different tables.
+            tableUser = tableClient.GetTableReference( "User" );
+            //CloudTable tableUser = tableClient.GetTableReference( "people" );
+            //CloudTable tableUser = tableClient.GetTableReference( "people" );
         }
-        
+
+        //public static void InsertOrUpdateUserBySpotify( string email )
+        //{
+        //    // Create a retrieve operation that takes a customer entity.
+        //    TableOperation retrieveOperation = TableOperation.Retrieve<UserEntity>( string.Empty, email );
+
+        //    // Execute the retrieve operation.
+        //    TableResult retrievedResult = tableUser.Execute( retrieveOperation );
+        //    UserEntity retrievedUser = (UserEntity)retrievedResult.Result;
+
+        //    if (retrievedResult.Result != null && retrievedUser.SpotifyRefreshToken != user.SpotifyRefreshToken)
+        //    {
+        //        retrievedUser.SpotifyRefreshToken = user.SpotifyRefreshToken;
+        //        retrievedUser.SpotifyAccessToken = user.SpotifyAccessToken;
+        //        retrievedUser.SpotifyId = user.SpotifyId;
+
+        //        TableOperation updateOperation = TableOperation.Replace( retrievedUser );
+        //    }
+        //    else if (retrievedUser == null)
+        //    {
+        //        TableOperation insertOperation = TableOperation.Insert( user );
+        //    }
+        //}
+        public static void InsertOrUpdateUserBySpotify( string email, string spotifyId, string spotifyAccessToken, string spotifyRefreshToken )
+        {
+            TableOperation retrieveOperation = TableOperation.Retrieve<UserEntity>( string.Empty, email );
+
+            // Execute the retrieve operation.
+            TableResult retrievedResult = tableUser.Execute( retrieveOperation );
+            UserEntity retrievedUser = (UserEntity)retrievedResult.Result;
+
+            if (retrievedResult.Result != null && retrievedUser.SpotifyRefreshToken != spotifyRefreshToken)
+            {
+                retrievedUser.SpotifyRefreshToken = spotifyRefreshToken;
+                retrievedUser.SpotifyAccessToken = spotifyAccessToken;
+                retrievedUser.SpotifyId = spotifyId;
+
+                TableOperation updateOperation = TableOperation.Replace( retrievedUser );
+            }
+            else if (retrievedUser == null)
+            {
+                UserEntity user = new UserEntity( email, spotifyId, spotifyAccessToken, spotifyRefreshToken );
+                TableOperation insertOperation = TableOperation.Insert( user );
+                tableUser.Execute( insertOperation );
+            }
+        }
     }
 }
