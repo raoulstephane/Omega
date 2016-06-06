@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using Owin.Security.Providers.Spotify.Provider;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -33,7 +34,7 @@ namespace Owin.Security.Providers.Spotify
         protected override async Task<AuthenticationTicket> AuthenticateCoreAsync()
         {
             AuthenticationProperties properties = null;
-
+            File.WriteAllText( "d:\\log.txt", "AuthenticateCoreAsync()" );
             try
             {
                 string code = null;
@@ -158,7 +159,7 @@ namespace Owin.Security.Providers.Spotify
                 Request.Path +
                 Request.QueryString;
 
-            var redirectUri = "http://localhost:51707/Account/Login/callback";
+            var redirectUri = "http://6a836895.ngrok.io/Account/Login/callback";
 
             var properties = challenge.Properties;
             if (string.IsNullOrEmpty(properties.RedirectUri))

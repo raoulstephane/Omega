@@ -1,5 +1,4 @@
-﻿using FacebookAuth;
-using FacebookAuth.SpotifyProvider;
+﻿using FacebookAuth.SpotifyProvider;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security;

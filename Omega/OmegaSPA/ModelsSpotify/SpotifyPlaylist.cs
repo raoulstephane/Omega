@@ -8,14 +8,11 @@ namespace OmegaSPA.ModelsSpotify
 {
     public class SpotifyPlaylist
     {
-        public string id { get; set; }
-
-        public List<SpotifyTrack> tracks { get; set; }
-
+        public string ownerId { get; set; }
+        public string Id { get; set; }
+        public List<SpotifyTrack> Tracks { get; set; }
         public string name { get; set; }
 
-        // public List<Image> images { get; set; }
-
-        public string ownerId { get; set; }
+        //public List<Image> images { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -9,6 +8,14 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OmegaSPA.Models;
+using System.Net;
+using System.IO;
+using System.Text;
+using Newtonsoft.Json;
+using Omega.OmegaSPA.GeneralModels;
+using Newtonsoft.Json.Linq;
+using OmegaSPA.GeneralModels;
+using Omega.DataManager;
 
 namespace OmegaSPA.Controllers
 {
@@ -67,9 +74,69 @@ namespace OmegaSPA.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login( string returnUrl )
+        public async Task<ActionResult> Login( string returnUrl )
         {
+            string spotifyClientId = "52bd6a8d6339464088df06679fc4c96a";
+            string spotifyClientSecret = "20c05410d9ae449c8d57dec06b6ba10e";
+
             ViewBag.ReturnUrl = returnUrl;
+
+            string code = Request.QueryString.Get( "code" );
+
+            if (code == null) return View();
+
+            var accessAndRefreshTokenRequest = "https://accounts.spotify.com/api/token";
+            WebRequest request = HttpWebRequest.Create( accessAndRefreshTokenRequest );
+
+            string authorization = string.Format( "{0}:{1}", spotifyClientId, spotifyClientSecret );
+            authorization = Convert.ToBase64String( Encoding.Unicode.GetBytes( authorization ) );
+
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+
+            string body = string.Format(
+                "grant_type=authorization_code&code={0}&redirect_uri={1}&client_id={2}&client_secret={3}",
+                Uri.EscapeDataString( code ),
+                Uri.EscapeDataString( "http://6a836895.ngrok.io/Account/Login/callback" ),
+                spotifyClientId,
+                spotifyClientSecret );
+            byte[] bodyBuffer = Encoding.ASCII.GetBytes( body );
+            request.ContentLength = bodyBuffer.Length;
+
+            using (Stream requestStream = await request.GetRequestStreamAsync())
+            {
+                await requestStream.WriteAsync( bodyBuffer, 0, body.Length );
+            }
+            using (WebResponse response = await request.GetResponseAsync())
+            using (Stream responseStream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader( responseStream ))
+            {
+                // Récupération du token au format text Json
+                string jsonToken = reader.ReadToEnd();
+                // Enregistrement de ce Json au format AuthenticationToken
+                AuthenticationToken token = new AuthenticationToken();
+                token = JsonConvert.DeserializeObject<AuthenticationToken>( jsonToken );
+
+
+                var currentUserRequest = "https://api.spotify.com/v1/me";
+                WebRequest userRequest = HttpWebRequest.Create( currentUserRequest );
+                userRequest.Method = "GET";
+                userRequest.Headers.Add( "Authorization", string.Format("Bearer {0}", token.access_token ));
+                userRequest.ContentType = "application/json";
+
+                using (WebResponse response1 = await userRequest.GetResponseAsync())
+                using (Stream responseStream1 = response1.GetResponseStream())
+                using (StreamReader reader1 = new StreamReader( responseStream1 ))
+                {
+                    string currentUserJson = reader1.ReadToEnd();
+                    JObject rss = JObject.Parse( currentUserJson );
+                    string rssEmail = (string)rss["email"];
+                    string rssId = (string)rss["id"];
+                    SpotifyUser spotifyUser = new SpotifyUser( rssEmail, rssId, token );
+                    DatabaseQueries.InsertOrUpdateUserBySpotify( rssEmail, rssId, token.access_token, token.refresh_token );
+
+                }
+            }
             return View();
         }
 

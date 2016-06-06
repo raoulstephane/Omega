@@ -1,36 +1,34 @@
 ﻿using OmegaSPA.ModelsSpotify;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
-using SpotifyWebAPI;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace OmegaSPA.Controllers
 {
     public class SpotifyController : ApiController
     {
-        public async Task<Page<Playlist>> GetAllPlaylists()
+        [Route( "playlists" )]
+        public async Task<JObject> GetAllSpotifyPlaylists( string accessToken )
         {
-            string authorizationCode = await AuthorizationHelper.GetAuthorizeCode();
+            var allPlaylistsRequest = "https://api.spotify.com/v1/me/playlists";
+            WebRequest playlistsRequest = HttpWebRequest.Create( allPlaylistsRequest );
 
-            var authenticationToken = new AuthenticationToken()
+            playlistsRequest.Method = "GET";
+            playlistsRequest.Headers.Add( "Authorization", accessToken );
+
+            JObject allPlaylistsJson;
+
+            using (WebResponse response = await playlistsRequest.GetResponseAsync())
+            using (Stream responseStream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader( responseStream ))
             {
-                AccessToken = "NgCXRK...MzYjw",
-                ExpiresOn = DateTime.Now.AddSeconds( 3600 ),
-                RefreshToken = "dfagC...fd43x",
-                TokenType = "Bearer"
-            };
-
-            // get the user you just logged in with
-            var user = await SpotifyWebAPI.User.GetCurrentUserProfile( authenticationToken );
-
-            // get this persons playlists
-            var playlists = await user.GetPlaylists( authenticationToken );
-
-            return playlists;
+                string allPlaylistsJsonString = reader.ReadToEnd();
+                allPlaylistsJson = JObject.Parse( allPlaylistsJsonString );
+            }
+            return allPlaylistsJson;
         }
     }
 }
