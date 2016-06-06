@@ -1,6 +1,7 @@
 ﻿using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -26,8 +27,8 @@ namespace Omega.DataManager
         public void AddSongCleanTrack(MetaDonnees meta, string trackId, string title, string source, string AlbumName, string popularity)
         {
             CloudTable table = ConnectCleanTrackTable();
-
-            if(GetSongCleanTrack(trackId, source) != null)
+            string name = source + trackId;
+            if (GetSongCleanTrack(name).Id == null)
             {
                 CleanTrack track = new CleanTrack(trackId, source);
                 track.Id = trackId;
@@ -53,14 +54,14 @@ namespace Omega.DataManager
             }
         }
 
-        public CleanTrack GetSongCleanTrack(string trackId, string source)
+        public CleanTrack GetSongCleanTrack(string trackIdSource)
         {
             CleanTrack ct = new CleanTrack(); ;
 
             CloudTable table = ConnectCleanTrackTable();
 
             // Create a retrieve operation that takes a customer entity.
-            TableOperation retrieveOperation = TableOperation.Retrieve<CleanTrack>("", source + trackId);
+            TableOperation retrieveOperation = TableOperation.Retrieve<CleanTrack>("", trackIdSource);
 
             // Execute the retrieve operation.
             TableResult retrievedResult = table.Execute(retrieveOperation);

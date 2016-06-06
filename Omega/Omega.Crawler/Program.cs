@@ -23,6 +23,7 @@ namespace Omega.Crawler
             //dc.CreateCleanTrackTable();
             //ct.GetAnalyser().AnalyseNewSong(ct, "3135556", "deezer").Wait();
             Crawl().Wait();
+            //CheckQueu().Wait();
         }
 
         static async Task Crawl()
@@ -35,15 +36,18 @@ namespace Omega.Crawler
 
         public static async Task CheckQueu()
         {
+            // Retrieve storage account from connection string.
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
-            CloudConfigurationManager.GetSetting("StorageConnectionString"));
+                CloudConfigurationManager.GetSetting("StorageConnectionString"));
 
+            // Create the queue client.
             CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
 
             // Retrieve a reference to a container.
             CloudQueue queue = queueClient.GetQueueReference("myqueue");
+
             // Create the queue if it doesn't already exist
-            await queue.CreateIfNotExistsAsync();
+            queue.CreateIfNotExists();
 
             CloudQueueMessage message;
 
@@ -51,18 +55,19 @@ namespace Omega.Crawler
             {
                 string trackId;
                 string source;
-                if(message.ToString().Substring(0, 7) == "spotify")
+                if(message.AsString.Substring(0, 7) == "spotify")
                 {
-                    trackId = message.ToString().Substring(7);
+                    trackId = message.AsString.Substring(7);
                     source = "spotify";
                 }
                 else
                 {
-                    trackId = message.ToString().Substring(6);
+                    trackId = message.AsString.Substring(6);
                     source = "deezer";
                 }
                 await ct.GetAnalyser().AnalyseNewSong(ct, trackId, source);
                 await queue.DeleteMessageAsync(message);
+                Console.WriteLine("Queu Checked");
                 Thread.Sleep(1000);
             }
         }
@@ -85,7 +90,7 @@ namespace Omega.Crawler
                     string trackId = tableQueryResult.Results[i].Id;
                     string source = tableQueryResult.Results[i].Source;
                     await ct.GetAnalyser().AnalyseSong(ct, trackId, source);
-                    Console.WriteLine("Done");
+                    Console.WriteLine("Table Checked");
                     Thread.Sleep(1000);
                 }
             } while (continuationToken != null);

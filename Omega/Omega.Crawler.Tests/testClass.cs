@@ -105,6 +105,13 @@ namespace Omega.Crawler.Tests
             await a.AnalyseNewSong(new Controller(), "0eGsygTp906u18L0Oimnem", "spotify");
         }
 
+        [Test]
+        public async Task Test()
+        {
+            DatabaseCreator db = new DatabaseCreator();
+            db.CreateCleanTrackTable();
+        }
+
         public List<UserInfoAndStuff> InsertUser()
         {
             List<UserInfoAndStuff> Users = new List<UserInfoAndStuff>();
