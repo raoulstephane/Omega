@@ -402,6 +402,9 @@ namespace OmegaSPA.Controllers
         public async Task<ActionResult> ExternalLoginCallback( string returnUrl )
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+            ClaimsIdentity claimsIdentity = await AuthenticationManager.GetExternalIdentityAsync( DefaultAuthenticationTypes.ExternalCookie );
+            Claim claim = claimsIdentity.Claims.Single( c => c.Type == "http://omega.fr:user_id" );
+            
             if (loginInfo == null)
             {
                 return RedirectToAction( "Login" );

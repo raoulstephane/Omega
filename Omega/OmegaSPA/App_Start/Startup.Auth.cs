@@ -9,6 +9,8 @@ using OmegaSPA.Models;
 using OmegaSPA.Providers;
 using Owin.Security.Providers.Spotify;
 using Omega;
+using Owin.Security.Providers.Spotify.Provider;
+using System.Threading.Tasks;
 
 namespace OmegaSPA
 {
@@ -79,10 +81,35 @@ namespace OmegaSPA
                 clientId: "52bd6a8d6339464088df06679fc4c96a",
                 clientSecret: "20c05410d9ae449c8d57dec06b6ba10e" );
 
+            SpotifyAuthenticationOptions spotifyAuthOptions = new SpotifyAuthenticationOptions
+            {
+                ClientId = "52bd6a8d6339464088df06679fc4c96a",
+                ClientSecret = "20c05410d9ae449c8d57dec06b6ba10e",
+                CallbackPath = new PathString( "/Account/callback" ),
+                Provider = new SpotifyAuthenticationProvider
+                {
+                    OnAuthenticated = async c =>
+                    {
+                        // c.Identity.Claims to retrieve claims
+                        int userId = await CreateUser( c );
+                        c.Identity.AddClaim( new System.Security.Claims.Claim( "http://omega.fr:user_id", userId.ToString() ) );
+                    }
+                }
+            };
+
+            // spotifyAuthOptions.Scope.Add( "email" ); // if email is needed.
+
+            app.UseSpotifyAuthentication( spotifyAuthOptions );
+
 
             app.UseDeezerAuthentication(
                  appId: "176241",
                  secretKey: "176241270f8a9c20d1c8f31baa6e32ec3871a9" );
+        }
+
+        Task<int> CreateUser( SpotifyAuthenticatedContext c )
+        {
+            throw new NotImplementedException();
         }
     }
 }
