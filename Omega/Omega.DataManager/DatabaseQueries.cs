@@ -25,28 +25,30 @@ namespace Omega.DataManager
             //CloudTable tableUser = tableClient.GetTableReference( "people" );
         }
 
-        //public static void InsertOrUpdateUserBySpotify( string email )
-        //{
-        //    // Create a retrieve operation that takes a customer entity.
-        //    TableOperation retrieveOperation = TableOperation.Retrieve<UserEntity>( string.Empty, email );
+        public static void InsertOrUpdateUserBySpotify( UserEntity user )
+        {
+            // Create a retrieve operation that takes a customer entity.
+            TableOperation retrieveOperation = TableOperation.Retrieve<UserEntity>( string.Empty, user.Email );
 
-        //    // Execute the retrieve operation.
-        //    TableResult retrievedResult = tableUser.Execute( retrieveOperation );
-        //    UserEntity retrievedUser = (UserEntity)retrievedResult.Result;
+            // Execute the retrieve operation.
+            TableResult retrievedResult = tableUser.Execute( retrieveOperation );
+            UserEntity retrievedUser = (UserEntity)retrievedResult.Result;
 
-        //    if (retrievedResult.Result != null && retrievedUser.SpotifyRefreshToken != user.SpotifyRefreshToken)
-        //    {
-        //        retrievedUser.SpotifyRefreshToken = user.SpotifyRefreshToken;
-        //        retrievedUser.SpotifyAccessToken = user.SpotifyAccessToken;
-        //        retrievedUser.SpotifyId = user.SpotifyId;
+            if (retrievedResult.Result != null && retrievedUser.SpotifyRefreshToken != user.SpotifyRefreshToken)
+            {
+                retrievedUser.SpotifyRefreshToken = user.SpotifyRefreshToken;
+                retrievedUser.SpotifyAccessToken = user.SpotifyAccessToken;
+                retrievedUser.SpotifyId = user.SpotifyId;
 
-        //        TableOperation updateOperation = TableOperation.Replace( retrievedUser );
-        //    }
-        //    else if (retrievedUser == null)
-        //    {
-        //        TableOperation insertOperation = TableOperation.Insert( user );
-        //    }
-        //}
+                TableOperation updateOperation = TableOperation.Replace( retrievedUser );
+            }
+            else if (retrievedUser == null)
+            {
+                TableOperation insertOperation = TableOperation.Insert( user );
+                tableUser.Execute( insertOperation );
+            }
+        }
+
         public static void InsertOrUpdateUserBySpotify( string email, string spotifyId, string spotifyAccessToken, string spotifyRefreshToken )
         {
             TableOperation retrieveOperation = TableOperation.Retrieve<UserEntity>( string.Empty, email );

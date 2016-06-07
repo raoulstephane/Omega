@@ -5,7 +5,7 @@ namespace Omega.DataManager
     {
         public RowTrackEntity( UserEntity user, PlaylistEntity playlist )
         {
-            PartitionKey = user.email;
+            //PartitionKey = user.email;
             //RowKey = ;
         }
 

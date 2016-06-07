@@ -10,12 +10,12 @@ namespace OmegaSPA.Controllers
 {
     public class SpotifyController : ApiController
     {
-        [Route( "playlists" )]
-        public async Task<JObject> GetAllSpotifyPlaylists( string accessToken )
+        [Route( "api/Spotify/playlists" )]
+        public async Task<JObject> GetAllSpotifyPlaylists()
         {
             var allPlaylistsRequest = "https://api.spotify.com/v1/me/playlists";
             WebRequest playlistsRequest = HttpWebRequest.Create( allPlaylistsRequest );
-
+            string accessToken = Request.Headers.Authorization.Scheme;
             playlistsRequest.Method = "GET";
             playlistsRequest.Headers.Add( "Authorization", accessToken );
 

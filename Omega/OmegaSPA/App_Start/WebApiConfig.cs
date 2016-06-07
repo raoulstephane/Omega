@@ -12,7 +12,6 @@ namespace OmegaSPA
     {
         public static void Register( HttpConfiguration config )
         {
-            System.Diagnostics.Debugger.Launch();
             // Configuration et services Web API
             // Configurez Web API pour utiliser uniquement l’authentification par jeton de support.
             config.SuppressDefaultHostAuthentication();
