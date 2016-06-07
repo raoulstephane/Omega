@@ -241,7 +241,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthentificationToken.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -276,7 +275,6 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="AuthorizationHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -284,7 +282,6 @@
     <Compile Include="Controllers\FacebookController.cs" />
     <Compile Include="Controllers\SpotifyController.cs" />
     <Compile Include="GeneralModels\AuthenticationToken.cs" />
-    <Compile Include="HttpHelper.cs" />
     <Compile Include="ModelsFacebook\FacebookEvent.cs" />
     <Compile Include="ModelsFacebook\FacebookGroup.cs" />
     <Compile Include="ModelsFacebook\FacebookUser.cs" />
@@ -331,7 +328,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="JavaScript.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
