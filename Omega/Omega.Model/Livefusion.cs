@@ -6,7 +6,7 @@ namespace Omega.Model
 {
     public class Livefusion
     {
-        public List<string> SelectSong(List<string> playlistIdSource, MetaDonnees askedDonnees, double ratio)
+        public List<string> PlaylistAnalyser(List<string> playlistIdSource, MetaDonnees askedDonnees, double ratio)
         {
             Requests cr = new Requests();
             List<string> FilteredList = new List<string>();

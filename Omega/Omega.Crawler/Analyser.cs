@@ -8,7 +8,7 @@ namespace Omega.Crawler
     {
         public async Task AnalyseNewSong(Controller c, string trackId, string source)
         {
-            if(source == "spotify")
+            if(source == "s")
             {
                 MetaDonnees meta = await c.GetCredentialAuth().TrackMetadonnee(trackId);
                 Thread.Sleep(1000);
@@ -28,7 +28,7 @@ namespace Omega.Crawler
 
         public async Task AnalyseSong(Controller c, string trackId, string source)
         {
-            if (source == "spotify")
+            if (source == "s")
             {
                 MetaDonnees meta = await c.GetCredentialAuth().TrackMetadonnee(trackId);
                 Thread.Sleep(1000);

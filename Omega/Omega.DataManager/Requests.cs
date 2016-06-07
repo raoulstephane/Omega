@@ -26,8 +26,9 @@ namespace Omega.DataManager
 
         public void AddSongCleanTrack(MetaDonnees meta, string trackId, string title, string source, string AlbumName, string popularity)
         {
+            source = source.Substring(0, 1);
             CloudTable table = ConnectCleanTrackTable();
-            string name = source + trackId;
+            string name = source +":"+ trackId;
             if (GetSongCleanTrack(name).Id == null)
             {
                 CleanTrack track = new CleanTrack(trackId, source);
@@ -78,7 +79,7 @@ namespace Omega.DataManager
             CloudTable table = ConnectCleanTrackTable();
 
             // Create a retrieve operation that takes a customer entity.
-            TableOperation retrieveOperation = TableOperation.Retrieve<CleanTrack>("", source + trackId);
+            TableOperation retrieveOperation = TableOperation.Retrieve<CleanTrack>("", source + ":" + trackId);
 
             // Execute the operation.
             TableResult retrievedResult = table.Execute(retrieveOperation);

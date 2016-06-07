@@ -7,7 +7,7 @@ namespace Omega.DataManager
         public CleanTrack(string id, string source)
         {
             this.PartitionKey = "";
-            this.RowKey = source + id;
+            this.RowKey = source + ":"+ id;
         }
 
         public CleanTrack() { }
