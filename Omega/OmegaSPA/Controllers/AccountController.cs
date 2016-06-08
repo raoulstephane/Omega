@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -8,14 +7,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OmegaSPA.Models;
-using System.Net;
-using System.IO;
-using System.Text;
-using Newtonsoft.Json;
-using Omega.OmegaSPA.GeneralModels;
-using Newtonsoft.Json.Linq;
-using OmegaSPA.GeneralModels;
-using Omega.DataManager;
 
 namespace OmegaSPA.Controllers
 {
@@ -76,67 +67,47 @@ namespace OmegaSPA.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Login( string returnUrl )
         {
-            string spotifyClientId = "52bd6a8d6339464088df06679fc4c96a";
-            string spotifyClientSecret = "20c05410d9ae449c8d57dec06b6ba10e";
+            //string spotifyClientId = "52bd6a8d6339464088df06679fc4c96a";
+            //string spotifyClientSecret = "20c05410d9ae449c8d57dec06b6ba10e";
 
             ViewBag.ReturnUrl = returnUrl;
 
-            string code = Request.QueryString.Get( "code" );
+            //string code = Request.QueryString.Get( "code" );
 
-            if (code == null) return View();
+            //if (code == null) return View();
 
-            var accessAndRefreshTokenRequest = "https://accounts.spotify.com/api/token";
-            WebRequest request = HttpWebRequest.Create( accessAndRefreshTokenRequest );
+            //var accessAndRefreshTokenRequest = "https://accounts.spotify.com/api/token";
+            //WebRequest request = HttpWebRequest.Create( accessAndRefreshTokenRequest );
 
-            string authorization = string.Format( "{0}:{1}", spotifyClientId, spotifyClientSecret );
-            authorization = Convert.ToBase64String( Encoding.Unicode.GetBytes( authorization ) );
+            //string authorization = string.Format( "{0}:{1}", spotifyClientId, spotifyClientSecret );
+            //authorization = Convert.ToBase64String( Encoding.Unicode.GetBytes( authorization ) );
 
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
+            //request.Method = "POST";
+            //request.ContentType = "application/x-www-form-urlencoded";
 
-            string body = string.Format(
-                "grant_type=authorization_code&code={0}&redirect_uri={1}&client_id={2}&client_secret={3}",
-                Uri.EscapeDataString( code ),
-                Uri.EscapeDataString( "http://6a836895.ngrok.io/Account/Login/callback" ),
-                spotifyClientId,
-                spotifyClientSecret );
-            byte[] bodyBuffer = Encoding.ASCII.GetBytes( body );
-            request.ContentLength = bodyBuffer.Length;
+            //string body = string.Format(
+            //    "grant_type=authorization_code&code={0}&redirect_uri={1}&client_id={2}&client_secret={3}",
+            //    Uri.EscapeDataString( code ),
+            //    Uri.EscapeDataString( "http://6a836895.ngrok.io/Account/Login/callback" ),
+            //    spotifyClientId,
+            //    spotifyClientSecret );
+            //byte[] bodyBuffer = Encoding.ASCII.GetBytes( body );
+            //request.ContentLength = bodyBuffer.Length;
 
-            using (Stream requestStream = await request.GetRequestStreamAsync())
-            {
-                await requestStream.WriteAsync( bodyBuffer, 0, body.Length );
-            }
-            using (WebResponse response = await request.GetResponseAsync())
-            using (Stream responseStream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader( responseStream ))
-            {
-                // Récupération du token au format text Json
-                string jsonToken = reader.ReadToEnd();
-                // Enregistrement de ce Json au format AuthenticationToken
-                AuthenticationToken token = new AuthenticationToken();
-                token = JsonConvert.DeserializeObject<AuthenticationToken>( jsonToken );
-
-
-                var currentUserRequest = "https://api.spotify.com/v1/me";
-                WebRequest userRequest = HttpWebRequest.Create( currentUserRequest );
-                userRequest.Method = "GET";
-                userRequest.Headers.Add( "Authorization", string.Format("Bearer {0}", token.access_token ));
-                userRequest.ContentType = "application/json";
-
-                using (WebResponse response1 = await userRequest.GetResponseAsync())
-                using (Stream responseStream1 = response1.GetResponseStream())
-                using (StreamReader reader1 = new StreamReader( responseStream1 ))
-                {
-                    string currentUserJson = reader1.ReadToEnd();
-                    JObject rss = JObject.Parse( currentUserJson );
-                    string rssEmail = (string)rss["email"];
-                    string rssId = (string)rss["id"];
-                    SpotifyUser spotifyUser = new SpotifyUser( rssEmail, rssId, token );
-                    DatabaseQueries.InsertOrUpdateUserBySpotify( rssEmail, rssId, token.access_token, token.refresh_token );
-
-                }
-            }
+            //using (Stream requestStream = await request.GetRequestStreamAsync())
+            //{
+            //    await requestStream.WriteAsync( bodyBuffer, 0, body.Length );
+            //}
+            //using (WebResponse response = await request.GetResponseAsync())
+            //using (Stream responseStream = response.GetResponseStream())
+            //using (StreamReader reader = new StreamReader( responseStream ))
+            //{
+            //    // Récupération du token au format text Json
+            //    string jsonToken = reader.ReadToEnd();
+            //    // Enregistrement de ce Json au format AuthenticationToken
+            //    AuthenticationToken token = new AuthenticationToken();
+            //    token = JsonConvert.DeserializeObject<AuthenticationToken>( jsonToken );
+            //}
             return View();
         }
 
@@ -182,8 +153,7 @@ namespace OmegaSPA.Controllers
             }
             return View( new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe } );
         }
-
-        //
+        
         // POST: /Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
@@ -212,8 +182,7 @@ namespace OmegaSPA.Controllers
                     return View( model );
             }
         }
-
-        //
+        
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
@@ -250,8 +219,7 @@ namespace OmegaSPA.Controllers
             // If we got this far, something failed, redisplay form
             return View( model );
         }
-
-        //
+        
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail( string userId, string code )
@@ -263,16 +231,14 @@ namespace OmegaSPA.Controllers
             var result = await UserManager.ConfirmEmailAsync( userId, code );
             return View( result.Succeeded ? "ConfirmEmail" : "Error" );
         }
-
-        //
+        
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             return View();
         }
-
-        //
+        
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
@@ -299,24 +265,21 @@ namespace OmegaSPA.Controllers
             // If we got this far, something failed, redisplay form
             return View( model );
         }
-
-        //
+        
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
-
-        //
+        
         // GET: /Account/ResetPassword
         [AllowAnonymous]
         public ActionResult ResetPassword( string code )
         {
             return code == null ? View( "Error" ) : View();
         }
-
-        //
+        
         // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
@@ -341,16 +304,14 @@ namespace OmegaSPA.Controllers
             AddErrors( result );
             return View();
         }
-
-        //
+        
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
         }
-
-        //
+        
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
@@ -360,8 +321,7 @@ namespace OmegaSPA.Controllers
             // Request a redirect to the external login provider
             return new ChallengeResult( provider, Url.Action( "ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl } ) );
         }
-
-        //
+        
         // GET: /Account/SendCode
         [AllowAnonymous]
         public async Task<ActionResult> SendCode( string returnUrl, bool rememberMe )
@@ -375,8 +335,7 @@ namespace OmegaSPA.Controllers
             var factorOptions = userFactors.Select( purpose => new SelectListItem { Text = purpose, Value = purpose } ).ToList();
             return View( new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe } );
         }
-
-        //
+        
         // POST: /Account/SendCode
         [HttpPost]
         [AllowAnonymous]
@@ -395,41 +354,39 @@ namespace OmegaSPA.Controllers
             }
             return RedirectToAction( "VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe } );
         }
-
-        //
+        
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback( string returnUrl )
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-            ClaimsIdentity claimsIdentity = await AuthenticationManager.GetExternalIdentityAsync( DefaultAuthenticationTypes.ExternalCookie );
-            Claim claim = claimsIdentity.Claims.Single( c => c.Type == "http://omega.fr:user_id" );
+            //ClaimsIdentity claimsIdentity = await AuthenticationManager.GetExternalIdentityAsync( DefaultAuthenticationTypes.ExternalCookie );
+            //Claim claim = claimsIdentity.Claims.Single( c => c.Type == "http://omega.fr:user_email" );
             
             if (loginInfo == null)
             {
                 return RedirectToAction( "Login" );
             }
-
+            return RedirectToAction( "Login" );
             // Sign in the user with this external login provider if the user already has a login
-            var result = await SignInManager.ExternalSignInAsync( loginInfo, isPersistent: false );
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal( returnUrl );
-                case SignInStatus.LockedOut:
-                    return View( "Lockout" );
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction( "SendCode", new { ReturnUrl = returnUrl, RememberMe = false } );
-                case SignInStatus.Failure:
-                default:
-                    // If the user does not have an account, then prompt the user to create an account
-                    ViewBag.ReturnUrl = returnUrl;
-                    ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View( "ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email } );
-            }
+            //var result = await SignInManager.ExternalSignInAsync( loginInfo, isPersistent: false );
+            //switch (result)
+            //{
+            //    case SignInStatus.Success:
+            //        return RedirectToLocal( returnUrl );
+            //    case SignInStatus.LockedOut:
+            //        return View( "Lockout" );
+            //    case SignInStatus.RequiresVerification:
+            //        return RedirectToAction( "SendCode", new { ReturnUrl = returnUrl, RememberMe = false } );
+            //    case SignInStatus.Failure:
+            //    default:
+            //        // If the user does not have an account, then prompt the user to create an account
+            //        ViewBag.ReturnUrl = returnUrl;
+            //        ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+            //        return View( "ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email } );
+            //}
         }
-
-        //
+        
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
@@ -466,8 +423,7 @@ namespace OmegaSPA.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View( model );
         }
-
-        //
+        
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -476,8 +432,7 @@ namespace OmegaSPA.Controllers
             AuthenticationManager.SignOut( DefaultAuthenticationTypes.ApplicationCookie );
             return RedirectToAction( "Index", "Home" );
         }
-
-        //
+        
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()

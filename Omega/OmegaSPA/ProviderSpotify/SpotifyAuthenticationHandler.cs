@@ -159,7 +159,7 @@ namespace Owin.Security.Providers.Spotify
                 Request.Path +
                 Request.QueryString;
 
-            var redirectUri = "http://6a836895.ngrok.io/Account/Login/callback";
+            var redirectUri = "http://b32d60f6.ngrok.io/Account/Login/callback";
 
             var properties = challenge.Properties;
             if (string.IsNullOrEmpty(properties.RedirectUri))
