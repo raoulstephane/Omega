@@ -9,6 +9,12 @@ using OmegaSPA.Models;
 using OmegaSPA.Providers;
 using Owin.Security.Providers.Spotify;
 using Omega;
+using Owin.Security.Providers.Spotify.Provider;
+using Omega.DataManager;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
+using System.Security.Claims;
 
 namespace OmegaSPA
 {
@@ -75,14 +81,60 @@ namespace OmegaSPA
                 appSecret: "c534799048294b0566e010a10a3ea67f" );
 
 
-            app.UseSpotifyAuthentication(
-                clientId: "52bd6a8d6339464088df06679fc4c96a",
-                clientSecret: "20c05410d9ae449c8d57dec06b6ba10e" );
+            //app.UseSpotifyAuthentication(
+            //    clientId: "52bd6a8d6339464088df06679fc4c96a",
+            //    clientSecret: "20c05410d9ae449c8d57dec06b6ba10e" );
+
+            SpotifyAuthenticationOptions spotifyAuthOptions = new SpotifyAuthenticationOptions
+            {
+                ClientId = "52bd6a8d6339464088df06679fc4c96a",
+                ClientSecret = "20c05410d9ae449c8d57dec06b6ba10e",
+                CallbackPath = new PathString( "/Account/Login/callback" ),
+                Provider = new SpotifyAuthenticationProvider
+                {
+                    OnAuthenticated = async c =>
+                    {
+                        // c.Identity.Claims to retrieve claims
+
+                        var currentUserRequest = "https://api.spotify.com/v1/me";
+                        WebRequest userRequest = HttpWebRequest.Create( currentUserRequest );
+                        userRequest.Method = "GET";
+                        userRequest.Headers.Add( "Authorization", string.Format( "Bearer {0}", c.AccessToken ) );
+                        userRequest.ContentType = "application/json";
+
+                        string currentUserEmail;
+                        //string email = c.Identity.Claims.GetType( "oui" );
+
+                        using (WebResponse response = await userRequest.GetResponseAsync())
+                        using (Stream responseStream = response.GetResponseStream())
+                        using (StreamReader reader = new StreamReader( responseStream ))
+                        {
+                            string currentUserJson = reader.ReadToEnd();
+                            JObject rss = JObject.Parse( currentUserJson );
+                            currentUserEmail = (string)rss["email"];
+                            string rssId = (string)rss["id"];
+                        }
+
+                        UserEntity user = UserStorage.CreateUser( currentUserEmail, c.Id, c.AccessToken, c.RefreshToken );
+
+                        c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", currentUserEmail ) );
+                        c.Identity.AddClaim( new Claim( "http://omega.fr:user_access_token", c.AccessToken ) );
+                        c.Identity.AddClaim( new Claim( "http://omega.fr:user_refresh_token", c.RefreshToken ) );
+                    }
+                }
+            };
+            spotifyAuthOptions.Scope.Add( "user-read-email" );// if email is needed.
+            spotifyAuthOptions.Scope.Add( "playlist-read-private" );
+            spotifyAuthOptions.Scope.Add( "playlist-read-collaborative" );
+            spotifyAuthOptions.Scope.Add( "user-library-read" );
+
+
+            app.UseSpotifyAuthentication( spotifyAuthOptions );
 
 
             app.UseDeezerAuthentication(
-                 appId: "176241",
-                 secretKey: "176241270f8a9c20d1c8f31baa6e32ec3871a9" );
+                 appId: "180182",
+                 secretKey: "5a75ec4d6615ec1617ad46bc2410ae88" );
         }
     }
 }
