@@ -24,14 +24,17 @@ namespace Omega.DataManager
             return table;
         }
 
-        public void AddSongCleanTrack(MetaDonnees meta, string trackId, string title, string source, string AlbumName, string popularity)
+        public void AddSongCleanTrack(MetaDonnees meta,string artist, string deezerId, string trackId, string title, string source, string AlbumName, string popularity)
         {
             source = source.Substring(0, 1);
             CloudTable table = ConnectCleanTrackTable();
             string name = source +":"+ trackId;
+
             if (GetSongCleanTrack(name).Id == null)
             {
                 CleanTrack track = new CleanTrack(trackId, source);
+                track.Artist = artist;
+                track.DeezerId = deezerId;
                 track.Id = trackId;
                 track.Source = source;
                 track.Title = title;
@@ -46,6 +49,7 @@ namespace Omega.DataManager
                 track.Tempo = meta.tempo;
                 track.AlbumName = AlbumName;
                 track.Popularity = popularity;
+                track.Energy = meta.energy;
 
                 // Create the TableOperation object that inserts the customer entity.
                 TableOperation insertOperation = TableOperation.Insert(track);
@@ -57,7 +61,7 @@ namespace Omega.DataManager
 
         public CleanTrack GetSongCleanTrack(string trackIdSource)
         {
-            CleanTrack ct = new CleanTrack(); ;
+            CleanTrack ct = new CleanTrack();
 
             CloudTable table = ConnectCleanTrackTable();
 
@@ -104,6 +108,7 @@ namespace Omega.DataManager
                     updateEntity.Tempo = meta.tempo;
                     updateEntity.AlbumName = AlbumName;
                     updateEntity.Popularity = popularity;
+                    updateEntity.Energy = meta.energy;
 
                 // Create the Replace TableOperation.
                 TableOperation updateOperation = TableOperation.Replace(updateEntity);

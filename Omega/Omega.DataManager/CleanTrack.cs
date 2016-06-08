@@ -12,6 +12,8 @@ namespace Omega.DataManager
 
         public CleanTrack() { }
 
+        public string Artist { get; set; }
+
         public string Title { get; set; }
 
         public string Danceability { get; set; }
@@ -35,6 +37,8 @@ namespace Omega.DataManager
         public string Tempo { get; set; }
 
         public string Id { get; set; }
+
+        public string DeezerId { get; set; }
 
         public string Source { get; set; }
 

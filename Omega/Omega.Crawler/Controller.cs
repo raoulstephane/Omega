@@ -16,6 +16,7 @@ namespace Omega.Crawler
         DatabaseCreator dc;
         DeezerConnect de;
         Spotifycation s;
+        SpotifyToDeezer std;
 
         public Controller()
         {
@@ -26,6 +27,12 @@ namespace Omega.Crawler
             dc = new DatabaseCreator();
             de = new DeezerConnect();
             s = new Spotifycation();
+            std = new SpotifyToDeezer();
+        }
+
+        public SpotifyToDeezer SpotifyToDeezer()
+        {
+            return std;
         }
 
         public Spotifycation GetSpotifycation()
