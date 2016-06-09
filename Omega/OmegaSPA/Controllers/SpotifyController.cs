@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.IO;
@@ -12,15 +13,6 @@ namespace OmegaSPA.Controllers
 {
     public class SpotifyController : ApiController
     {
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return this.AuthenticationManager;
-
-            }
-        }
-
         public static async Task<string> GetCurrentUserEmail(string accessToken )
         {
             var currentUserRequest = "https://api.spotify.com/v1/me";
@@ -38,25 +30,21 @@ namespace OmegaSPA.Controllers
                 string currentUserJson = reader.ReadToEnd();
                 JObject rss = JObject.Parse( currentUserJson );
                 currentUserEmail = (string)rss["email"];
-                //string rssId = (string)rss["id"];
-                //SpotifyUser spotifyUser = new SpotifyUser( rssEmail, rssId, token );
-                //DatabaseQueries.InsertOrUpdateUserBySpotify( rssEmail, rssId, token.access_token, token.refresh_token );
-            }
             return currentUserEmail;
         }
 
-        [Route( "api/Spotify/playlists" )]
+        [Route( "Spotify/playlists" )]
         public async Task<JObject> GetAllSpotifyPlaylists()
         {
             var allPlaylistsRequest = "https://api.spotify.com/v1/me/playlists";
             WebRequest playlistsRequest = HttpWebRequest.Create( allPlaylistsRequest );
             playlistsRequest.Method = "GET";
 
-            ClaimsIdentity claimsIdentity = await this.AuthenticationManager.GetExternalIdentityAsync( DefaultAuthenticationTypes.ExternalCookie );
-            Claim claim = claimsIdentity.Claims.Single( c => c.Type == "http://omega.fr:access_token" );
+            ClaimsIdentity claimsIdentity = await this.Request.GetOwinContext().Authentication.GetExternalIdentityAsync( DefaultAuthenticationTypes.ExternalCookie );
+            Claim claim = claimsIdentity.Claims.Single( c => c.Type == "http://omega.fr:user_access_token" );
             string accessToken = claim.Value;
 
-            playlistsRequest.Headers.Add( "Authorization", accessToken );
+            playlistsRequest.Headers.Add( "Authorization", string.Format( "Bearer {0}", accessToken ) );
 
             JObject allPlaylistsJson;
 

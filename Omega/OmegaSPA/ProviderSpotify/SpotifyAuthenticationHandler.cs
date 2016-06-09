@@ -34,7 +34,6 @@ namespace Owin.Security.Providers.Spotify
         protected override async Task<AuthenticationTicket> AuthenticateCoreAsync()
         {
             AuthenticationProperties properties = null;
-            File.WriteAllText( "d:\\log.txt", "AuthenticateCoreAsync()" );
             try
             {
                 string code = null;
@@ -159,7 +158,7 @@ namespace Owin.Security.Providers.Spotify
                 Request.Path +
                 Request.QueryString;
 
-            var redirectUri = "http://b32d60f6.ngrok.io/Account/Login/callback";
+            var redirectUri = "http://b32d60f6.ngrok.io/api/Account/Login/callback";
 
             var properties = challenge.Properties;
             if (string.IsNullOrEmpty(properties.RedirectUri))
