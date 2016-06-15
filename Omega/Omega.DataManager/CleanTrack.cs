@@ -32,7 +32,7 @@ namespace Omega.DataManager
 
         public string Liveness { get; set; }
 
-        public string Vanlence { get; set; }
+        public string Valence { get; set; }
 
         public string Tempo { get; set; }
 

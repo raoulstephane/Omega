@@ -23,7 +23,7 @@ namespace Omega.Model
                 && Compare(askedDonnees.mode, analysedSong.Mode, ratio)
                 && Compare(askedDonnees.speechiness, analysedSong.Speechiness, ratio)
                 && Compare(askedDonnees.tempo, analysedSong.Tempo, ratio)
-                && Compare(askedDonnees.valence, analysedSong.Vanlence, ratio))
+                && Compare(askedDonnees.valence, analysedSong.Valence, ratio))
                     FilteredList.Add(analysedSong.Id);
             }
             return FilteredList;

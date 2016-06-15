@@ -45,7 +45,7 @@ namespace Omega.DataManager
                 track.Acousticness = meta.acousticness;
                 track.Instrumentalness = meta.instrumentalness;
                 track.Liveness = meta.liveness;
-                track.Vanlence = meta.valence;
+                track.Valence = meta.valence;
                 track.Tempo = meta.tempo;
                 track.AlbumName = AlbumName;
                 track.Popularity = popularity;
@@ -104,7 +104,7 @@ namespace Omega.DataManager
                     updateEntity.Acousticness = meta.acousticness;
                     updateEntity.Instrumentalness = meta.instrumentalness;
                     updateEntity.Liveness = meta.liveness;
-                    updateEntity.Vanlence = meta.valence;
+                    updateEntity.Valence = meta.valence;
                     updateEntity.Tempo = meta.tempo;
                     updateEntity.AlbumName = AlbumName;
                     updateEntity.Popularity = popularity;

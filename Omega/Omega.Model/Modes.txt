@@ -1,0 +1,54 @@
+﻿{
+	"Lounge" :
+	[
+		"Danceability" : "",
+		"Energy" : "",
+		"Loudness" : "",
+		"Speechiness" : "",
+		"Acousticness" : "",
+		"Instrumentalness" : "",
+		"Liveness" : "",
+		"Valence" : "",
+		"Tempo" : "",
+		"Popularity" : ""
+	],
+	"Energy" :
+	[
+		"Danceability" : "",
+		"Energy" : "",
+		"Loudness" : "",
+		"Speechiness" : "",
+		"Acousticness" : "",
+		"Instrumentalness" : "",
+		"Liveness" : "",
+		"Valence" : "",
+		"Tempo" : "",
+		"Popularity" : ""
+	],
+	"Dance" :
+	[
+		"Danceability" : "",
+		"Energy" : "",
+		"Loudness" : "",
+		"Speechiness" : "",
+		"Acousticness" : "",
+		"Instrumentalness" : "",
+		"Liveness" : "",
+		"Valence" : "",
+		"Tempo" : "",
+		"Popularity" : ""
+	],
+	"Mad" :
+	[
+		"Danceability" : "",
+		"Energy" : "",
+		"Loudness" : "",
+		"Speechiness" : "",
+		"Acousticness" : "",
+		"Instrumentalness" : "",
+		"Liveness" : "",
+		"Valence" : "",
+		"Tempo" : "",
+		"Popularity" : ""
+	],
+}
