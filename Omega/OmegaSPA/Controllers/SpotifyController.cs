@@ -25,11 +25,12 @@ namespace OmegaSPA.Controllers
 
             using (WebResponse response = await userRequest.GetResponseAsync())
             using (Stream responseStream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader( responseStream ))
+            using (StreamReader reader = new StreamReader(responseStream))
             {
                 string currentUserJson = reader.ReadToEnd();
-                JObject rss = JObject.Parse( currentUserJson );
+                JObject rss = JObject.Parse(currentUserJson);
                 currentUserEmail = (string)rss["email"];
+            }
             return currentUserEmail;
         }
 
