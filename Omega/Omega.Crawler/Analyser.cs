@@ -8,12 +8,13 @@ namespace Omega.Crawler
     {
         public async Task AnalyseNewSong(Controller c, string trackId, string source)
         {
-            if(source == "spotify")
+            if(source == "s")
             {
                 MetaDonnees meta = await c.GetCredentialAuth().TrackMetadonnee(trackId);
                 Thread.Sleep(1000);
                 Track track = await c.GetGetATrack().GetTrack(trackId);
-                c.GetRequests().AddSongCleanTrack(meta, trackId, track.Title, source, track.AlbumName, track.Popularity);
+                string deezerId = await c.SpotifyToDeezer().GetDeezerId(track.Title, track.Artist);
+                c.GetRequests().AddSongCleanTrack(meta,track.Artist, deezerId, trackId, track.Title, source, track.AlbumName, track.Popularity);
             }
             else
             {
@@ -22,13 +23,13 @@ namespace Omega.Crawler
                 MetaDonnees meta = await c.GetCredentialAuth().TrackMetadonnee(spotifyId);
                 Thread.Sleep(1000);
                 Track track = await c.GetGetATrack().GetTrack(spotifyId);
-                c.GetRequests().AddSongCleanTrack(meta, trackId, track.Title, source, track.AlbumName, track.Popularity);
+                c.GetRequests().AddSongCleanTrack(meta,track.Artist, trackId, trackId, track.Title, source, track.AlbumName, track.Popularity);
             }
         }
 
         public async Task AnalyseSong(Controller c, string trackId, string source)
         {
-            if (source == "spotify")
+            if (source == "s")
             {
                 MetaDonnees meta = await c.GetCredentialAuth().TrackMetadonnee(trackId);
                 Thread.Sleep(1000);

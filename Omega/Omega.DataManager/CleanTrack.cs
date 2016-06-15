@@ -7,10 +7,12 @@ namespace Omega.DataManager
         public CleanTrack(string id, string source)
         {
             this.PartitionKey = "";
-            this.RowKey = source + id;
+            this.RowKey = source + ":"+ id;
         }
 
         public CleanTrack() { }
+
+        public string Artist { get; set; }
 
         public string Title { get; set; }
 
@@ -30,11 +32,13 @@ namespace Omega.DataManager
 
         public string Liveness { get; set; }
 
-        public string Vanlence { get; set; }
+        public string Valence { get; set; }
 
         public string Tempo { get; set; }
 
         public string Id { get; set; }
+
+        public string DeezerId { get; set; }
 
         public string Source { get; set; }
 

@@ -24,13 +24,17 @@ namespace Omega.DataManager
             return table;
         }
 
-        public void AddSongCleanTrack(MetaDonnees meta, string trackId, string title, string source, string AlbumName, string popularity)
+        public void AddSongCleanTrack(MetaDonnees meta,string artist, string deezerId, string trackId, string title, string source, string AlbumName, string popularity)
         {
+            source = source.Substring(0, 1);
             CloudTable table = ConnectCleanTrackTable();
-            string name = source + trackId;
+            string name = source +":"+ trackId;
+
             if (GetSongCleanTrack(name).Id == null)
             {
                 CleanTrack track = new CleanTrack(trackId, source);
+                track.Artist = artist;
+                track.DeezerId = deezerId;
                 track.Id = trackId;
                 track.Source = source;
                 track.Title = title;
@@ -41,10 +45,11 @@ namespace Omega.DataManager
                 track.Acousticness = meta.acousticness;
                 track.Instrumentalness = meta.instrumentalness;
                 track.Liveness = meta.liveness;
-                track.Vanlence = meta.valence;
+                track.Valence = meta.valence;
                 track.Tempo = meta.tempo;
                 track.AlbumName = AlbumName;
                 track.Popularity = popularity;
+                track.Energy = meta.energy;
 
                 // Create the TableOperation object that inserts the customer entity.
                 TableOperation insertOperation = TableOperation.Insert(track);
@@ -56,7 +61,7 @@ namespace Omega.DataManager
 
         public CleanTrack GetSongCleanTrack(string trackIdSource)
         {
-            CleanTrack ct = new CleanTrack(); ;
+            CleanTrack ct = new CleanTrack();
 
             CloudTable table = ConnectCleanTrackTable();
 
@@ -78,7 +83,7 @@ namespace Omega.DataManager
             CloudTable table = ConnectCleanTrackTable();
 
             // Create a retrieve operation that takes a customer entity.
-            TableOperation retrieveOperation = TableOperation.Retrieve<CleanTrack>("", source + trackId);
+            TableOperation retrieveOperation = TableOperation.Retrieve<CleanTrack>("", source + ":" + trackId);
 
             // Execute the operation.
             TableResult retrievedResult = table.Execute(retrieveOperation);
@@ -99,10 +104,11 @@ namespace Omega.DataManager
                     updateEntity.Acousticness = meta.acousticness;
                     updateEntity.Instrumentalness = meta.instrumentalness;
                     updateEntity.Liveness = meta.liveness;
-                    updateEntity.Vanlence = meta.valence;
+                    updateEntity.Valence = meta.valence;
                     updateEntity.Tempo = meta.tempo;
                     updateEntity.AlbumName = AlbumName;
                     updateEntity.Popularity = popularity;
+                    updateEntity.Energy = meta.energy;
 
                 // Create the Replace TableOperation.
                 TableOperation updateOperation = TableOperation.Replace(updateEntity);

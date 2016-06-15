@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 
 namespace Omega.Crawler
 {
-    public class GetATrack
+    public class SpotifyToDeezer
     {
-        public async Task<Track> GetTrack(string id)
+        public async Task<string> GetDeezerId(string title, string artist)
         {
-            Track track = new Track();
-            WebRequest request = HttpWebRequest.Create("https://api.spotify.com/v1/tracks/" + id);
+            string deezerId = "";
+
+            WebRequest request = HttpWebRequest.Create("https://api.deezer.com/search?q=artist:'"+artist+"' track:'"+title+"'");
             request.Method = "GET";
             request.ContentType = "application/json";
             using (WebResponse response = await request.GetResponseAsync())
@@ -23,13 +24,13 @@ namespace Omega.Crawler
             {
                 string responseFromServer = reader.ReadToEnd();
                 JObject rss = JObject.Parse(responseFromServer);
-                track.AlbumName = (string)rss["album"]["name"];
-                track.Popularity = (string)rss["popularity"];
-                track.Title = (string)rss["name"];
-                track.Artist = ((string)rss["artists"][0]["name"]);
-
-                return track;
+                if ((string)rss["total"] == "0")
+                    Console.WriteLine("pd");
+                else
+                    deezerId = (string)rss["data"][0]["id"];
             }
-        }
+
+            return deezerId;
+        } 
     }
 }

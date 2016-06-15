@@ -20,10 +20,7 @@ namespace Omega.Crawler
 
         static void Main( string[] args )
         {
-            //dc.CreateCleanTrackTable();
-            //ct.GetAnalyser().AnalyseNewSong(ct, "3135556", "deezer").Wait();
             Crawl().Wait();
-            //CheckQueu().Wait();
         }
 
         static async Task Crawl()
@@ -55,15 +52,15 @@ namespace Omega.Crawler
             {
                 string trackId;
                 string source;
-                if(message.AsString.Substring(0, 7) == "spotify")
+                if(message.AsString.Substring(0, 1) == "s")
                 {
-                    trackId = message.AsString.Substring(7);
-                    source = "spotify";
+                    trackId = message.AsString.Substring(2);
+                    source = "s";
                 }
                 else
                 {
-                    trackId = message.AsString.Substring(6);
-                    source = "deezer";
+                    trackId = message.AsString.Substring(2);
+                    source = "d";
                 }
                 await ct.GetAnalyser().AnalyseNewSong(ct, trackId, source);
                 await queue.DeleteMessageAsync(message);
@@ -83,12 +80,12 @@ namespace Omega.Crawler
             {
                 tableQueryResult = await table.ExecuteQuerySegmentedAsync(tableQuery, continuationToken);
                 continuationToken = tableQueryResult.ContinuationToken;
-
-                for(int i = 0; i < tableQueryResult.Results.Count; i++)
+                await CheckQueu();
+                for (int i = 0; i < tableQueryResult.Results.Count; i++)
                 {
                     await CheckQueu();
                     string trackId = tableQueryResult.Results[i].Id;
-                    string source = tableQueryResult.Results[i].Source;
+                    string source = tableQueryResult.Results[i].Source.Substring(0,1);
                     await ct.GetAnalyser().AnalyseSong(ct, trackId, source);
                     Console.WriteLine("Table Checked");
                     Thread.Sleep(1000);
