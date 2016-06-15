@@ -1,6 +1,6 @@
 ﻿{
 	"Lounge" :
-	[
+	{
 		"Danceability" : "",
 		"Energy" : "",
 		"Loudness" : "",
@@ -11,9 +11,9 @@
 		"Valence" : "",
 		"Tempo" : "",
 		"Popularity" : ""
-	],
+	},
 	"Energy" :
-	[
+	{
 		"Danceability" : "",
 		"Energy" : "",
 		"Loudness" : "",
@@ -24,9 +24,9 @@
 		"Valence" : "",
 		"Tempo" : "",
 		"Popularity" : ""
-	],
+	},
 	"Dance" :
-	[
+	{
 		"Danceability" : "",
 		"Energy" : "",
 		"Loudness" : "",
@@ -37,9 +37,9 @@
 		"Valence" : "",
 		"Tempo" : "",
 		"Popularity" : ""
-	],
+	},
 	"Mad" :
-	[
+	{
 		"Danceability" : "",
 		"Energy" : "",
 		"Loudness" : "",
@@ -50,5 +50,5 @@
 		"Valence" : "",
 		"Tempo" : "",
 		"Popularity" : ""
-	],
+	}
 }

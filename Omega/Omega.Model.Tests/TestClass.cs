@@ -24,5 +24,12 @@ namespace Omega.Model.Tests
             var newPlaylist = l.PlaylistAnalyser(playlist, askedDonnees, ratio);
             Console.WriteLine(newPlaylist);
         }
+
+        [Test]
+        public void Open_And_Parse_Modes()
+        {
+            Ambiance a = new Ambiance();
+            a.Ambiancer("Lounge", new List<string>());
+        }
     }
 }

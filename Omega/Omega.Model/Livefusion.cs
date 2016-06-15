@@ -6,9 +6,9 @@ namespace Omega.Model
 {
     public class Livefusion
     {
+        Requests cr = new Requests();
         public List<string> PlaylistAnalyser(List<string> playlistIdSource, MetaDonnees askedDonnees, double ratio)
-        {
-            Requests cr = new Requests();
+        {         
             List<string> FilteredList = new List<string>();
             List<CleanTrack> cleanTracks = new List<CleanTrack>();
             for (int i = 0; i < playlistIdSource.Count; i++)
