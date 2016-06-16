@@ -83,8 +83,8 @@ namespace Omega.Crawler.Tests
         public async Task Test_Spotify_search()
         {
             string track = "Broke Inside My Mind";
-            string artist = "Anitek";
-            string album = "Luna";
+            string artist = null;
+            string album = null;
             Spotifycation s = new Spotifycation();
             var se = await s.Search(track, artist, album);
             MetaDonnees m = new MetaDonnees();

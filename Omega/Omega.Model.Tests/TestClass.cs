@@ -1,7 +1,9 @@
 ﻿using NUnit.Framework;
+using Omega.Crawler;
 using Omega.DataManager;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Omega.Model.Tests
 {
@@ -30,6 +32,35 @@ namespace Omega.Model.Tests
         {
             Ambiance a = new Ambiance();
             a.Ambiancer("Lounge", new List<string>());
+        }
+
+        [Test]
+        public async Task Analyse_Songs()
+        {
+            Dictionary<string, string> musiques = ListeMusiqueLounge();
+            Spotifycation s = new Spotifycation();
+            CredentialAuth c = new CredentialAuth();
+            foreach (var i in musiques)
+            {
+                string id = await s.Search(i.Key, i.Value, null);
+                if(id != "")
+                {
+                    await c.TrackMetadonnee(id);
+                }
+                Console.WriteLine(id);
+            }
+        }
+
+        public Dictionary<string, string> ListeMusiqueLounge()
+        {
+            Dictionary<string, string> musiques = new Dictionary<string, string>();
+            musiques.Add("Broke Inside My Mind", "Anitek");
+            musiques.Add("Soul Blue Tango", "Mounika");
+            musiques.Add("Daily Dozen", "Astat");
+            musiques.Add("Talk To Me", "Miranda Shvangiradze");
+            musiques.Add("The Bane of Tadziu", "Th.e n.d");
+            musiques.Add("Be a king", "Metaharmoniks");
+            return musiques;
         }
     }
 }
