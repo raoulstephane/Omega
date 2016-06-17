@@ -316,6 +316,7 @@ namespace OmegaSPA.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        //[Route( "Connection/{provider}" )]
         public ActionResult ExternalLogin( string provider, string returnUrl )
         {
             // Request a redirect to the external login provider

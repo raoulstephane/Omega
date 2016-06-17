@@ -1,15 +1,15 @@
 ﻿using Omega.OmegaSPA.GeneralModels;
 
-namespace OmegaSPA.GeneralModels
+namespace OmegaSPA.ModelsSpotify
 {
     public class SpotifyUser
     {
-        public SpotifyUser(string email, string spotifyId, AuthenticationToken authenticationToken )
+        public SpotifyUser(string email, string spotifyId, string accessToken, string refreshToken )
         {
             Email = email;
             SpotifyId = spotifyId;
-            SpotifyAccessToken = authenticationToken.access_token;
-            SpotifyRefreshToken = authenticationToken.refresh_token;
+            SpotifyAccessToken = accessToken;
+            SpotifyRefreshToken = refreshToken;
         }
 
         public string Email { get; set; }

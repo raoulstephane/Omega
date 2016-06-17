@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace OmegaSPA.ModelsFacebook
+﻿namespace OmegaSPA.ModelsFacebook
 {
     public class FacebookUser
     {
-        string email { get; set; }
-        string first_name { get; set; }
-        string last_name { get; set; }
-        string id { get; set; }
+        public FacebookUser( string email, string facebookId, string accessToken )
+        {
+            Email = email;
+            FacebookId = facebookId;
+            AccessToken = accessToken;
+        }
+
+        public string Email { get; set; }
+        public string FacebookId { get; set; }
+        public string AccessToken { get; set; }
     }
 }

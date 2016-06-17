@@ -7,7 +7,6 @@ namespace OmegaSPA.ModelsSpotify
 {
     public class SpotifyTrack
     {
-        public string userId { get; set; }
-
+        
     }
 }
