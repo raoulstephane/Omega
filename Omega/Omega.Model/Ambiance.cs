@@ -11,16 +11,19 @@ namespace Omega.Model
     public class Ambiance
     {
         Livefusion l = new Livefusion();
+
         public List<string> Ambiancer(string ambiance, List<string> playlist)
         {
-            MetaDonnees metadonnées = new MetaDonnees();
+            MetaDonnees metadonnéesMax = new MetaDonnees();
+            MetaDonnees metadonnéesMin = new MetaDonnees();
             using (var streamReader = new StreamReader(@"D:\Intech\PI\S4\Projet\Omega\Omega\Omega\Omega.Model\Modes.txt", Encoding.UTF8))
             {
                 string text = streamReader.ReadToEnd();
                 JObject modesJ = JObject.Parse(text);
-                metadonnées = JsonConvert.DeserializeObject<MetaDonnees>(modesJ[ambiance].ToString());
+                metadonnéesMax = JsonConvert.DeserializeObject<MetaDonnees>(modesJ[ambiance + "Max"].ToString());
+                metadonnéesMin = JsonConvert.DeserializeObject<MetaDonnees>(modesJ[ambiance + "Min"].ToString());
             }
-            return l.PlaylistAnalyser(playlist, metadonnées, 10);
+            return l.PlaylistAnalyser(playlist, metadonnéesMax, metadonnéesMin);
         }
     }
 }

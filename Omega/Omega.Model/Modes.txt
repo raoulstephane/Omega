@@ -1,5 +1,31 @@
 ﻿{
-	"Lounge" :
+	"LoungeMax" :
+	{
+		"Danceability" : "",
+		"Energy" : "",
+		"Loudness" : "",
+		"Speechiness" : "0.10",
+		"Acousticness" : "",
+		"Instrumentalness" : "",
+		"Liveness" : "0.2",
+		"Valence" : "",
+		"Tempo" : "100",
+		"Popularity" : ""
+	},
+	"LoungeMin" :
+	{
+		"Danceability" : "",
+		"Energy" : "",
+		"Loudness" : "",
+		"Speechiness" : "0",
+		"Acousticness" : "",
+		"Instrumentalness" : "",
+		"Liveness" : "0",
+		"Valence" : "",
+		"Tempo" : "0",
+		"Popularity" : ""
+	},
+	"EnergyMax" :
 	{
 		"Danceability" : "",
 		"Energy" : "",
@@ -12,7 +38,7 @@
 		"Tempo" : "",
 		"Popularity" : ""
 	},
-	"Energy" :
+	"EnergyMin" :
 	{
 		"Danceability" : "",
 		"Energy" : "",
@@ -25,7 +51,33 @@
 		"Tempo" : "",
 		"Popularity" : ""
 	},
-	"Dance" :
+	"DanceMax" :
+	{
+		"Danceability" : "1",
+		"Energy" : "",
+		"Loudness" : "",
+		"Speechiness" : "",
+		"Acousticness" : "",
+		"Instrumentalness" : "",
+		"Liveness" : "",
+		"Valence" : "",
+		"Tempo" : "",
+		"Popularity" : ""
+	},
+	"DanceMin" :
+	{
+		"Danceability" : "0.7",
+		"Energy" : "",
+		"Loudness" : "",
+		"Speechiness" : "",
+		"Acousticness" : "",
+		"Instrumentalness" : "",
+		"Liveness" : "",
+		"Valence" : "",
+		"Tempo" : "",
+		"Popularity" : ""
+	},
+	"MadMax" :
 	{
 		"Danceability" : "",
 		"Energy" : "",
@@ -38,7 +90,7 @@
 		"Tempo" : "",
 		"Popularity" : ""
 	},
-	"Mad" :
+	"MadMin" :
 	{
 		"Danceability" : "",
 		"Energy" : "",
