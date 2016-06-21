@@ -11,7 +11,7 @@ namespace Omega.Crawler
 {
     public class GetATrack
     {
-        public async Task<Track> GetTrack(string id)
+        public async Task<Track> GetTrackSpotify(string id)
         {
             Track track = new Track();
             WebRequest request = HttpWebRequest.Create("https://api.spotify.com/v1/tracks/" + id);

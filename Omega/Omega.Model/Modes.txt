@@ -28,7 +28,7 @@
 	"EnergyMax" :
 	{
 		"Danceability" : "",
-		"Energy" : "",
+		"Energy" : "1",
 		"Loudness" : "",
 		"Speechiness" : "",
 		"Acousticness" : "",
@@ -41,7 +41,7 @@
 	"EnergyMin" :
 	{
 		"Danceability" : "",
-		"Energy" : "",
+		"Energy" : "0.7",
 		"Loudness" : "",
 		"Speechiness" : "",
 		"Acousticness" : "",
@@ -79,28 +79,28 @@
 	},
 	"MadMax" :
 	{
-		"Danceability" : "",
-		"Energy" : "",
+		"Danceability" : "1",
+		"Energy" : "1",
 		"Loudness" : "",
 		"Speechiness" : "",
 		"Acousticness" : "",
 		"Instrumentalness" : "",
 		"Liveness" : "",
-		"Valence" : "",
-		"Tempo" : "",
+		"Valence" : "1",
+		"Tempo" : "100000",
 		"Popularity" : ""
 	},
 	"MadMin" :
 	{
-		"Danceability" : "",
-		"Energy" : "",
+		"Danceability" : "0.6",
+		"Energy" : "0.6",
 		"Loudness" : "",
 		"Speechiness" : "",
 		"Acousticness" : "",
 		"Instrumentalness" : "",
 		"Liveness" : "",
-		"Valence" : "",
-		"Tempo" : "",
+		"Valence" : "0.6",
+		"Tempo" : "100",
 		"Popularity" : ""
 	}
 }

@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ambiance.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Livefusion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

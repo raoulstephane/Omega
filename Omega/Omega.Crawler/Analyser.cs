@@ -12,7 +12,7 @@ namespace Omega.Crawler
             {
                 MetaDonnees meta = await c.GetCredentialAuth().TrackMetadonnee(trackId);
                 Thread.Sleep(1000);
-                Track track = await c.GetGetATrack().GetTrack(trackId);
+                Track track = await c.GetGetATrack().GetTrackSpotify(trackId);
                 string deezerId = await c.SpotifyToDeezer().GetDeezerId(track.Title, track.Artist);
                 c.GetRequests().AddSongCleanTrack(meta,track.Artist, deezerId, trackId, track.Title, source, track.AlbumName, track.Popularity);
             }
@@ -24,7 +24,7 @@ namespace Omega.Crawler
                 {
                     MetaDonnees meta = await c.GetCredentialAuth().TrackMetadonnee(spotifyId);
                     Thread.Sleep(1000);
-                    Track track = await c.GetGetATrack().GetTrack(spotifyId);
+                    Track track = await c.GetGetATrack().GetTrackSpotify(spotifyId);
                     c.GetRequests().AddSongCleanTrack(meta, track.Artist, trackId, trackId, track.Title, source, track.AlbumName, track.Popularity);
                 }             
             }
@@ -36,7 +36,7 @@ namespace Omega.Crawler
             {
                 MetaDonnees meta = await c.GetCredentialAuth().TrackMetadonnee(trackId);
                 Thread.Sleep(1000);
-                Track track = await c.GetGetATrack().GetTrack(trackId);
+                Track track = await c.GetGetATrack().GetTrackSpotify(trackId);
                 c.GetRequests().UpdateCleanTrack(meta, trackId, track.Title, source, track.AlbumName, track.Popularity);
             }
             else
@@ -47,7 +47,7 @@ namespace Omega.Crawler
                 if (spotifyId != "")
                 {
                     MetaDonnees meta = await c.GetCredentialAuth().TrackMetadonnee(spotifyId);
-                    Track track = await c.GetGetATrack().GetTrack(spotifyId);
+                    Track track = await c.GetGetATrack().GetTrackSpotify(spotifyId);
                     c.GetRequests().UpdateCleanTrack(meta, trackId, track.Title, source, track.AlbumName, track.Popularity);
                 }
             }

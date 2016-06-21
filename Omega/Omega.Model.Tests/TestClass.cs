@@ -3,6 +3,7 @@ using Omega.Crawler;
 using Omega.DataManager;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Omega.Model.Tests
@@ -35,37 +36,23 @@ namespace Omega.Model.Tests
         }
 
         [Test]
-        public void Get_Filtered_Playlist_Using_Ambiancer()
+        public async Task Get_Filtered_Playlist_Using_Ambiancer()
         {
             Ambiance a = new Ambiance();
-            List<string> musiques = new List<string>();
-            musiques.Add("d:3135556");
-            musiques.Add("s:0eGsygTp906u18L0Oimnem");
-            musiques.Add("s:11hqMWwX7sF3sOGdtijofF");
-            musiques.Add("s:06AKEBrKUckW0KREUWRnvT");
-            musiques.Add("s:2TOuZquHSQiHHYPNDUBlNb");
-            musiques.Add("s:0BXN8iOELMzUhlIIKdhYXx");
-            musiques.Add("s:2zzZCSQbKvxSCImoCLmWKz");
-            musiques.Add("s:3R8dCpuEH2QkkUETNBqmrH");
-            musiques.Add("s:2NEAbdfS4laGWAETgYDeiY");
-            musiques.Add("s:0TaHfsr7Gt5epPSeVIpwV6");
-            musiques.Add("s:0xbkxTqSaW5blsYgRXpB5I");
-            musiques.Add("s:7jQBORjiir0pNSKGaHevq9");
-            musiques.Add("s:3LmpQiFNgFCnvAnhhvKUyI");
-            musiques.Add("s:3s6ltUrI93LBKU8taezsLn");
-            musiques.Add("s:4vp2J1l5RD4gMZwGFLfRAu");
-            musiques.Add("s:2Foc5Q5nqNiosCNqttzHof");
-            musiques.Add("s:6Z8R6UsFuGXGtiIxiD8ISb");
-            musiques.Add("s:41UTnVa6DvcVPUYoXWA97h");
-            musiques.Add("s:69RoAhDqFOiQb2pQvb24Ii");
-            musiques.Add("s:6xMpUNOfaSkyywPiFFXZFh");
-            musiques.Add("s:27pNtiDgRXH9tZM1js0Njc");
+            GetATrack gt = new GetATrack();
 
-
-            List<string> filteredList = a.Ambiancer("Dance", musiques);
+            List<string> filteredList = a.Ambiancer("Mad", GetFilledPlaylist());
             foreach (string musique in filteredList)
             {
-                Console.WriteLine(musique);
+                if(musique.Length != 7)
+                {
+                    Track track = await gt.GetTrackSpotify(musique);
+                    Console.WriteLine("Nom : " + track.Title + ",");
+                    Console.WriteLine("Artist : " + track.Artist);
+                    Console.WriteLine("--------------------------------------------------------");
+                    Thread.Sleep(1000);
+                }
+
             }
         }
 
@@ -102,6 +89,35 @@ namespace Omega.Model.Tests
                     }
                 }
             }
+        }
+
+        public List<string> GetFilledPlaylist()
+        {
+            List<string> musiques = new List<string>();
+            musiques.Add("d:3135556");
+            musiques.Add("s:0eGsygTp906u18L0Oimnem");
+            musiques.Add("s:11hqMWwX7sF3sOGdtijofF");
+            musiques.Add("s:06AKEBrKUckW0KREUWRnvT");
+            musiques.Add("s:2TOuZquHSQiHHYPNDUBlNb");
+            musiques.Add("s:0BXN8iOELMzUhlIIKdhYXx");
+            musiques.Add("s:2zzZCSQbKvxSCImoCLmWKz");
+            musiques.Add("s:3R8dCpuEH2QkkUETNBqmrH");
+            musiques.Add("s:2NEAbdfS4laGWAETgYDeiY");
+            musiques.Add("s:0TaHfsr7Gt5epPSeVIpwV6");
+            musiques.Add("s:0xbkxTqSaW5blsYgRXpB5I");
+            musiques.Add("s:7jQBORjiir0pNSKGaHevq9");
+            musiques.Add("s:3LmpQiFNgFCnvAnhhvKUyI");
+            musiques.Add("s:3s6ltUrI93LBKU8taezsLn");
+            musiques.Add("s:4vp2J1l5RD4gMZwGFLfRAu");
+            musiques.Add("s:2Foc5Q5nqNiosCNqttzHof");
+            musiques.Add("s:6Z8R6UsFuGXGtiIxiD8ISb");
+            musiques.Add("s:41UTnVa6DvcVPUYoXWA97h");
+            musiques.Add("s:69RoAhDqFOiQb2pQvb24Ii");
+            musiques.Add("s:6xMpUNOfaSkyywPiFFXZFh");
+            musiques.Add("s:27pNtiDgRXH9tZM1js0Njc");
+            musiques.Add("s:5ghIJDpPoe3CfHMGu71E6T");
+
+            return musiques;
         }
 
         public Dictionary<string, string> ListeMusiqueLounge()
