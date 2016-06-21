@@ -54,26 +54,26 @@
 	"DanceMax" :
 	{
 		"Danceability" : "1",
-		"Energy" : "",
+		"Energy" : "1",
 		"Loudness" : "",
 		"Speechiness" : "",
 		"Acousticness" : "",
 		"Instrumentalness" : "",
 		"Liveness" : "",
-		"Valence" : "",
+		"Valence" : "1",
 		"Tempo" : "",
 		"Popularity" : ""
 	},
 	"DanceMin" :
 	{
 		"Danceability" : "0.7",
-		"Energy" : "",
+		"Energy" : "0.5",
 		"Loudness" : "",
 		"Speechiness" : "",
 		"Acousticness" : "",
 		"Instrumentalness" : "",
 		"Liveness" : "",
-		"Valence" : "",
+		"Valence" : "0.6",
 		"Tempo" : "",
 		"Popularity" : ""
 	},
