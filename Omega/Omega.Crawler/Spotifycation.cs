@@ -13,11 +13,11 @@ namespace Omega.Crawler
         {
             StringBuilder builder = new StringBuilder("https://api.spotify.com/v1/search?q=");
             builder.Append("track%3A" + title);
-            if (artist != null || artist != "")
+            if (!String.IsNullOrEmpty(artist))
             {
                 builder.Append("+artist%3A" + artist);
             }
-            if (album != null || album != "")
+            if (!String.IsNullOrEmpty(album))
             {
                 builder.Append("+album%3A" + album);
             }
@@ -33,6 +33,10 @@ namespace Omega.Crawler
             {
                 string responseFromServer = reader.ReadToEnd();
                 JObject rss = JObject.Parse(responseFromServer);
+                if ((string)rss["tracks"]["total"] == "0")
+                {
+                    return "";
+                }             
                 string rssId = (string)rss["tracks"]["items"][0]["id"];
                 return rssId;
             }
