@@ -20,9 +20,9 @@ namespace OmegaSPA
         public static void CreateUser( FacebookUser fUser )
         {
             UserEntity u = new UserEntity();
-            u.FacebookId = fUser.Email;
+            u.Email = fUser.Email;
             u.FacebookId = fUser.FacebookId;
-            fUser.AccessToken = fUser.AccessToken;
+            u.FacebookAccessToken = fUser.AccessToken;
 
             DatabaseQueries.InsertOrUpdateUserByFacebook( u );
         }

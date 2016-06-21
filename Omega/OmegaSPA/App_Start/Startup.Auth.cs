@@ -17,6 +17,7 @@ using System.Security.Claims;
 using Microsoft.Owin.Security.Facebook;
 using OmegaSPA.ModelsSpotify;
 using OmegaSPA.ModelsFacebook;
+using Facebook;
 
 namespace OmegaSPA
 {
@@ -81,16 +82,21 @@ namespace OmegaSPA
             {
                 AppId = "263290184003311",
                 AppSecret = "c534799048294b0566e010a10a3ea67f",
-                CallbackPath = new PathString( "/Account/Login" ),
+                CallbackPath = new PathString( "/signin-facebook" ),
                 Provider = new FacebookAuthenticationProvider
                 {
                     OnAuthenticated = async c =>
                     {
+                        FacebookClient fbClient = new FacebookClient( c.AccessToken );
+                        dynamic fbUser = fbClient.Get( "me?fields=id,name, email" );
+                        JObject facebookUserJson = JObject.FromObject( fbUser );
+                        string email = (string)facebookUserJson["email"];
+
                         c.Identity.AddClaim( new Claim( "http://omega.fr:facebook_access_token", c.AccessToken ) );
 
-                        UserStorage.CreateUser( new FacebookUser( c.Email, c.Id, c.AccessToken ) );
+                        UserStorage.CreateUser( new FacebookUser( email, c.Id, c.AccessToken ) );
 
-                        c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", c.Email ) );
+                        c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", email ) );
                         c.Identity.AddClaim( new Claim( "http://omega.fr:facebook_access_token", c.AccessToken ) );
                     }
                 }
@@ -110,7 +116,6 @@ namespace OmegaSPA
             {
                 ClientId = "52bd6a8d6339464088df06679fc4c96a",
                 ClientSecret = "20c05410d9ae449c8d57dec06b6ba10e",
-                CallbackPath = new PathString( "/Account/Login/callback" ),
                 Provider = new SpotifyAuthenticationProvider
                 {
                     OnAuthenticated = async c =>
@@ -134,8 +139,14 @@ namespace OmegaSPA
                             currentUserEmail = (string)rss["email"];
                         }
 
-                        UserStorage.CreateUser( new SpotifyUser( currentUserEmail, c.Id, c.AccessToken, c.RefreshToken ) );
-
+                        try
+                        {
+                            UserStorage.CreateUser( new SpotifyUser( currentUserEmail, c.Id, c.AccessToken, c.RefreshToken ) );
+                        }
+                        catch(Exception ex)
+                        {
+                            throw;
+                        }
                         c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", currentUserEmail ) );
                         c.Identity.AddClaim( new Claim( "http://omega.fr:spotify_access_token", c.AccessToken ) );
                         c.Identity.AddClaim( new Claim( "http://omega.fr:spotify_refresh_token", c.RefreshToken ) );

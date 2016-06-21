@@ -27,7 +27,11 @@ namespace Omega.DataManager
             SpotifyRefreshToken = user.SpotifyRefreshToken;
         }
 
-        public string Email { get; set; }
+        public string Email
+        {
+            get { return RowKey; }
+            set { RowKey = value; }
+        }
         public string SpotifyId { get; set; }
         public string DeezerId { get; set; }
         public string FacebookId { get; set; }

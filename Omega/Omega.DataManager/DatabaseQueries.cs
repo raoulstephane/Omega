@@ -74,34 +74,11 @@ namespace Omega.DataManager
                 retrievedUser.FacebookAccessToken = facebookUser.FacebookAccessToken;
 
                 TableOperation updateOperation = TableOperation.Replace( retrievedUser );
+                tableUser.Execute( updateOperation );
             }
             else if (retrievedUser == null)
             {
                 TableOperation insertOperation = TableOperation.Insert( facebookUser );
-                tableUser.Execute( insertOperation );
-            }
-        }
-
-        public static void InsertOrUpdateUserBySpotify( string email, string spotifyId, string spotifyAccessToken, string spotifyRefreshToken )
-        {
-            TableOperation retrieveOperation = TableOperation.Retrieve<UserEntity>( string.Empty, email );
-
-            // Execute the retrieve operation.
-            TableResult retrievedResult = tableUser.Execute( retrieveOperation );
-            UserEntity retrievedUser = (UserEntity)retrievedResult.Result;
-
-            if (retrievedResult.Result != null && retrievedUser.SpotifyRefreshToken != spotifyRefreshToken)
-            {
-                retrievedUser.SpotifyRefreshToken = spotifyRefreshToken;
-                retrievedUser.SpotifyAccessToken = spotifyAccessToken;
-                retrievedUser.SpotifyId = spotifyId;
-
-                TableOperation updateOperation = TableOperation.Replace( retrievedUser );
-            }
-            else if (retrievedUser == null)
-            {
-                UserEntity user = new UserEntity( email, spotifyId, spotifyAccessToken, spotifyRefreshToken );
-                TableOperation insertOperation = TableOperation.Insert( user );
                 tableUser.Execute( insertOperation );
             }
         }
@@ -122,12 +99,11 @@ namespace Omega.DataManager
 
         public static void InsertSpotifyPlaylist(PlaylistEntity p)
         {
-            TableOperation retrievePlaylistOperation = TableOperation.Retrieve<PlaylistEntity>( p.PartitionKey, p.RowKey);
+            //TableOperation retrievePlaylistOperation = TableOperation.Retrieve<PlaylistEntity>( p.PartitionKey, p.RowKey);
+            TableOperation retrievePlaylistOperation = TableOperation.Retrieve<PlaylistEntity>( p.PartitionKey, "aaa");
 
             TableResult retrievedResult = tablePlaylist.Execute( retrievePlaylistOperation );
-            if (retrievedResult != null)
-                return;
-            else
+            if (retrievedResult == null)
             {
                 TableBatchOperation batchOperation = new TableBatchOperation();
                 batchOperation.Insert( p );
