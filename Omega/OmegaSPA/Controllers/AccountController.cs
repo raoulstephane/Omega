@@ -316,6 +316,7 @@ namespace OmegaSPA.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        //[Route( "Connection/{provider}" )]
         public ActionResult ExternalLogin( string provider, string returnUrl )
         {
             // Request a redirect to the external login provider
@@ -360,7 +361,7 @@ namespace OmegaSPA.Controllers
         public async Task<ActionResult> ExternalLoginCallback( string returnUrl )
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-            //ClaimsIdentity claimsIdentity = await AuthenticationManager.GetExternalIdentityAsync( DefaultAuthenticationTypes.ExternalCookie );
+            ClaimsIdentity claimsIdentity = await AuthenticationManager.GetExternalIdentityAsync( DefaultAuthenticationTypes.ExternalCookie );
             //Claim claim = claimsIdentity.Claims.Single( c => c.Type == "http://omega.fr:user_email" );
             
             if (loginInfo == null)

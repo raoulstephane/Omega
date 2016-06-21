@@ -10,11 +10,14 @@ using OmegaSPA.Providers;
 using Owin.Security.Providers.Spotify;
 using Omega;
 using Owin.Security.Providers.Spotify.Provider;
-using Omega.DataManager;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Security.Claims;
+using Microsoft.Owin.Security.Facebook;
+using OmegaSPA.ModelsSpotify;
+using OmegaSPA.ModelsFacebook;
+using Facebook;
 
 namespace OmegaSPA
 {
@@ -75,10 +78,34 @@ namespace OmegaSPA
             // Autoriser l’application à utiliser des jetons de support pour authentifier les utilisateurs
             app.UseOAuthBearerTokens( OAuthOptions );
 
-            // Supprimer les commentaires des lignes suivantes pour autoriser la connexion avec des fournisseurs de connexions tiers
-            app.UseFacebookAuthentication(
-                appId: "263290184003311",
-                appSecret: "c534799048294b0566e010a10a3ea67f" );
+            FacebookAuthenticationOptions facebookOption = new FacebookAuthenticationOptions
+            {
+                AppId = "263290184003311",
+                AppSecret = "c534799048294b0566e010a10a3ea67f",
+                CallbackPath = new PathString( "/signin-facebook" ),
+                Provider = new FacebookAuthenticationProvider
+                {
+                    OnAuthenticated = async c =>
+                    {
+                        FacebookClient fbClient = new FacebookClient( c.AccessToken );
+                        dynamic fbUser = fbClient.Get( "me?fields=id,name, email" );
+                        JObject facebookUserJson = JObject.FromObject( fbUser );
+                        string email = (string)facebookUserJson["email"];
+
+                        c.Identity.AddClaim( new Claim( "http://omega.fr:facebook_access_token", c.AccessToken ) );
+
+                        UserStorage.CreateUser( new FacebookUser( email, c.Id, c.AccessToken ) );
+
+                        c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", email ) );
+                        c.Identity.AddClaim( new Claim( "http://omega.fr:facebook_access_token", c.AccessToken ) );
+                    }
+                }
+            };
+            //Supprimer les commentaires des lignes suivantes pour autoriser la connexion avec des fournisseurs de connexions tiers
+            //app.UseFacebookAuthentication(
+            //    appId: "263290184003311",
+            //    appSecret: "c534799048294b0566e010a10a3ea67f" );
+            app.UseFacebookAuthentication( facebookOption );
 
 
             //app.UseSpotifyAuthentication(
@@ -89,7 +116,6 @@ namespace OmegaSPA
             {
                 ClientId = "52bd6a8d6339464088df06679fc4c96a",
                 ClientSecret = "20c05410d9ae449c8d57dec06b6ba10e",
-                CallbackPath = new PathString( "/Account/Login/callback" ),
                 Provider = new SpotifyAuthenticationProvider
                 {
                     OnAuthenticated = async c =>
@@ -103,7 +129,6 @@ namespace OmegaSPA
                         userRequest.ContentType = "application/json";
 
                         string currentUserEmail;
-                        //string email = c.Identity.Claims.GetType( "oui" );
 
                         using (WebResponse response = await userRequest.GetResponseAsync())
                         using (Stream responseStream = response.GetResponseStream())
@@ -112,14 +137,19 @@ namespace OmegaSPA
                             string currentUserJson = reader.ReadToEnd();
                             JObject rss = JObject.Parse( currentUserJson );
                             currentUserEmail = (string)rss["email"];
-                            string rssId = (string)rss["id"];
                         }
 
-                        UserEntity user = UserStorage.CreateUser( currentUserEmail, c.Id, c.AccessToken, c.RefreshToken );
-
+                        try
+                        {
+                            UserStorage.CreateUser( new SpotifyUser( currentUserEmail, c.Id, c.AccessToken, c.RefreshToken ) );
+                        }
+                        catch(Exception ex)
+                        {
+                            throw;
+                        }
                         c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", currentUserEmail ) );
-                        c.Identity.AddClaim( new Claim( "http://omega.fr:user_access_token", c.AccessToken ) );
-                        c.Identity.AddClaim( new Claim( "http://omega.fr:user_refresh_token", c.RefreshToken ) );
+                        c.Identity.AddClaim( new Claim( "http://omega.fr:spotify_access_token", c.AccessToken ) );
+                        c.Identity.AddClaim( new Claim( "http://omega.fr:spotify_refresh_token", c.RefreshToken ) );
                     }
                 }
             };

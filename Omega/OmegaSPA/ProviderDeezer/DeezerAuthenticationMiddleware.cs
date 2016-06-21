@@ -1,5 +1,4 @@
-﻿using FacebookAuth.SpotifyProvider;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.DataHandler;
@@ -24,10 +23,10 @@ namespace Omega
         {
             if (string.IsNullOrWhiteSpace(Options.AppId))
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,
-                    Resources.Exception_OptionMustBeProvided, "ClientId"));
+                    "Client id must be provided", "ClientId"));
             if (string.IsNullOrWhiteSpace(Options.SecretKey))
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,
-                    Resources.Exception_OptionMustBeProvided, "ClientSecret"));
+                    "Client secret must be provided", "ClientSecret"));
 
             _logger = app.CreateLogger<DeezerAuthenticationMiddleware>();
 
@@ -75,7 +74,7 @@ namespace Omega
             var webRequestHandler = handler as WebRequestHandler;
             if (webRequestHandler == null)
             {
-                throw new InvalidOperationException(Resources.Exception_ValidatorHandlerMismatch);
+                throw new InvalidOperationException("Validator handle mismatch.");
             }
             webRequestHandler.ServerCertificateValidationCallback = options.BackchannelCertificateValidator.Validate;
 

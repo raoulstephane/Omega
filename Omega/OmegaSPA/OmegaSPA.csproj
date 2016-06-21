@@ -151,11 +151,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Spotify, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Spotify.2.6.0\lib\net45\Owin.Security.Providers.Spotify.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -305,16 +309,6 @@
     <Compile Include="ProviderDeezer\DeezerConstants.cs" />
     <Compile Include="ProviderDeezer\DeezerReturnEndpointContext.cs" />
     <Compile Include="ProviderDeezer\IDeezerAuthenticationProvider.cs" />
-    <Compile Include="ProviderSpotify\Constants.cs" />
-    <Compile Include="ProviderSpotify\ISpotifyAuthenticationProvider.cs" />
-    <Compile Include="ProviderSpotify\Resources.Designer.cs" />
-    <Compile Include="ProviderSpotify\SpotifyAuthenticatedContext.cs" />
-    <Compile Include="ProviderSpotify\SpotifyAuthenticationExtensions.cs" />
-    <Compile Include="ProviderSpotify\SpotifyAuthenticationHandler.cs" />
-    <Compile Include="ProviderSpotify\SpotifyAuthenticationMiddleware.cs" />
-    <Compile Include="ProviderSpotify\SpotifyAuthenticationOptions.cs" />
-    <Compile Include="ProviderSpotify\SpotifyAuthenticationProvider.cs" />
-    <Compile Include="ProviderSpotify\SpotifyReturnEndpointContext.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
@@ -416,9 +410,6 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ProviderSpotify\Resources.resx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Omega.DataManager\Omega.DataManager.csproj">

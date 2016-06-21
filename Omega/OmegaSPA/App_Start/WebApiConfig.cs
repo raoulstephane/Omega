@@ -41,7 +41,7 @@ namespace OmegaSPA
             // Create the table if it doesn't exist.
             table.CreateIfNotExists();
 
-            table = tableClient.GetTableReference( "RowTrack" );
+            table = tableClient.GetTableReference( "Track" );
             table.CreateIfNotExists();
 
             table = tableClient.GetTableReference( "User" );
