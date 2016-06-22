@@ -16,7 +16,7 @@ namespace Omega.Crawler.Tests
     public class testClass
     {
         [Test]
-        public async Task Test_Unduplicate_TrackList_And_Analyse_Song()
+        public void Test_Unduplicate_TrackList_And_Analyse_Song()
         {
             List<UserInfoAndStuff> users = InsertUser();
             Dictionary<string, MetaDonnees> trackWithInfo = new Dictionary<string, MetaDonnees>();
@@ -115,7 +115,7 @@ namespace Omega.Crawler.Tests
         }
 
         [Test]
-        public async Task Test()
+        public void Test()
         {
             DatabaseCreator db = new DatabaseCreator();
             db.CreateCleanTrackTable();
