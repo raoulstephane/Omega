@@ -35,7 +35,7 @@ namespace OmegaSPA.Controllers
         /// Get all the user's facebook events
         /// </summary>
         /// <returns>List of FacebookEvents</returns>
-        [HttpGet]
+        [Route( "Facebook/events" )]
         public async Task<string> GetAllFacebookEvents()
         {
             //List of events to return
@@ -49,7 +49,7 @@ namespace OmegaSPA.Controllers
             FacebookClient fbClient = new FacebookClient( accessToken );
 
             dynamic fbEvents = fbClient.Get( "me/events" );
-            JObject facebookEventsJson = JObject.FromObject( fbEvents );
+            JObject facebookEventsJson = JObject.Parse( fbEvents );
             
             IEnumerable<string> eventsId = facebookEventsJson["events"]["data"].Select( t => t.Value<string>( "id" ) );
             foreach(string id in eventsId)

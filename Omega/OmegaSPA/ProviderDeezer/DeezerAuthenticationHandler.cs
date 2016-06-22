@@ -178,8 +178,8 @@ namespace Omega
             var authorizationEndpoint =
                 " https://connect.deezer.com/login.php" +
                 "?app_id=" + Uri.EscapeDataString(Options.AppId) +
-                "&redirect_type=refresh&redirect_link=https%3A%2F%2Fconnect.deezer.com%2Foauth%2Fauth.php%3Fresponse_type%3Dtoken%26perms%3Dbasic_access%252Cemail%26format%3Dpopup%26app_id%3D176241%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%253A51707";
-            //"&redirect_type=refresh&redirect_link=https%3A%2F%2Fconnect.deezer.com%2Foauth%2Fauth.php%3Fresponse_type%3Dtoken%26perms%3Dbasic_access%252Cemail%26format%3Dpopup%26app_id%3D176241%26redirect_uri%3Dhttp%3A%2F%2Fb32d60f6.ngrok.io";
+                //"&redirect_type=refresh&redirect_link=https%3A%2F%2Fconnect.deezer.com%2Foauth%2Fauth.php%3Fresponse_type%3Dtoken%26perms%3Dbasic_access%252Cemail%26format%3Dpopup%26app_id%3D176241%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%253A51707";
+                "&redirect_type=refresh&redirect_link=https%3A%2F%2Fconnect.deezer.com%2Foauth%2Fauth.php%3Fresponse_type%3Dtoken%26perms%3Dbasic_access%252Cemail%26format%3Dpopup%26app_id%3D176241%26redirect_uri%3Dhttp%3A%2F%2Fb32d60f6.ngrok.io%2Fsite";
 
 
 
