@@ -24,7 +24,10 @@ namespace Omega.Model
                 && Compare(askedDonnees.speechiness, analysedSong.Speechiness, ratio)
                 && Compare(askedDonnees.tempo, analysedSong.Tempo, ratio)
                 && Compare(askedDonnees.valence, analysedSong.Valence, ratio))
-                    FilteredList.Add(analysedSong.Id);
+                    if (!FilteredList.Contains(analysedSong.Id))
+                    {
+                        FilteredList.Add(analysedSong.Id);
+                    }
             }
             return FilteredList;
         }
@@ -46,7 +49,10 @@ namespace Omega.Model
                 && Compare(askedDonneesMax.speechiness, analysedSong.Speechiness, askedDonneesMin.speechiness)
                 && Compare(askedDonneesMax.tempo, analysedSong.Tempo, askedDonneesMin.tempo)
                 && Compare(askedDonneesMax.valence, analysedSong.Valence, askedDonneesMin.valence))
-                    FilteredList.Add(analysedSong.Id);
+                    if (!FilteredList.Contains(analysedSong.Id))
+                    {
+                        FilteredList.Add(analysedSong.Id);
+                    }
             }
             return FilteredList;
         }

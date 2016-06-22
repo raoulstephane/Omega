@@ -41,7 +41,7 @@ namespace Omega.Model.Tests
             Ambiance a = new Ambiance();
             GetATrack gt = new GetATrack();
 
-            List<string> filteredList = a.Ambiancer("Mad", GetFilledPlaylist());
+            List<string> filteredList = a.Ambiancer("Dance", GetFilledPlaylist());
             foreach (string musique in filteredList)
             {
                 if(musique.Length != 7)
@@ -51,6 +51,12 @@ namespace Omega.Model.Tests
                     Console.WriteLine("Artist : " + track.Artist);
                     Console.WriteLine("--------------------------------------------------------");
                     Thread.Sleep(1000);
+                }
+                else
+                {
+                    Console.WriteLine("Nom : Harder,");
+                    Console.WriteLine("Artist : Daft punk");
+                    Console.WriteLine("--------------------------------------------------------");
                 }
 
             }
@@ -95,6 +101,7 @@ namespace Omega.Model.Tests
         {
             List<string> musiques = new List<string>();
             musiques.Add("d:3135556");
+            musiques.Add("d:3135556");
             musiques.Add("s:0eGsygTp906u18L0Oimnem");
             musiques.Add("s:11hqMWwX7sF3sOGdtijofF");
             musiques.Add("s:06AKEBrKUckW0KREUWRnvT");
@@ -137,6 +144,7 @@ namespace Omega.Model.Tests
             Dictionary<string, string> musiquesDance = new Dictionary<string, string>();
             musiquesDance.Add("requiem", "mozart");
             musiquesDance.Add("les quatre saisons, l'été", "vivaldi");
+            musiquesDance.Add("the final countdown", "europe");
             //musiquesDance.Add("valse", "evgeny grinko");
             //musiquesDance.Add("du hast", "rammstein");
             //musiquesDance.Add("ich will", "rammstein");
