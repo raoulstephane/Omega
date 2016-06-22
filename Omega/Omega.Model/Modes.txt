@@ -1,8 +1,34 @@
 ﻿{
-	"Lounge" :
-	[
+	"LoungeMax" :
+	{
 		"Danceability" : "",
 		"Energy" : "",
+		"Loudness" : "",
+		"Speechiness" : "0.10",
+		"Acousticness" : "",
+		"Instrumentalness" : "",
+		"Liveness" : "0.2",
+		"Valence" : "",
+		"Tempo" : "100",
+		"Popularity" : ""
+	},
+	"LoungeMin" :
+	{
+		"Danceability" : "",
+		"Energy" : "",
+		"Loudness" : "",
+		"Speechiness" : "0",
+		"Acousticness" : "",
+		"Instrumentalness" : "",
+		"Liveness" : "0",
+		"Valence" : "",
+		"Tempo" : "0",
+		"Popularity" : ""
+	},
+	"EnergyMax" :
+	{
+		"Danceability" : "",
+		"Energy" : "1",
 		"Loudness" : "",
 		"Speechiness" : "",
 		"Acousticness" : "",
@@ -11,11 +37,11 @@
 		"Valence" : "",
 		"Tempo" : "",
 		"Popularity" : ""
-	],
-	"Energy" :
-	[
+	},
+	"EnergyMin" :
+	{
 		"Danceability" : "",
-		"Energy" : "",
+		"Energy" : "0.7",
 		"Loudness" : "",
 		"Speechiness" : "",
 		"Acousticness" : "",
@@ -24,31 +50,57 @@
 		"Valence" : "",
 		"Tempo" : "",
 		"Popularity" : ""
-	],
-	"Dance" :
-	[
-		"Danceability" : "",
-		"Energy" : "",
+	},
+	"DanceMax" :
+	{
+		"Danceability" : "1",
+		"Energy" : "1",
 		"Loudness" : "",
 		"Speechiness" : "",
 		"Acousticness" : "",
 		"Instrumentalness" : "",
 		"Liveness" : "",
-		"Valence" : "",
+		"Valence" : "1",
 		"Tempo" : "",
 		"Popularity" : ""
-	],
-	"Mad" :
-	[
-		"Danceability" : "",
-		"Energy" : "",
+	},
+	"DanceMin" :
+	{
+		"Danceability" : "0.7",
+		"Energy" : "0.5",
 		"Loudness" : "",
 		"Speechiness" : "",
 		"Acousticness" : "",
 		"Instrumentalness" : "",
 		"Liveness" : "",
-		"Valence" : "",
+		"Valence" : "0.6",
 		"Tempo" : "",
 		"Popularity" : ""
-	],
+	},
+	"MadMax" :
+	{
+		"Danceability" : "1",
+		"Energy" : "1",
+		"Loudness" : "",
+		"Speechiness" : "",
+		"Acousticness" : "",
+		"Instrumentalness" : "",
+		"Liveness" : "",
+		"Valence" : "1",
+		"Tempo" : "100000",
+		"Popularity" : ""
+	},
+	"MadMin" :
+	{
+		"Danceability" : "0.6",
+		"Energy" : "0.6",
+		"Loudness" : "",
+		"Speechiness" : "",
+		"Acousticness" : "",
+		"Instrumentalness" : "",
+		"Liveness" : "",
+		"Valence" : "0.6",
+		"Tempo" : "100",
+		"Popularity" : ""
+	}
 }

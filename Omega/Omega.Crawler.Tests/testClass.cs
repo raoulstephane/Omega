@@ -1,13 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using Omega.Crawler;
 using Omega.DataManager;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Omega.Crawler.Tests
@@ -16,7 +12,7 @@ namespace Omega.Crawler.Tests
     public class testClass
     {
         [Test]
-        public async Task Test_Unduplicate_TrackList_And_Analyse_Song()
+        public void Test_Unduplicate_TrackList_And_Analyse_Song()
         {
             List<UserInfoAndStuff> users = InsertUser();
             Dictionary<string, MetaDonnees> trackWithInfo = new Dictionary<string, MetaDonnees>();
@@ -83,8 +79,8 @@ namespace Omega.Crawler.Tests
         public async Task Test_Spotify_search()
         {
             string track = "Broke Inside My Mind";
-            string artist = "Anitek";
-            string album = "Luna";
+            string artist = null;
+            string album = null;
             Spotifycation s = new Spotifycation();
             var se = await s.Search(track, artist, album);
             MetaDonnees m = new MetaDonnees();
@@ -115,7 +111,7 @@ namespace Omega.Crawler.Tests
         }
 
         [Test]
-        public async Task Test()
+        public void Test()
         {
             DatabaseCreator db = new DatabaseCreator();
             db.CreateCleanTrackTable();

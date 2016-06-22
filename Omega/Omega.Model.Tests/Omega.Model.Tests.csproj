@@ -49,10 +49,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Omega.Crawler\Omega.Crawler.csproj">
+      <Project>{648b6540-93a4-4663-b0a3-eef834622849}</Project>
+      <Name>Omega.Crawler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Omega.DataManager\Omega.DataManager.csproj">
       <Project>{2335B04D-421D-4D59-A36C-C704A02B0939}</Project>
       <Name>Omega.DataManager</Name>
