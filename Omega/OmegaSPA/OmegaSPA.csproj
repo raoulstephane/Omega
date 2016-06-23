@@ -287,6 +287,9 @@
     <Compile Include="Controllers\FacebookController.cs" />
     <Compile Include="Controllers\SpotifyController.cs" />
     <Compile Include="GeneralModels\AuthenticationToken.cs" />
+    <Compile Include="ModelsDeezer\DeezerPlaylist.cs" />
+    <Compile Include="ModelsDeezer\DeezerTrack.cs" />
+    <Compile Include="ModelsDeezer\DeezerUser.cs" />
     <Compile Include="ModelsFacebook\FacebookEvent.cs" />
     <Compile Include="ModelsFacebook\FacebookGroup.cs" />
     <Compile Include="ModelsFacebook\FacebookUser.cs" />
