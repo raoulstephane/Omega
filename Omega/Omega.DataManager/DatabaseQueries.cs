@@ -58,7 +58,32 @@ namespace Omega.DataManager
                 tableUser.Execute( insertOperation );
             }
         }
-        
+
+        public static void InsertOrUpdateUserByDeezer(UserEntity deezerUser)
+        {
+            // Create a retrieve operation that takes a customer entity.
+            TableOperation retrieveOperation = TableOperation.Retrieve<UserEntity>(string.Empty, deezerUser.RowKey);
+
+            // Execute the retrieve operation.
+            TableResult retrievedResult = tableUser.Execute(retrieveOperation);
+            UserEntity retrievedUser = (UserEntity)retrievedResult.Result;
+
+            if (retrievedResult.Result != null && retrievedUser.DeezerId != deezerUser.DeezerId)
+            {
+                //retrievedUser.DeezerRefreshToken = deezerUser.SpotifyRefreshToken;
+                retrievedUser.DeezerAccessToken = deezerUser.SpotifyAccessToken;
+                retrievedUser.DeezerId = deezerUser.SpotifyId;
+
+                TableOperation updateOperation = TableOperation.Replace(retrievedUser);
+            }
+            else if (retrievedUser == null)
+            {
+                TableOperation insertOperation = TableOperation.Insert(deezerUser);
+                tableUser.Execute(insertOperation);
+            }
+        }
+
+
         public static void InsertOrUpdateUserByFacebook( UserEntity facebookUser )
         {
             // Create a retrieve operation that takes a customer entity.

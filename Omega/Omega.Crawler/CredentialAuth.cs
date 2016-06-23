@@ -57,6 +57,8 @@ namespace Omega.Crawler
             }
             return token.access_token;
         }
+
+        //TODO : Credentials for Deezer ?
     }
 
 }

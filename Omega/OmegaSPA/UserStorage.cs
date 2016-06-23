@@ -1,6 +1,7 @@
 ﻿using Omega.DataManager;
 using OmegaSPA.ModelsFacebook;
 using OmegaSPA.ModelsSpotify;
+using OmegaSPA.ModelsDeezer;
 
 namespace OmegaSPA
 {
@@ -17,7 +18,17 @@ namespace OmegaSPA
             DatabaseQueries.InsertOrUpdateUserBySpotify( u );
         }
 
-        public static void CreateUser( FacebookUser fUser )
+        public static void CreateUser( DeezerUser dUser)
+        {
+            UserEntity u = new UserEntity();
+            u.Email = dUser.Email;
+            u.DeezerId = dUser.DeezerId;
+            u.DeezerAccessToken = dUser.DeezerAccessToken;
+
+            DatabaseQueries.InsertOrUpdateUserByDeezer(u);
+        }
+
+    public static void CreateUser( FacebookUser fUser )
         {
             UserEntity u = new UserEntity();
             u.Email = fUser.Email;

@@ -15,13 +15,24 @@ namespace Omega.DataManager
             SpotifyRefreshToken = spotifyRefreshToken;
         }
 
-        public UserEntity( UserEntity user )
+        
+     public UserEntity(string email, string deezerId, string deezerAccessToken)
+        {
+            PartitionKey = string.Empty;
+            RowKey = email;
+            DeezerId = deezerId;
+            DeezerAccessToken = deezerAccessToken;
+            //DeezerRefreshToken = deezerRefreshToken;
+        }
+
+    public UserEntity( UserEntity user )
         {
             PartitionKey = string.Empty;
             RowKey = user.Email;
             FacebookId = user.FacebookId;
             FacebookAccessToken = user.FacebookAccessToken;
             DeezerId = user.DeezerId;
+            DeezerAccessToken = user.DeezerAccessToken;
             SpotifyId = user.SpotifyId;
             SpotifyAccessToken = user.SpotifyAccessToken;
             SpotifyRefreshToken = user.SpotifyRefreshToken;
@@ -34,6 +45,8 @@ namespace Omega.DataManager
         }
         public string SpotifyId { get; set; }
         public string DeezerId { get; set; }
+        public string DeezerAccessToken { get; set; }
+        public string DeezerRefreshToken { get; set; }
         public string FacebookId { get; set; }
         public string FacebookAccessToken { get; set; }
         public string SpotifyAccessToken { get; set; }

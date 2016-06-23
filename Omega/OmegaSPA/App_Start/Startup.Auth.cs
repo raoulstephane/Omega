@@ -17,7 +17,10 @@ using System.Security.Claims;
 using Microsoft.Owin.Security.Facebook;
 using OmegaSPA.ModelsSpotify;
 using OmegaSPA.ModelsFacebook;
+using OmegaSPA.ModelsDeezer;
 using Facebook;
+using Owin.Security.Providers.Deezer.Provider;
+
 
 namespace OmegaSPA
 {
@@ -146,10 +149,54 @@ namespace OmegaSPA
 
             app.UseSpotifyAuthentication( spotifyAuthOptions );
 
+            DeezerAuthenticationOptions deezerAuthOptions = new DeezerAuthenticationOptions
+            {
+                AppId = "180182",
+                SecretKey = "5a75ec4d6615ec1617ad46bc2410ae88",
+                Provider = new DeezerAuthenticationProvider
+                {
+                    OnAuthenticated = async c =>
+                    {
+                        var currentUserRequest = "http://api.deezer.com/user/me";
+                        WebRequest userRequest = HttpWebRequest.Create(currentUserRequest);
+                        userRequest.Method = "GET";
+                        //userRequest.Headers.Add("Authorization", string.Format("Bearer {0}", c.AccessToken)); 
+                        //TODO Voir comment passer le token dans la requête GET
+                        userRequest.ContentType = "application/json";
+                        
+                        string currentUserEmail;
+                       
+                        using (WebResponse response = await userRequest.GetResponseAsync())
+                        using (Stream responseStream = response.GetResponseStream())
+                        using (StreamReader reader = new StreamReader(responseStream))
+                                                    {
+                        string currentUserJson = reader.ReadToEnd();
+                        JObject rss = JObject.Parse(currentUserJson);
+                        currentUserEmail = (string)rss["email"];
+                        }
 
-            app.UseDeezerAuthentication(
-                 appId: "180182",
-                 secretKey: "5a75ec4d6615ec1617ad46bc2410ae88" );
+                        
+                      try
+                      {
+                         UserStorage.CreateUser(new DeezerUser(currentUserEmail, c.Id, c.AccessToken));
+                      }
+                      catch (Exception ex)
+                        {
+                           throw;
+                        }
+                        c.Identity.AddClaim(new Claim("http://omega.fr:user_email", currentUserEmail));
+                        c.Identity.AddClaim(new Claim("http://omega.fr:deezer_access_token", c.AccessToken));
+                        // c.Identity.AddClaim(new Claim("http://omega.fr:deezer_refresh_token", c.RefreshToken));
+                   }
+                }
+            };
+            deezerAuthOptions.Scope.Add("email");// if email is needed.
+            deezerAuthOptions.Scope.Add("basic-access");
+            deezerAuthOptions.Scope.Add("offline-access");
+
+            app.UseDeezerAuthentication( deezerAuthOptions );
+
+
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Omega
     {
         private const string XmlSchemaString = "http://www.w3.org/2001/XMLSchema#string";
         private const string TokenEndpoint = "https://connect.deezer.com/login.php";
-        private const string UserInfoEndpoint = "https://api.Deezer.com/v1/me";
+        private const string UserInfoEndpoint = "http://api.Deezer.com/me";
 
         private readonly ILogger _logger;
         private readonly HttpClient _httpClient;
