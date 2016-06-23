@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agreggation.cs" />
     <Compile Include="Ambiance.cs" />
     <Compile Include="Livefusion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
