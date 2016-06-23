@@ -16,6 +16,10 @@ namespace Omega.Model
             foreach (string musique in playlist)
             {
                 CleanTrack analysedSong = cr.GetSongCleanTrack(musique);
+                if (!organisedPlaylist.Contains(analysedSong.Id))
+                {
+                    organisedPlaylist.Add(analysedSong.Id);
+                }
             }
             return organisedPlaylist;
         }
