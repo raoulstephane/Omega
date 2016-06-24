@@ -12,7 +12,7 @@ namespace Omega.Model
     {
         Livefusion l = new Livefusion();
 
-        public List<string> Ambiancer(string ambiance, List<string> playlist)
+        public JArray Ambiancer(string ambiance, string playlist)
         {
             MetaDonnees metadonnéesMax = new MetaDonnees();
             MetaDonnees metadonnéesMin = new MetaDonnees();
