@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Omega.Crawler;
 using Omega.DataManager;
+using Omega.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -63,6 +64,18 @@ namespace Omega.Model.Tests
             foreach (var musique in filteredList)
             {
                 Console.WriteLine((string)musique["AlbumName"]);
+            }
+        }
+
+        [Test]
+        public void Agreggate_Playlist()
+        {
+            Agreggation a = new Agreggation();
+
+            var test = a.Agreggate(GetFilledPlaylist());
+            foreach (var item in test)
+            {
+                Console.WriteLine(item);
             }
         }
 
