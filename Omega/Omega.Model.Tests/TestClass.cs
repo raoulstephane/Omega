@@ -47,7 +47,7 @@ namespace Omega.Model.Tests
             GetATrack gt = new GetATrack();
 
             string playlists = GetstringPlaylist();
-            JArray filteredList = lf.PlaylistAnalyser(playlists, GetstringMetadonnees(), 10);
+            JArray filteredList = lf.PlaylistAnalyser(playlists, GetstringMetadonnees());
             foreach (var musique in filteredList)
             {
                 Console.WriteLine((string)musique["AlbumName"]);
