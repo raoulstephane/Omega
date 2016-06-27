@@ -83,8 +83,9 @@ namespace OmegaSPA.Controllers
             playlistsRequest.Method = "GET";
 
             ClaimsIdentity claimsIdentity = await this.Request.GetOwinContext().Authentication.GetExternalIdentityAsync( DefaultAuthenticationTypes.ExternalCookie );
-            Claim claim = claimsIdentity.Claims.Single( c => c.Type == "http://omega.fr:spotify_access_token" );
-            string accessToken = claim.Value;
+            Claim claim = claimsIdentity.Claims.Single( c => c.Type == "http://omega.fr:user_email" );
+            string email = claim.Value;
+            string accessToken = DatabaseQueries.GetSpotifyAccessTokenByEmail( email );
 
             playlistsRequest.Headers.Add( "Authorization", string.Format( "Bearer {0}", accessToken ) );
 

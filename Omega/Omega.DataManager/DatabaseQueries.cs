@@ -27,12 +27,34 @@ namespace Omega.DataManager
             tablePlaylist = tableClient.GetTableReference( "Playlist" );
         }
 
-        public UserEntity GetUserByEmail( string email )
+        public static string GetFacebookAccessTokenByEmail( string email )
         {
             TableOperation retrieveUserOperation = TableOperation.Retrieve<UserEntity>( string.Empty, email );
             TableResult retrievedUser = tableUser.Execute( retrieveUserOperation );
 
-            return (UserEntity)retrievedUser.Result;
+            UserEntity e = (UserEntity)retrievedUser.Result;
+
+            return e.FacebookAccessToken;
+        }
+
+        public static string GetFacebookIdByEmail( string email )
+        {
+            TableOperation retrieveUserOperation = TableOperation.Retrieve<UserEntity>( string.Empty, email );
+            TableResult retrievedUser = tableUser.Execute( retrieveUserOperation );
+
+            UserEntity e = (UserEntity)retrievedUser.Result;
+
+            return e.FacebookId;
+        }
+
+        public static string GetSpotifyAccessTokenByEmail( string email )
+        {
+            TableOperation retrieveUserOperation = TableOperation.Retrieve<UserEntity>( string.Empty, email );
+            TableResult retrievedUser = tableUser.Execute( retrieveUserOperation );
+
+            UserEntity e = (UserEntity)retrievedUser.Result;
+
+            return e.SpotifyAccessToken;
         }
 
         public static void InsertOrUpdateUserBySpotify( UserEntity spotifyUser )
@@ -44,13 +66,14 @@ namespace Omega.DataManager
             TableResult retrievedResult = tableUser.Execute( retrieveOperation );
             UserEntity retrievedUser = (UserEntity)retrievedResult.Result;
 
-            if (retrievedResult.Result != null && retrievedUser.SpotifyId != spotifyUser.SpotifyId)
+            if (retrievedResult.Result != null && (retrievedUser.SpotifyId != spotifyUser.SpotifyId || retrievedUser.SpotifyAccessToken != spotifyUser.SpotifyAccessToken ))
             {
                 retrievedUser.SpotifyRefreshToken = spotifyUser.SpotifyRefreshToken;
                 retrievedUser.SpotifyAccessToken = spotifyUser.SpotifyAccessToken;
                 retrievedUser.SpotifyId = spotifyUser.SpotifyId;
 
                 TableOperation updateOperation = TableOperation.Replace( retrievedUser );
+                tableUser.Execute( updateOperation );
             }
             else if (retrievedUser == null)
             {
@@ -93,7 +116,7 @@ namespace Omega.DataManager
             TableResult retrievedResult = tableUser.Execute( retrieveOperation );
             UserEntity retrievedUser = (UserEntity)retrievedResult.Result;
 
-            if (retrievedResult.Result != null && retrievedUser.FacebookId != facebookUser.FacebookId)
+            if (retrievedResult.Result != null && (retrievedUser.FacebookId != facebookUser.FacebookId || retrievedUser.FacebookAccessToken != facebookUser.FacebookAccessToken))
             {
                 retrievedUser.FacebookId = facebookUser.FacebookId;
                 retrievedUser.FacebookAccessToken = facebookUser.FacebookAccessToken;
