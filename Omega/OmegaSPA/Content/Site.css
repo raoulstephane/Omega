@@ -1,36 +1,53 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿
+
+#Spotify{
+    background-image:url("./img/spotifyConnect.png");
+    height: 45px;
+    width: 310px;
+
+}
+#Deezer{
+
+    background-image:url("./img/deezerConnect.png");
+    height: 45px;
+    width: 310px;
+}
+#Facebook{
+    background-image:url("./img/facebookConnect.png");
+    height: 45px;
+    width: 310px;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+/*#StreamPanel {
+  position:relative;
+  margin-top: 5%;
+  width: 80%;
+  height: 500px;
+  background-color: #E0E0E0;
+  box-shadow: 5px 5px 8px -2px rgba(0, 0, 0, 0.7); 
+  border-radius: 4px 4px 4px 4px;
+  margin-left:10%;
+  text-align: center;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
-}
+#hr{
+    border-left:  outset grey;
+    height:90%;
+    float:right;
+    margin-right:35%;
+    margin-top:-40%;
+}*/
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
+/*#FbPanel {
+  position:relative;
+  margin-top:2%;
+  margin-right:5%;
+  width: 450px;
+  height: 500px;
+  float: right;
+  background: #E0E0E0;
+  box-shadow: 5px 5px 8px -2px rgba(0, 0, 0, 0.7); 
+  border-radius: 4px 4px 4px 4px;
+  text-align: center;
 
-/* Set padding to display errors that occur during databinding */
-.padding-error {
-    padding-top: 20px;
-}
-
-@media only screen and (max-width: 767px) {
-    .nofloat {
-        float: none;
-        padding: 10px 15px;
-    }
-}
+}*/
