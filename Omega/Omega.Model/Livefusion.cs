@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Omega.DataManager;
 using System;
 using System.Collections.Generic;
@@ -9,15 +10,16 @@ namespace Omega.Model
     {
         Requests cr = new Requests();
 
-        public JArray PlaylistAnalyser(string playlists, MetaDonnees askedDonnees, double ratio)
+        public JArray PlaylistAnalyser(string playlists, string askedDonneesString, double ratio = 10)
         {
             List<string> FilteredList = new List<string>();
+            MetaDonnees askedDonnees = JsonConvert.DeserializeObject<MetaDonnees>(askedDonneesString); ;
             JArray filteredArray = new JArray();
             List<CleanTrack> cleanTracks = new List<CleanTrack>();
             string trackIdSource;
             JArray playlistObj = JArray.Parse(playlists);
 
-            foreach(var playlistArray in playlistObj)
+            foreach (var playlistArray in playlistObj)
             {
                 foreach (var track in playlistArray)
                 {
@@ -79,8 +81,8 @@ namespace Omega.Model
 
         public static bool Compare(string asked, string analysed, double ratio)
         {
-            if(asked != null)
-                ratio = Double.Parse(asked) * ratio / 100;
+            if(!string.IsNullOrEmpty(asked))
+                ratio = Double.Parse(asked.Replace(".", ",")) * ratio / 100;
             if (asked != null) asked = asked.Replace(".", ",");
             if (analysed != null) analysed = analysed.Replace(".", ",");
 

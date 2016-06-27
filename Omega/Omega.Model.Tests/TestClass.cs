@@ -47,7 +47,7 @@ namespace Omega.Model.Tests
             GetATrack gt = new GetATrack();
 
             string playlists = GetstringPlaylist();
-            JArray filteredList = lf.PlaylistAnalyser(playlists, new MetaDonnees(), 10);
+            JArray filteredList = lf.PlaylistAnalyser(playlists, GetstringMetadonnees(), 10);
             foreach (var musique in filteredList)
             {
                 Console.WriteLine((string)musique["AlbumName"]);
@@ -122,6 +122,13 @@ namespace Omega.Model.Tests
                 playlists = streamReader.ReadToEnd();
             }
             return playlists;
+        }
+
+        public string GetstringMetadonnees()
+        {
+            string meta;
+            meta = "{'Danceability' : '0.7','Energy' : '','Loudness' : '','Speechiness' : '','Acousticness' : '','Instrumentalness' : '','Liveness' : '','Valence' : '','Tempo' : '','Popularity' : ''}";
+            return meta;
         }
 
         public List<string> GetFilledPlaylist()
