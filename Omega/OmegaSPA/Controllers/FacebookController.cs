@@ -40,7 +40,7 @@ namespace OmegaSPA.Controllers
         /// </summary>
         /// <returns>List of FacebookEvents</returns>
         [Route( "Facebook/events" )]
-        public async Task<string> GetAllFacebookEvents()
+        public async Task<JObject> GetAllFacebookEvents()
         {
             //List of events to return
             List<FacebookEvent> events = new List<FacebookEvent>();
@@ -86,8 +86,8 @@ namespace OmegaSPA.Controllers
             }
             
             string eventsString = JsonConvert.SerializeObject( events );
-
-            return eventsString;
+            JObject eventsJson = JObject.Parse( eventsString );
+            return eventsJson;
         }
 
         /// <summary>
