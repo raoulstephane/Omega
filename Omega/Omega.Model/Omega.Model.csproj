@@ -49,7 +49,6 @@
     <Compile Include="Ambiance.cs" />
     <Compile Include="Livefusion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TrackObj.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Omega.Crawler\Omega.Crawler.csproj">
