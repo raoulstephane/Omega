@@ -10,6 +10,10 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
+using System.Net;
+using System.IO;
+using System;
+using Omega.DataManager;
 
 namespace OmegaSPA.Controllers
 {
@@ -43,62 +47,95 @@ namespace OmegaSPA.Controllers
 
             // Get the access token
             ClaimsIdentity claimsIdentity = await Request.GetOwinContext().Authentication.GetExternalIdentityAsync( DefaultAuthenticationTypes.ExternalCookie );
-            Claim claim = claimsIdentity.Claims.Single( c => c.Type == "http://omega.fr:facebook_access_token" );
-            string accessToken = claim.Value;
+            Claim claim = claimsIdentity.Claims.Single( c => c.Type == "http://omega.fr:user_email" );
+            string email = claim.Value;
+            string accessToken = DatabaseQueries.GetFacebookAccessTokenByEmail( email );
 
             FacebookClient fbClient = new FacebookClient( accessToken );
 
             dynamic fbEvents = fbClient.Get( "me/events" );
-            JObject facebookEventsJson = JObject.Parse( fbEvents );
-            
-            IEnumerable<string> eventsId = facebookEventsJson["events"]["data"].Select( t => t.Value<string>( "id" ) );
-            foreach(string id in eventsId)
+            JObject facebookEventsJson = JObject.FromObject( fbEvents );
+            foreach( var dataEvent in facebookEventsJson["data"])
             {
-                dynamic eventDetailed = fbClient.Get( "me/" + id );
+                string eventId = (string)dataEvent["id"];
+                dynamic eventDetailed = fbClient.Get( eventId );
                 JObject eventDetailedJson = JObject.FromObject( eventDetailed );
                 string startTime = (string)eventDetailedJson["start_time"];
                 startTime = startTime.Remove( 10 );
                 string name = (string)eventDetailedJson["name"];
 
-                dynamic eventPicture = fbClient.Get( "me/" + id + "/picture");
-                JObject eventPictureJson = JObject.FromObject( eventPicture );
-                string cover = (string)eventPictureJson["data"]["url"];
 
-                FacebookEvent fbEvent = new FacebookEvent( id, name, cover );
+                Uri eventDetailUri = new Uri(
+                    string.Format( "https://graph.facebook.com/{0}/picture?fields=url&access_token={1}&format=json&redirect=false",
+                    eventId,
+                    accessToken ));
+                HttpWebRequest fbEventsProfilePicture = (HttpWebRequest)HttpWebRequest.Create( eventDetailUri );
+                
+                string cover;
+                using (WebResponse response = await fbEventsProfilePicture.GetResponseAsync())
+                using (Stream responseStream = response.GetResponseStream())
+                using (StreamReader reader = new StreamReader( responseStream ))
+                {
+                    string eventPictureJson = reader.ReadToEnd();
+                    JObject eventJson = JObject.Parse( eventPictureJson );
+                    cover = (string)eventJson["data"]["url"];
+                }
+
+                FacebookEvent fbEvent = new FacebookEvent( eventId, name, cover );
                 events.Add( fbEvent );
             }
-            string allEvents = JsonConvert.SerializeObject( events );
+            
+            string eventsString = JsonConvert.SerializeObject( events );
 
-            return allEvents;
+            return eventsString;
         }
 
         /// <summary>
         /// Get all the user's facebook groups
         /// </summary>
         /// <returns> list of FacebookGroup </returns>
-        //[HttpGet]
-        //public List<FacebookGroup> GetAllFacebookGroups()
-        //{
-        //    FacebookClient fbClient = new FacebookClient();
-        //    dynamic fbGroups = fbClient.Get( "me/groups" );
-        //    JObject JObjFbGroups = JObject.FromObject( fbGroups );
+        [Route( "Facebook/groups" )]
+        public async Task<string> GetAllFacebookGroups()
+        {
+            List<FacebookGroup> allGroups = new List<FacebookGroup>();
 
-        //    var groupNames = JObjFbGroups["groups"]["data"].Select( t => t.Value<string>( "name" ) );
-        //    var groupId = JObjFbGroups["groups"]["data"].Select( t => t.Value<string>( "id" ) );
+            ClaimsIdentity claimsIdentity = await Request.GetOwinContext().Authentication.GetExternalIdentityAsync( DefaultAuthenticationTypes.ExternalCookie );
+            Claim claim = claimsIdentity.Claims.Single( c => c.Type == "http://omega.fr:user_email" );
 
-        //    List<string> listGroupNames = new List<string>( groupNames );
-        //    List<string> listGroupId = new List<string>( groupId );
+            string email = claim.Value;
+            string accessToken = DatabaseQueries.GetFacebookAccessTokenByEmail( email );
+            string fbId = DatabaseQueries.GetFacebookIdByEmail( email );
 
-        //    List<FacebookGroup> listGroups = new List<FacebookGroup>();
+            FacebookClient fbClient = new FacebookClient( accessToken );
+            dynamic fbGroups = fbClient.Get( "https://graph.facebook.com/me/groups" );
+            JObject fbGroupsJson = JObject.FromObject( fbGroups );
 
-        //    for (int i = 0; i < listGroupId.Count; i++)
-        //    {
-        //        FacebookGroup f = new FacebookGroup();
-        //        f.id = listGroupId[0];
-        //        f.name = listGroupNames[0];
-        //        listGroups.Add( f );
-        //    }
-        //    return listGroups;
-        //}
+            foreach( var dataGroup in fbGroupsJson["data"] )
+            {
+                string groupId = (string)dataGroup["id"];
+                string groupName = (string)dataGroup["name"];
+                string groupCover;
+
+                // Uri eventDetailUri = new Uri( "https://graph.facebook.com/" + groupId + "/picture?fields=url&access_token=" + accessToken + "&format=json" );
+                Uri eventDetailUri = new Uri( string.Format(
+                    "https://graph.facebook.com/v2.6/{0}/picture?fields=url&access_token={1}&format=json&redirect=false",
+                    groupId,
+                    accessToken));
+                HttpWebRequest fbGroupPicture = (HttpWebRequest)HttpWebRequest.Create( eventDetailUri );
+                using (WebResponse response = await fbGroupPicture.GetResponseAsync())
+                using (Stream responseStream = response.GetResponseStream())
+                using (StreamReader reader = new StreamReader( responseStream ))
+                {
+                    string eventPictureJson = reader.ReadToEnd();
+                    JObject eventJson = JObject.Parse( eventPictureJson );
+                    groupCover = (string)eventJson["data"]["url"];
+                }
+                FacebookGroup fbGroup = new FacebookGroup( groupId, groupName, groupCover );
+                allGroups.Add( fbGroup );
+            }
+            string groupsString = JsonConvert.SerializeObject( allGroups );
+
+            return groupsString;
+        }
     }
 }

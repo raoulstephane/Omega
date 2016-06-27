@@ -94,14 +94,17 @@ namespace OmegaSPA
 
                         UserStorage.CreateUser( new FacebookUser( email, c.Id, c.AccessToken ) );
 
-                        c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", email ) );
-                        c.Identity.AddClaim( new Claim( "http://omega.fr:facebook_access_token", c.AccessToken ) );
+                        c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", c.Email ) );
+                        //c.Identity.AddClaim( new Claim( "http://omega.fr:user_facebook_id", c.Id ) );
+                        //c.Identity.AddClaim( new Claim( "http://omega.fr:facebook_access_token", c.AccessToken ) );
                     }
                 }
             };
             app.UseFacebookAuthentication( facebookOption );
+            facebookOption.Scope.Add( "user_events" );
+            facebookOption.Scope.Add( "user_managed_groups" );
 
-            
+
 
             SpotifyAuthenticationOptions spotifyAuthOptions = new SpotifyAuthenticationOptions
             {
@@ -133,8 +136,8 @@ namespace OmegaSPA
                         UserStorage.CreateUser( new SpotifyUser( currentUserEmail, c.Id, c.AccessToken, c.RefreshToken ) );
 
                         c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", currentUserEmail ) );
-                        c.Identity.AddClaim( new Claim( "http://omega.fr:spotify_access_token", c.AccessToken ) );
-                        c.Identity.AddClaim( new Claim( "http://omega.fr:spotify_refresh_token", c.RefreshToken ) );
+                        //c.Identity.AddClaim( new Claim( "http://omega.fr:spotify_access_token", c.AccessToken ) );
+                        //c.Identity.AddClaim( new Claim( "http://omega.fr:spotify_refresh_token", c.RefreshToken ) );
                     }
                 }
             };
