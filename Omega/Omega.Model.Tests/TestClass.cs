@@ -1,8 +1,12 @@
-﻿using NUnit.Framework;
+﻿using Newtonsoft.Json.Linq;
+using NUnit.Framework;
 using Omega.Crawler;
 using Omega.DataManager;
+using Omega.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,8 +28,8 @@ namespace Omega.Model.Tests
             playlist.Add("s:06AKEBrKUckW0KREUWRnvT");
             double ratio = 10;
             Livefusion l = new Livefusion();
-            var newPlaylist = l.PlaylistAnalyser(playlist, askedDonnees, ratio);
-            Console.WriteLine(newPlaylist);
+            //var newPlaylist = l.PlaylistAnalyser("", askedDonnees, ratio);
+            //Console.WriteLine(newPlaylist);
         }
 
         [Test]
@@ -36,29 +40,42 @@ namespace Omega.Model.Tests
         }
 
         [Test]
-        public async Task Get_Filtered_Playlist_Using_Ambiancer()
+        public void LiveFusion_Test_With_String()
+        {
+            Requests r = new Requests();
+            Livefusion lf = new Livefusion();
+            GetATrack gt = new GetATrack();
+
+            string playlists = GetstringPlaylist();
+            JArray filteredList = lf.PlaylistAnalyser(playlists, GetstringMetadonnees(), 10);
+            foreach (var musique in filteredList)
+            {
+                Console.WriteLine((string)musique["AlbumName"]);
+            }
+        }
+
+        [Test]
+        public void Get_Filtered_Playlist_Using_Ambiancer()
         {
             Ambiance a = new Ambiance();
             GetATrack gt = new GetATrack();
 
-            List<string> filteredList = a.Ambiancer("Dance", GetFilledPlaylist());
-            foreach (string musique in filteredList)
+            JArray filteredList = a.Ambiancer("Dance", GetstringPlaylist());
+            foreach (var musique in filteredList)
             {
-                if(musique.Length != 7)
-                {
-                    Track track = await gt.GetTrackSpotify(musique);
-                    Console.WriteLine("Nom : " + track.Title + ",");
-                    Console.WriteLine("Artist : " + track.Artist);
-                    Console.WriteLine("--------------------------------------------------------");
-                    Thread.Sleep(1000);
-                }
-                else
-                {
-                    Console.WriteLine("Nom : Harder,");
-                    Console.WriteLine("Artist : Daft punk");
-                    Console.WriteLine("--------------------------------------------------------");
-                }
+                Console.WriteLine((string)musique["AlbumName"]);
+            }
+        }
 
+        [Test]
+        public void Agreggate_Playlist()
+        {
+            Agreggation a = new Agreggation();
+
+            var test = a.Agreggate(GetFilledPlaylist());
+            foreach (var item in test)
+            {
+                Console.WriteLine(item);
             }
         }
 
@@ -95,6 +112,23 @@ namespace Omega.Model.Tests
                     }
                 }
             }
+        }
+
+        public string GetstringPlaylist()
+        {
+            string playlists;
+            using (var streamReader = new StreamReader(@"C:\Users\thibault\Desktop\exemple JSON monard.txt", Encoding.UTF8))
+            {
+                playlists = streamReader.ReadToEnd();
+            }
+            return playlists;
+        }
+
+        public string GetstringMetadonnees()
+        {
+            string meta;
+            meta = "{'Danceability' : '0.7','Energy' : '','Loudness' : '','Speechiness' : '','Acousticness' : '','Instrumentalness' : '','Liveness' : '','Valence' : '','Tempo' : '','Popularity' : ''}";
+            return meta;
         }
 
         public List<string> GetFilledPlaylist()
