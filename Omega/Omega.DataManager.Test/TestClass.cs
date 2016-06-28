@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Omega.DataManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace Omega.DataManager.Test
     public class TestClass
     {
         [Test]
-        public void Test()
+        public void TestQueu()
         {
-
+            DatabaseQueries.InsertSpotifyTrack("a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa");
         }
     }
 }

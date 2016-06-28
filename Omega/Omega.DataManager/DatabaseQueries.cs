@@ -149,9 +149,9 @@ namespace Omega.DataManager
                 TrackEntity t = new TrackEntity( "s", userId, playlistId, trackId, title, albumName, popularity, cover );
                 batchOperation.Insert( t );
                 tableTrack.ExecuteBatch( batchOperation );
-                CloudQueueMessage message = new CloudQueueMessage("s:" + trackId);
-                queue.AddMessageAsync(message);
             }
+            CloudQueueMessage message = new CloudQueueMessage("s:" + trackId);
+            queue.AddMessageAsync(message);
         }
 
         public static void InsertSpotifyPlaylist(PlaylistEntity p)

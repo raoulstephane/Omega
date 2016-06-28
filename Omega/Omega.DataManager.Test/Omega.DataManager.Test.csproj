@@ -52,6 +52,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Omega.DataManager\Omega.DataManager.csproj">
+      <Project>{2335B04D-421D-4D59-A36C-C704A02B0939}</Project>
+      <Name>Omega.DataManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Omega.Model\Omega.Model.csproj">
       <Project>{40ef09d9-67d8-407a-92d0-ce44271ced3a}</Project>
       <Name>Omega.Model</Name>
