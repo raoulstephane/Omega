@@ -95,7 +95,7 @@ namespace OmegaSPA.Controllers
         /// </summary>
         /// <returns> list of FacebookGroup </returns>
         [Route( "Facebook/groups" )]
-        public async Task<string> GetAllFacebookGroups()
+        public async Task<JToken> GetAllFacebookGroups()
         {
             List<FacebookGroup> allGroups = new List<FacebookGroup>();
 
@@ -104,7 +104,7 @@ namespace OmegaSPA.Controllers
 
             string email = claim.Value;
             string accessToken = DatabaseQueries.GetFacebookAccessTokenByEmail( email );
-            string fbId = DatabaseQueries.GetFacebookIdByEmail( email );
+            //string fbId = DatabaseQueries.GetFacebookIdByEmail( email );
 
             FacebookClient fbClient = new FacebookClient( accessToken );
             dynamic fbGroups = fbClient.Get( "https://graph.facebook.com/me/groups" );
@@ -134,13 +134,16 @@ namespace OmegaSPA.Controllers
                 allGroups.Add( fbGroup );
             }
             string groupsString = JsonConvert.SerializeObject( allGroups );
+            JToken groupsJson = JToken.Parse( groupsString );
 
-            return groupsString;
+            return groupsJson;
         }
 
-        [Route( "Facebook/group/{groupId}/playlists]")]
-        public async Task<string> GetAllPlaylistsFromEvent( string groupId )
+        [Route( "Facebook/group/{groupId}/playlistsGroup")]
+        public async Task<JToken> GetAllPlaylistsFromEvent( string groupId )
         {
+            List<PlaylistEntity> AllPlaylistsFromGroupMembers = new List<PlaylistEntity>();
+
             ClaimsIdentity claimsIdentity = await Request.GetOwinContext().Authentication.GetExternalIdentityAsync( DefaultAuthenticationTypes.ExternalCookie );
             Claim claim = claimsIdentity.Claims.Single( c => c.Type == "http://omega.fr:user_email" );
             string email = claim.Value;
@@ -150,13 +153,26 @@ namespace OmegaSPA.Controllers
             dynamic groupMembers = fbClient.Get( string.Format( "{0}/members", groupId ) );
             JObject groupMembersJson = JObject.FromObject( groupMembers );
 
-            List<string> membersId = new List<string>();
+            //List<string> membersId = new List<string>();
             foreach( var member in groupMembersJson["data"])
             {
-                membersId.Add( (string)member["id"] );
-            }
+                string currentMemberId = (string)member["id"];
+                //membersId.Add( currentMemberId );
+                dynamic userEmail = fbClient.Get( string.Format( "{0}?fields=email", currentMemberId ) );
+                JObject fbUser = JObject.FromObject( userEmail );
+                string fbUserEmail = (string)fbUser["email"];
 
-            return string.Empty;
+                if (fbUserEmail != null)
+                {
+                    if (DatabaseQueries.IsUserPresentInBase( fbUserEmail ))
+                    {
+                        AllPlaylistsFromGroupMembers.AddRange( DatabaseQueries.GetAllPlaylistFromOwner( fbUserEmail ) );
+                    }
+                }
+            }
+            string allPlaylistsString = JsonConvert.SerializeObject( AllPlaylistsFromGroupMembers );
+            JToken allPlaylistsJson = JToken.Parse( allPlaylistsString );
+            return allPlaylistsJson;
         }
     }
 }

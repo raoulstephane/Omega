@@ -106,6 +106,7 @@ namespace OmegaSPA
             app.UseFacebookAuthentication( facebookOption );
             facebookOption.Scope.Add( "user_events" );
             facebookOption.Scope.Add( "user_managed_groups" );
+            facebookOption.Scope.Add( "email" );
 
 
 
