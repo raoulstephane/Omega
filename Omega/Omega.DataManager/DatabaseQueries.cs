@@ -2,6 +2,7 @@
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
+using System.Collections.Generic;
 
 namespace Omega.DataManager
 {
@@ -34,6 +35,15 @@ namespace Omega.DataManager
             queue.CreateIfNotExistsAsync();
         }
 
+        public static bool IsUserPresentInBase( string email )
+        {
+            TableOperation retrieveUser = TableOperation.Retrieve<UserEntity>( string.Empty, email );
+            TableResult retrievedUser = tableUser.Execute( retrieveUser );
+
+            UserEntity u = (UserEntity)retrievedUser.Result;
+            return (u != null && u.SpotifyId != null);
+        }
+
         public static string GetFacebookAccessTokenByEmail( string email )
         {
             TableOperation retrieveUserOperation = TableOperation.Retrieve<UserEntity>( string.Empty, email );
@@ -62,6 +72,16 @@ namespace Omega.DataManager
             UserEntity e = (UserEntity)retrievedUser.Result;
 
             return e.SpotifyAccessToken;
+        }
+
+        public static string GetSpotifyUserIdByEmail( string email )
+        {
+            TableOperation retrieveUserOperation = TableOperation.Retrieve<UserEntity>( string.Empty, email );
+            TableResult retrievedUser = tableUser.Execute( retrieveUserOperation );
+
+            UserEntity e = (UserEntity)retrievedUser.Result;
+
+            return e.SpotifyId;
         }
 
         public static void InsertOrUpdateUserBySpotify( UserEntity spotifyUser )
@@ -112,8 +132,7 @@ namespace Omega.DataManager
                 tableUser.Execute(insertOperation);
             }
         }
-
-
+        
         public static void InsertOrUpdateUserByFacebook( UserEntity facebookUser )
         {
             // Create a retrieve operation that takes a customer entity.
@@ -156,16 +175,43 @@ namespace Omega.DataManager
 
         public static void InsertSpotifyPlaylist(PlaylistEntity p)
         {
-            //TableOperation retrievePlaylistOperation = TableOperation.Retrieve<PlaylistEntity>( p.PartitionKey, p.RowKey);
-            TableOperation retrievePlaylistOperation = TableOperation.Retrieve<PlaylistEntity>( p.PartitionKey, "aaa");
+            TableOperation retrievePlaylistOperation = TableOperation.Retrieve<PlaylistEntity>( p.PartitionKey, p.RowKey );
 
             TableResult retrievedResult = tablePlaylist.Execute( retrievePlaylistOperation );
-            if (retrievedResult == null)
+            if (retrievedResult.Result == null)
             {
                 TableBatchOperation batchOperation = new TableBatchOperation();
                 batchOperation.Insert( p );
                 tablePlaylist.ExecuteBatch( batchOperation );
             }
+        }
+
+        public static List<PlaylistEntity>GetAllPlaylistFromOwner( string email )
+        {
+            List<PlaylistEntity> allPlaylistsFromOwner = new List<PlaylistEntity>();
+
+            TableQuery<PlaylistEntity> queryPlaylists = new TableQuery<PlaylistEntity>().Where(
+                    TableQuery.GenerateFilterCondition( "PartitionKey", QueryComparisons.Equal, DatabaseQueries.GetSpotifyUserIdByEmail(email) ) );
+
+            foreach( PlaylistEntity p in tablePlaylist.ExecuteQuery( queryPlaylists ))
+            {
+                List<TrackEntity> allTracksInPlaylist = new List<TrackEntity>();
+
+                TableQuery<TrackEntity> rangeQueryTracks = new TableQuery<TrackEntity>().Where(
+                    TableQuery.CombineFilters(
+                        TableQuery.GenerateFilterCondition( "PartitionKey", QueryComparisons.Equal, GetSpotifyUserIdByEmail(email) ),
+                        TableOperators.And,
+                        TableQuery.GenerateFilterCondition( "PlaylistId", QueryComparisons.Equal, p.PlaylistId ) ) );
+
+                foreach( TrackEntity t in tableTrack.ExecuteQuery( rangeQueryTracks ))
+                {
+                    allTracksInPlaylist.Add( t );
+                }
+                p.Tracks = allTracksInPlaylist;
+                allPlaylistsFromOwner.Add( p );
+            }
+
+            return allPlaylistsFromOwner;
         }
     }
 }
