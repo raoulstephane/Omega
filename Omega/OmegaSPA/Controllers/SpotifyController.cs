@@ -76,7 +76,7 @@ namespace OmegaSPA.Controllers
         }
 
         [Route( "Spotify/playlists" )]
-        public async Task<string> GetAllSpotifyPlaylists()
+        public async Task<JToken> GetAllSpotifyPlaylists()
         {
             var allPlaylistsRequest = "https://api.spotify.com/v1/me/playlists";
             WebRequest playlistsRequest = HttpWebRequest.Create( allPlaylistsRequest );
@@ -121,7 +121,8 @@ namespace OmegaSPA.Controllers
                 //allPlaylistsJson = JObject.Parse( allPlaylistsString );
             }
             //return allPlaylistsJson;
-            return allplaylist;
+            JToken playlistsJson = JToken.Parse( allplaylist );
+            return playlistsJson;
         }
     }
 }

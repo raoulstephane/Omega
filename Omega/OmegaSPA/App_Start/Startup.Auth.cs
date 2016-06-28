@@ -49,9 +49,9 @@ namespace OmegaSPA
         public void ConfigureAuth( IAppBuilder app )
         {
             // Configurer le contexte de base de données, le gestionnaire des utilisateurs et le gestionnaire des connexions pour utiliser une instance unique par demande
-            app.CreatePerOwinContext( ApplicationDbContext.Create );
-            app.CreatePerOwinContext<ApplicationUserManager>( ApplicationUserManager.Create );
-            app.CreatePerOwinContext<ApplicationSignInManager>( ApplicationSignInManager.Create );
+            //app.CreatePerOwinContext( ApplicationDbContext.Create );
+            //app.CreatePerOwinContext<ApplicationUserManager>( ApplicationUserManager.Create );
+            //app.CreatePerOwinContext<ApplicationSignInManager>( ApplicationSignInManager.Create );
 
             // Autoriser l'application à utiliser un cookie pour stocker des informations pour l’utilisateur connecté
             app.UseCookieAuthentication( new CookieAuthenticationOptions
@@ -62,9 +62,9 @@ namespace OmegaSPA
                 {
                     // Permet à l'application de valider le timbre de sécurité quand l'utilisateur se connecte.
                     // Cette fonction de sécurité est utilisée quand vous changez un mot de passe ou ajoutez une connexion externe à votre compte.  
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes( 20 ),
-                        regenerateIdentity: ( manager, user ) => user.GenerateUserIdentityAsync( manager ) )
+                    //OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                    //    validateInterval: TimeSpan.FromMinutes( 20 ),
+                    //    regenerateIdentity: ( manager, user ) => user.GenerateUserIdentityAsync( manager ) )
                 }
             } );
             // Utilisez un cookie pour stocker temporairement des informations sur une connexion utilisateur à un fournisseur de connexions tiers

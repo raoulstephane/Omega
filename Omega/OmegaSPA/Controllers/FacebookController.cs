@@ -40,7 +40,7 @@ namespace OmegaSPA.Controllers
         /// </summary>
         /// <returns>List of FacebookEvents</returns>
         [Route( "Facebook/events" )]
-        public async Task<JObject> GetAllFacebookEvents()
+        public async Task<JToken> GetAllFacebookEvents()
         {
             //List of events to return
             List<FacebookEvent> events = new List<FacebookEvent>();
@@ -86,7 +86,7 @@ namespace OmegaSPA.Controllers
             }
             
             string eventsString = JsonConvert.SerializeObject( events );
-            JObject eventsJson = JObject.Parse( eventsString );
+            JToken eventsJson = JToken.Parse( eventsString );
             return eventsJson;
         }
 
@@ -136,6 +136,27 @@ namespace OmegaSPA.Controllers
             string groupsString = JsonConvert.SerializeObject( allGroups );
 
             return groupsString;
+        }
+
+        [Route( "Facebook/group/{groupId}/playlists]")]
+        public async Task<string> GetAllPlaylistsFromEvent( string groupId )
+        {
+            ClaimsIdentity claimsIdentity = await Request.GetOwinContext().Authentication.GetExternalIdentityAsync( DefaultAuthenticationTypes.ExternalCookie );
+            Claim claim = claimsIdentity.Claims.Single( c => c.Type == "http://omega.fr:user_email" );
+            string email = claim.Value;
+            string accessToken = DatabaseQueries.GetFacebookAccessTokenByEmail( email );
+
+            FacebookClient fbClient = new FacebookClient( accessToken );
+            dynamic groupMembers = fbClient.Get( string.Format( "{0}/members", groupId ) );
+            JObject groupMembersJson = JObject.FromObject( groupMembers );
+
+            List<string> membersId = new List<string>();
+            foreach( var member in groupMembersJson["data"])
+            {
+                membersId.Add( (string)member["id"] );
+            }
+
+            return string.Empty;
         }
     }
 }

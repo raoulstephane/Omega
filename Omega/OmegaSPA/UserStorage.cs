@@ -10,6 +10,7 @@ namespace OmegaSPA
         public static void CreateUser( SpotifyUser sUser )
         {
             UserEntity u = new UserEntity();
+            u.PartitionKey = string.Empty;
             u.Email = sUser.Email;
             u.SpotifyId = sUser.SpotifyId;
             u.SpotifyAccessToken = sUser.SpotifyAccessToken;
@@ -21,6 +22,7 @@ namespace OmegaSPA
         public static void CreateUser( DeezerUser dUser)
         {
             UserEntity u = new UserEntity();
+            u.PartitionKey = string.Empty;
             u.Email = dUser.Email;
             u.DeezerId = dUser.DeezerId;
             u.DeezerAccessToken = dUser.DeezerAccessToken;
@@ -31,6 +33,7 @@ namespace OmegaSPA
     public static void CreateUser( FacebookUser fUser )
         {
             UserEntity u = new UserEntity();
+            u.PartitionKey = string.Empty;
             u.Email = fUser.Email;
             u.FacebookId = fUser.FacebookId;
             u.FacebookAccessToken = fUser.AccessToken;
