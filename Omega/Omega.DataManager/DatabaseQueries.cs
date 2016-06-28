@@ -1,16 +1,19 @@
 ﻿using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Omega.DataManager
 {
     public class DatabaseQueries
     {
+        static readonly CloudQueueClient queueClient;
         static readonly CloudStorageAccount storageAccount;
         static readonly CloudTableClient tableClient;
         static readonly CloudTable tableUser;
         static readonly CloudTable tablePlaylist;
         static readonly CloudTable tableTrack;
+        static readonly CloudQueue queue;
 
         static DatabaseQueries()
         {
@@ -25,6 +28,10 @@ namespace Omega.DataManager
             tableUser = tableClient.GetTableReference( "User" );
             tableTrack = tableClient.GetTableReference( "Track" );
             tablePlaylist = tableClient.GetTableReference( "Playlist" );
+
+            queueClient = storageAccount.CreateCloudQueueClient();
+            queue = queueClient.GetQueueReference("myqueue");
+            queue.CreateIfNotExistsAsync();
         }
 
         public static string GetFacebookAccessTokenByEmail( string email )
@@ -142,6 +149,8 @@ namespace Omega.DataManager
                 TrackEntity t = new TrackEntity( "s", userId, playlistId, trackId, title, albumName, popularity, cover );
                 batchOperation.Insert( t );
                 tableTrack.ExecuteBatch( batchOperation );
+                CloudQueueMessage message = new CloudQueueMessage("s:" + trackId);
+                queue.AddMessageAsync(message);
             }
         }
 
