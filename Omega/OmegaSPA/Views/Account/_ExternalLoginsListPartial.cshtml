@@ -3,7 +3,8 @@
 
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-    if (loginProviders.Count() == 0) {
+    if (loginProviders.Count() == 0)
+    {
         <div>
             <p>
                 Il n'existe aucun service d'authentification externe configuré. Consultez <a href="http://go.microsoft.com/fwlink/?LinkId=403804">cet article</a>
@@ -11,22 +12,27 @@
             </p>
         </div>
     }
-    else {
-        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl })) {
+    else
+    {
+        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl }))
+        {
             @Html.AntiForgeryToken()
             <div id="StreamPanel">
+                <p id="pStream"> Connectez vos comptes  Spotify ou Deezer pour une expérience de fusion de playlists inédite </p>
+                <p id="pFb"> Connectez-vous à Facebook pour partagez la playlist avec un groupe ou lors d’un évènement sinon, commencez <a href="omega.itinet.fr/index.html">maintenant! </a>  </p>
+                <hr/>
                 <div id="socialLoginList">
                     <p>
                         @foreach (AuthenticationDescription p in loginProviders)
                         {
-                            <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Connexion avec votre compte @p.Caption"></button>
+                            <div class="@p.AuthenticationType">
+                                <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Connexion avec votre compte @p.Caption"></button>
+                            </div>
                         }
-                    </p>
+                        </p>
+                    </div>
                 </div>
-                @*<div id="FbPanel">
-                    </div>*@
-                <div id="hr"></div>
-            </div>
-        }
-    }
-}
+                        
+                        }
+                        }
+                        }
