@@ -1,16 +1,19 @@
 ﻿using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Omega.DataManager
 {
     public class DatabaseQueries
     {
+        static readonly CloudQueueClient queueClient;
         static readonly CloudStorageAccount storageAccount;
         static readonly CloudTableClient tableClient;
         static readonly CloudTable tableUser;
         static readonly CloudTable tablePlaylist;
         static readonly CloudTable tableTrack;
+        static readonly CloudQueue queue;
 
         static DatabaseQueries()
         {
@@ -25,14 +28,40 @@ namespace Omega.DataManager
             tableUser = tableClient.GetTableReference( "User" );
             tableTrack = tableClient.GetTableReference( "Track" );
             tablePlaylist = tableClient.GetTableReference( "Playlist" );
+
+            queueClient = storageAccount.CreateCloudQueueClient();
+            queue = queueClient.GetQueueReference("myqueue");
+            queue.CreateIfNotExistsAsync();
         }
 
-        public UserEntity GetUserByEmail( string email )
+        public static string GetFacebookAccessTokenByEmail( string email )
         {
             TableOperation retrieveUserOperation = TableOperation.Retrieve<UserEntity>( string.Empty, email );
             TableResult retrievedUser = tableUser.Execute( retrieveUserOperation );
 
-            return (UserEntity)retrievedUser.Result;
+            UserEntity e = (UserEntity)retrievedUser.Result;
+
+            return e.FacebookAccessToken;
+        }
+
+        public static string GetFacebookIdByEmail( string email )
+        {
+            TableOperation retrieveUserOperation = TableOperation.Retrieve<UserEntity>( string.Empty, email );
+            TableResult retrievedUser = tableUser.Execute( retrieveUserOperation );
+
+            UserEntity e = (UserEntity)retrievedUser.Result;
+
+            return e.FacebookId;
+        }
+
+        public static string GetSpotifyAccessTokenByEmail( string email )
+        {
+            TableOperation retrieveUserOperation = TableOperation.Retrieve<UserEntity>( string.Empty, email );
+            TableResult retrievedUser = tableUser.Execute( retrieveUserOperation );
+
+            UserEntity e = (UserEntity)retrievedUser.Result;
+
+            return e.SpotifyAccessToken;
         }
 
         public static void InsertOrUpdateUserBySpotify( UserEntity spotifyUser )
@@ -44,13 +73,14 @@ namespace Omega.DataManager
             TableResult retrievedResult = tableUser.Execute( retrieveOperation );
             UserEntity retrievedUser = (UserEntity)retrievedResult.Result;
 
-            if (retrievedResult.Result != null && retrievedUser.SpotifyId != spotifyUser.SpotifyId)
+            if (retrievedResult.Result != null && (retrievedUser.SpotifyId != spotifyUser.SpotifyId || retrievedUser.SpotifyAccessToken != spotifyUser.SpotifyAccessToken ))
             {
                 retrievedUser.SpotifyRefreshToken = spotifyUser.SpotifyRefreshToken;
                 retrievedUser.SpotifyAccessToken = spotifyUser.SpotifyAccessToken;
                 retrievedUser.SpotifyId = spotifyUser.SpotifyId;
 
                 TableOperation updateOperation = TableOperation.Replace( retrievedUser );
+                tableUser.Execute( updateOperation );
             }
             else if (retrievedUser == null)
             {
@@ -93,7 +123,7 @@ namespace Omega.DataManager
             TableResult retrievedResult = tableUser.Execute( retrieveOperation );
             UserEntity retrievedUser = (UserEntity)retrievedResult.Result;
 
-            if (retrievedResult.Result != null && retrievedUser.FacebookId != facebookUser.FacebookId)
+            if (retrievedResult.Result != null && (retrievedUser.FacebookId != facebookUser.FacebookId || retrievedUser.FacebookAccessToken != facebookUser.FacebookAccessToken))
             {
                 retrievedUser.FacebookId = facebookUser.FacebookId;
                 retrievedUser.FacebookAccessToken = facebookUser.FacebookAccessToken;
@@ -119,6 +149,8 @@ namespace Omega.DataManager
                 TrackEntity t = new TrackEntity( "s", userId, playlistId, trackId, title, albumName, popularity, cover );
                 batchOperation.Insert( t );
                 tableTrack.ExecuteBatch( batchOperation );
+                CloudQueueMessage message = new CloudQueueMessage("s:" + trackId);
+                queue.AddMessageAsync(message);
             }
         }
 

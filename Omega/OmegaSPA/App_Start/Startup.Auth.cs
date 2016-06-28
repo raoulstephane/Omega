@@ -49,9 +49,9 @@ namespace OmegaSPA
         public void ConfigureAuth( IAppBuilder app )
         {
             // Configurer le contexte de base de données, le gestionnaire des utilisateurs et le gestionnaire des connexions pour utiliser une instance unique par demande
-            app.CreatePerOwinContext( ApplicationDbContext.Create );
-            app.CreatePerOwinContext<ApplicationUserManager>( ApplicationUserManager.Create );
-            app.CreatePerOwinContext<ApplicationSignInManager>( ApplicationSignInManager.Create );
+            //app.CreatePerOwinContext( ApplicationDbContext.Create );
+            //app.CreatePerOwinContext<ApplicationUserManager>( ApplicationUserManager.Create );
+            //app.CreatePerOwinContext<ApplicationSignInManager>( ApplicationSignInManager.Create );
 
             // Autoriser l'application à utiliser un cookie pour stocker des informations pour l’utilisateur connecté
             app.UseCookieAuthentication( new CookieAuthenticationOptions
@@ -62,9 +62,9 @@ namespace OmegaSPA
                 {
                     // Permet à l'application de valider le timbre de sécurité quand l'utilisateur se connecte.
                     // Cette fonction de sécurité est utilisée quand vous changez un mot de passe ou ajoutez une connexion externe à votre compte.  
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes( 20 ),
-                        regenerateIdentity: ( manager, user ) => user.GenerateUserIdentityAsync( manager ) )
+                    //OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                    //    validateInterval: TimeSpan.FromMinutes( 20 ),
+                    //    regenerateIdentity: ( manager, user ) => user.GenerateUserIdentityAsync( manager ) )
                 }
             } );
             // Utilisez un cookie pour stocker temporairement des informations sur une connexion utilisateur à un fournisseur de connexions tiers
@@ -97,14 +97,17 @@ namespace OmegaSPA
 
                         UserStorage.CreateUser( new FacebookUser( email, c.Id, c.AccessToken ) );
 
-                        c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", email ) );
-                        c.Identity.AddClaim( new Claim( "http://omega.fr:facebook_access_token", c.AccessToken ) );
+                        c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", c.Email ) );
+                        //c.Identity.AddClaim( new Claim( "http://omega.fr:user_facebook_id", c.Id ) );
+                        //c.Identity.AddClaim( new Claim( "http://omega.fr:facebook_access_token", c.AccessToken ) );
                     }
                 }
             };
             app.UseFacebookAuthentication( facebookOption );
+            facebookOption.Scope.Add( "user_events" );
+            facebookOption.Scope.Add( "user_managed_groups" );
 
-            
+
 
             SpotifyAuthenticationOptions spotifyAuthOptions = new SpotifyAuthenticationOptions
             {
@@ -136,8 +139,8 @@ namespace OmegaSPA
                         UserStorage.CreateUser( new SpotifyUser( currentUserEmail, c.Id, c.AccessToken, c.RefreshToken ) );
 
                         c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", currentUserEmail ) );
-                        c.Identity.AddClaim( new Claim( "http://omega.fr:spotify_access_token", c.AccessToken ) );
-                        c.Identity.AddClaim( new Claim( "http://omega.fr:spotify_refresh_token", c.RefreshToken ) );
+                        //c.Identity.AddClaim( new Claim( "http://omega.fr:spotify_access_token", c.AccessToken ) );
+                        //c.Identity.AddClaim( new Claim( "http://omega.fr:spotify_refresh_token", c.RefreshToken ) );
                     }
                 }
             };

@@ -321,8 +321,8 @@
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\img\deezerConnect.png" />
+    <Content Include="Content\img\facebookConnect.png" />
     <Content Include="Content\img\spotifyConnect.png" />
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />

@@ -26,7 +26,7 @@ namespace Omega.Model.Tests
             playlist.Add("s:0eGsygTp906u18L0Oimnem");
             playlist.Add("s:11hqMWwX7sF3sOGdtijofF"); 
             playlist.Add("s:06AKEBrKUckW0KREUWRnvT");
-            double ratio = 10;
+            //double ratio = 10;
             Livefusion l = new Livefusion();
             //var newPlaylist = l.PlaylistAnalyser("", askedDonnees, ratio);
             //Console.WriteLine(newPlaylist);
@@ -51,6 +51,84 @@ namespace Omega.Model.Tests
             foreach (var musique in filteredList)
             {
                 Console.WriteLine((string)musique["AlbumName"]);
+            }
+        }
+
+        [Test]
+        public void LiveFusion_Test_With_String_Ité()
+        {
+            Requests r = new Requests();
+            Livefusion lf = new Livefusion();
+            GetATrack gt = new GetATrack();
+
+            string playlists = GetstringPlaylist();
+            JArray playlistObj = JArray.Parse(playlists);
+            foreach (var musique in playlistObj)
+            {
+                foreach (var track in musique)
+                {
+                    Console.WriteLine((string)track["Title"]);
+                }
+            }
+            Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine("Critère de recherche :\nDanceability : 0.7, Marge : 10%");
+            Console.WriteLine("---------------------------------------------------");
+            JArray filteredList = lf.PlaylistAnalyser(playlists, GetstringMetadonnees());
+            foreach (var musique in filteredList)
+            {
+                Console.WriteLine((string)musique["Title"]);
+                var test = r.GetSongCleanTrack(musique["RowKey"].ToString().Substring(0, 1) + ":" + musique["TrackId"].ToString());
+                Console.WriteLine("Danceability = " + test.Danceability);
+            }
+        }
+
+        [Test]
+        public void Get_Filtered_Playlist_Using_Ambiancer_Ité_Lounge()
+        {
+            Ambiance a = new Ambiance();
+            GetATrack gt = new GetATrack();
+            JArray playlistObj = JArray.Parse(GetstringPlaylist());
+            foreach (var musique in playlistObj)
+            {
+                foreach (var track in musique)
+                {
+                    Console.WriteLine((string)track["Title"]);
+                }
+            }
+
+            Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine("Critère de recherche :\nAmbiance : Lounge");
+            Console.WriteLine("---------------------------------------------------");
+
+            JArray filteredList = a.Ambiancer("Lounge", GetstringPlaylist());
+            foreach (var musique in filteredList)
+            {
+                Console.WriteLine((string)musique["Title"]);
+            }
+        }
+
+        [Test]
+        public void Get_Filtered_Playlist_Using_Ambiancer_Ité_Dance()
+        {
+            Ambiance a = new Ambiance();
+            GetATrack gt = new GetATrack();
+            JArray playlistObj = JArray.Parse(GetstringPlaylist());
+            foreach (var musique in playlistObj)
+            {
+                foreach (var track in musique)
+                {
+                    Console.WriteLine((string)track["Title"]);
+                }
+            }
+
+            Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine("Critère de recherche :\nAmbiance : Dance");
+            Console.WriteLine("---------------------------------------------------");
+
+            JArray filteredList = a.Ambiancer("Dance", GetstringPlaylist());
+            foreach (var musique in filteredList)
+            {
+                Console.WriteLine((string)musique["Title"]);
             }
         }
 
