@@ -108,8 +108,8 @@ namespace OmegaSPA
 
             SpotifyAuthenticationOptions spotifyAuthOptions = new SpotifyAuthenticationOptions
             {
-                ClientId = "52bd6a8d6339464088df06679fc4c96a",
-                ClientSecret = "20c05410d9ae449c8d57dec06b6ba10e",
+                ClientId = "7769a12f2f84488bb6af171b19f8504c",
+                ClientSecret = "92c2927edff84d18aab3aaaaba2b2073",
                 Provider = new SpotifyAuthenticationProvider
                 {
                     OnAuthenticated = async c =>
