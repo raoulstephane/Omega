@@ -150,11 +150,11 @@ namespace Omega.Model.Tests
         {
             Agreggation a = new Agreggation();
 
-            var test = a.Agreggate(GetFilledPlaylist());
-            foreach (var item in test)
-            {
-                Console.WriteLine(item);
-            }
+            //var test = a.Agreggate(GetFilledPlaylist());
+            //foreach (var item in test)
+            //{
+            //    Console.WriteLine(item);
+            //}
         }
 
         [Test]
