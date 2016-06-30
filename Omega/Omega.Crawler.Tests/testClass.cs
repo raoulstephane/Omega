@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Omega.DataManager;
 using System;
 using System.Collections.Generic;
