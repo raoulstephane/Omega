@@ -3,7 +3,6 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using System;
 using Omega.DataManager;
 
 namespace Omega.Crawler
@@ -57,8 +56,6 @@ namespace Omega.Crawler
             }
             return token.access_token;
         }
-
-        //TODO : Credentials for Deezer ?
     }
 
 }

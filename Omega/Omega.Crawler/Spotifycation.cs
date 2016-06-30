@@ -23,7 +23,6 @@ namespace Omega.Crawler
             }
             builder.Append("&type=track&limit=1");
 
-            //WebRequest request = HttpWebRequest.Create("https://api.spotify.com/v1/search?q=track%3A"+ title +"+artist%3A"+ artist +"+album%3A"+ album +"&type=track&limit=1");
             WebRequest request = HttpWebRequest.Create(builder.ToString());
             request.Method = "GET";
             request.ContentType = "application/json";
