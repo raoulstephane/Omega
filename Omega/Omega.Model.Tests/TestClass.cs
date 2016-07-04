@@ -50,6 +50,22 @@ namespace Omega.Model.Tests
         }
 
         [Test]
+        public void Agreggation_Test_With_String()
+        {
+            Requests r = new Requests();
+            Livefusion lf = new Livefusion();
+            GetATrack gt = new GetATrack();
+            Agreggation a = new Agreggation();
+
+            string playlists = GetstringPlaylist();
+            JArray filteredList = a.Agreggate(playlists);
+            foreach (var musique in filteredList)
+            {
+                Console.WriteLine((string)musique["Title"]);
+            }
+        }
+
+        [Test]
         public void LiveFusion_Test_With_String_Ité()
         {
             Requests r = new Requests();
@@ -188,7 +204,7 @@ namespace Omega.Model.Tests
         public string GetstringMetadonnees()
         {
             string meta;
-            meta = "{'Danceability' : '0.7','Energy' : '','Loudness' : '','Speechiness' : '','Acousticness' : '','Instrumentalness' : '','Liveness' : '','Valence' : '','Tempo' : '','Popularity' : ''}";
+            meta = "{'Danceability' : '','Energy' : '','Loudness' : '','Speechiness' : '','Acousticness' : '','Instrumentalness' : '','Liveness' : '','Valence' : '','Tempo' : '','Popularity' : ''}";
             return meta;
         }
 
