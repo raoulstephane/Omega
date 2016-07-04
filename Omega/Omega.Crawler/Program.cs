@@ -83,7 +83,8 @@ namespace Omega.Crawler
                     string source = tableQueryResult.Results[i].Source.Substring(0,1);
                     await ct.GetAnalyser().AnalyseSong(ct, trackId, source);
                     Console.WriteLine("Table Checked");
-                    Thread.Sleep(1000);
+                    await Task.Delay(1000);
+                    //Thread.Sleep(1000);
                 }
             } while (continuationToken != null);
         }

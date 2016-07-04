@@ -10,8 +10,11 @@ namespace OmegaSPA.Controllers
         [Route("Mix/LiveFusion")]
         public JArray MixLiveFusion([FromBody] JToken data)
         {
+            string meta = data["metadata"].ToString();
+            JArray playlists = (JArray)data["checkedTracks"];
+            string playlistsS = playlists.ToString();
             throw new System.NotImplementedException();
-            //return Livefusion.PlaylistAnalyser(metaDonnees, playlists);
+            //return Livefusion.PlaylistAnalyser(playlists, metaDonnees);
         }
     }
 }
