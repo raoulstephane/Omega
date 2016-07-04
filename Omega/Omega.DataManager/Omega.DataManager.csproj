@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseQueries.cs" />
+    <Compile Include="Models\FacebookUserEntity.cs" />
     <Compile Include="Models\PlaylistEntity.cs" />
     <Compile Include="Models\TrackEntity.cs" />
     <Compile Include="CleanTrack.cs" />

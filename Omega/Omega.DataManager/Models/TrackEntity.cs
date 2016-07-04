@@ -9,9 +9,10 @@ namespace Omega.DataManager
         public string Title { get; set; }
         public string AlbumName { get; set; }
         public string Popularity { get; set; }
+        public int Duration { get; set; }
         public string Cover { get; set; }
 
-        public TrackEntity(string source, string userId, string playlistId, string trackId, string title, string albumName, string popularity, string cover )
+        public TrackEntity(string source, string userId, string playlistId, string trackId, string title, string albumName, string popularity, int duration, string cover )
         {
             PartitionKey = userId;
             RowKey = source + ":" + playlistId + ":" + trackId;
@@ -21,6 +22,7 @@ namespace Omega.DataManager
             Title = title;
             AlbumName = albumName;
             Popularity = popularity;
+            Duration = duration;
             Cover = cover;
         }
 

@@ -9,7 +9,7 @@ namespace Omega.DataManager.Test
         [Test]
         public void TestQueu()
         {
-            DatabaseQueries.InsertSpotifyTrack("a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa");
+            DatabaseQueries.InsertSpotifyTrack("a","aa","aaa","aaaa","aaaaa","aaaaaa",1111111, "aaaaaaaa" );
         }
 
         [Test]
