@@ -40,7 +40,7 @@ namespace Omega
         /// <summary>
         ///     The request path within the application's base path where the user-agent will be returned.
         ///     The middleware will process this request when it arrives.
-        ///     Default value is "/signin-Deezer".
+        ///     Default value is "/signin-deezer".
         /// </summary>
         public PathString CallbackPath { get; set; }
 
@@ -91,7 +91,7 @@ namespace Omega
             : base("Deezer")
         {
             Caption = Constants.DeezerConstants.DefaultAuthenticationType;
-            CallbackPath = new PathString("/signin-Deezer");
+            CallbackPath = new PathString("/signin-deezer");
             AuthenticationMode = AuthenticationMode.Passive;
             Scope = new List<string>();
             BackchannelTimeout = TimeSpan.FromSeconds(60);

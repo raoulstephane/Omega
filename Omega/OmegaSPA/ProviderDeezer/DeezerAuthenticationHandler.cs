@@ -18,8 +18,8 @@ namespace Omega
     public class DeezerAuthenticationHandler : AuthenticationHandler<DeezerAuthenticationOptions>
     {
         private const string XmlSchemaString = "http://www.w3.org/2001/XMLSchema#string";
-        private const string TokenEndpoint = "https://connect.deezer.com/login.php";
-        private const string UserInfoEndpoint = "http://api.Deezer.com/me";
+        private const string TokenEndpoint = "https://connect.deezer.com/oauth/access_token.php";
+        private const string UserInfoEndpoint = "http://api.deezer.com/user/me";
 
         private readonly ILogger _logger;
         private readonly HttpClient _httpClient;
@@ -81,9 +81,12 @@ namespace Omega
                 var secret = Options.AppId + ":" + Options.SecretKey;
                 var secretBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(secret));
 
-                var tokenRequest = new HttpRequestMessage(HttpMethod.Post, TokenEndpoint);
-                tokenRequest.Headers.Authorization = new AuthenticationHeaderValue("Basic", secretBase64);
-                tokenRequest.Content = new FormUrlEncodedContent(body);
+                string tokenUri = TokenEndpoint +
+                    "?app_id=" + Uri.EscapeDataString( Options.AppId ) +
+                    "&secret=" + Uri.EscapeDataString( Options.SecretKey ) +
+                    "&code=" + Uri.EscapeDataString( code ) +
+                    "&output=json";
+                var tokenRequest = new HttpRequestMessage(HttpMethod.Get, tokenUri );
 
                 // Request the token
                 var tokenResponse = await _httpClient.SendAsync(tokenRequest);
@@ -93,19 +96,20 @@ namespace Omega
                 // Deserializes the token response
                 dynamic response = JsonConvert.DeserializeObject<dynamic>(text);
                 var accessToken = (string)response.access_token;
-                var refreshToken = (string)response.refresh_token;
-                var expiresIn = (string)response.expires_in;
+                var expiresIn = (string)response.expires;
 
                 // Get the Deezer user
+                string userInfoUri = UserInfoEndpoint +
+                    "?access_token=" + Uri.EscapeDataString( accessToken ) +
+                    "&output=json";
                 var graphRequest = new HttpRequestMessage(HttpMethod.Get, UserInfoEndpoint);
-                graphRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
                 var graphResponse = await _httpClient.SendAsync(graphRequest, Request.CallCancelled);
                 graphResponse.EnsureSuccessStatusCode();
                 text = await graphResponse.Content.ReadAsStringAsync();
                 var user = JObject.Parse(text);
 
-                var context = new DeezerAuthenticatedContext(Context, user, accessToken, refreshToken, expiresIn)
+                var context = new DeezerAuthenticatedContext(Context, user, accessToken, expiresIn)
                 {
                     Identity = new ClaimsIdentity(
                         Options.AuthenticationType,
@@ -176,12 +180,11 @@ namespace Omega
             var state = Options.StateDataFormat.Protect(properties);
 
             var authorizationEndpoint =
-                " https://connect.deezer.com/login.php" +
-                "?app_id=" + Uri.EscapeDataString(Options.AppId) +
-                //"&redirect_type=refresh&redirect_link=https%3A%2F%2Fconnect.deezer.com%2Foauth%2Fauth.php%3Fresponse_type%3Dtoken%26perms%3Dbasic_access%252Cemail%26format%3Dpopup%26app_id%3D176241%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%253A51707";
-                "&redirect_type=refresh&redirect_link=https%3A%2F%2Fconnect.deezer.com%2Foauth%2Fauth.php%3Fresponse_type%3Dtoken%26perms%3Dbasic_access%252Cemail%26format%3Dpopup%26app_id%3D180182%26redirect_uri%3Dhttp%3A%2F%2Fbe1d3bf5.ngrok.io%2Fsite";
-
-
+                "https://connect.deezer.com/oauth/auth.php" +
+                "?app_id=" + Uri.EscapeDataString( Options.AppId ) +
+                "&redirect_uri=" + Uri.EscapeUriString( baseUri + Options.CallbackPath ) +
+                "&perms=" + Uri.EscapeDataString( string.Join( ",", Options.Scope ) ) +
+                "&state=" + Uri.EscapeDataString( state );
 
             Response.Redirect(authorizationEndpoint);
 

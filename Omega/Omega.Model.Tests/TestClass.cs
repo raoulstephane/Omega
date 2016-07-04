@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Omega.Crawler;
 using Omega.DataManager;
+using Omega.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -42,7 +43,7 @@ namespace Omega.Model.Tests
             GetATrack gt = new GetATrack();
 
             string playlists = GetstringPlaylist();
-            JArray filteredList = lf.PlaylistAnalyser(playlists, GetstringMetadonnees());
+            JArray filteredList = Livefusion.PlaylistAnalyser(playlists, GetstringMetadonnees());
             foreach (var musique in filteredList)
             {
                 Console.WriteLine((string)musique["AlbumName"]);
@@ -84,7 +85,7 @@ namespace Omega.Model.Tests
             Console.WriteLine("---------------------------------------------------");
             Console.WriteLine("Critère de recherche :\nDanceability : 0.7, Marge : 10%");
             Console.WriteLine("---------------------------------------------------");
-            JArray filteredList = lf.PlaylistAnalyser(playlists, GetstringMetadonnees());
+            JArray filteredList = Livefusion.PlaylistAnalyser(playlists, GetstringMetadonnees());
             foreach (var musique in filteredList)
             {
                 Console.WriteLine((string)musique["Title"]);

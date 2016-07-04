@@ -6,10 +6,12 @@ namespace OmegaSPA.Controllers
 {
     public class MixController : ApiController
     {
-        [Route("Mix/{metaDonnees}/{playlists}/LiveFusion")]
-        public JArray MixLiveFusion(string metaDonnees, string playlists)
+        [HttpPost]
+        [Route("Mix/LiveFusion")]
+        public JArray MixLiveFusion([FromBody] JToken data)
         {
-            return Livefusion.PlaylistAnalyser(metaDonnees, playlists);
+            throw new System.NotImplementedException();
+            //return Livefusion.PlaylistAnalyser(metaDonnees, playlists);
         }
     }
 }

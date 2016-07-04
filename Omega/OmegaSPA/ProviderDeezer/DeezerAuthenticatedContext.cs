@@ -10,12 +10,11 @@ namespace Owin.Security.Providers.Deezer.Provider
 {
     public class DeezerAuthenticatedContext: BaseContext
     {
-        public DeezerAuthenticatedContext(IOwinContext context, JObject user, string accessToken, string refreshToken, string expiresIn)
+        public DeezerAuthenticatedContext(IOwinContext context, JObject user, string accessToken, string expiresIn)
             : base(context)
         {
             User = user;
             AccessToken = accessToken;
-            RefreshToken = refreshToken;
 
             int expiresValue;
             if (int.TryParse(expiresIn, NumberStyles.Integer, CultureInfo.InvariantCulture, out expiresValue))
@@ -24,9 +23,9 @@ namespace Owin.Security.Providers.Deezer.Provider
             }
 
             Id = TryGetValue(user, "id");
-            Name = TryGetValue(user, "display_name");
+            Name = TryGetValue(user, "name");
 
-            ProfilePicture = TryGetListValue(user, "images", 0, "url");
+            ProfilePicture = TryGetValue( user, "picture" );
         }
 
         /// <summary>
@@ -41,11 +40,6 @@ namespace Owin.Security.Providers.Deezer.Provider
         /// Gets the Spotify access token
         /// </summary>
         public string AccessToken { get; private set; }
-
-        /// <summary>
-        /// Gets Spotify refresh token
-        /// </summary>
-        public string RefreshToken { get; private set; }
 
         /// <summary>
         /// Gets Spotify access token expiration time

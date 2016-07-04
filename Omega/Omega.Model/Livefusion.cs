@@ -8,8 +8,6 @@ namespace Omega.Model
 {
     public class Livefusion
     {
-        
-
         public static JArray PlaylistAnalyser(string playlists, string askedDonneesString, double ratio = 10)
         {
             Requests cr = new Requests();
