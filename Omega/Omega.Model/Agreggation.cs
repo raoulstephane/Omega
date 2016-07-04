@@ -22,8 +22,9 @@ namespace Omega.Model
                 {
                     trackIdSource = track["RowKey"].ToString().Substring(0, 1) + ":" + track["TrackId"].ToString();
                     CleanTrack analysedSong = cr.GetSongCleanTrack(trackIdSource);
-                    if (!organised.ContainsKey(track))
+                    if (!organisedPlaylist.Contains(trackIdSource) && analysedSong.Danceability != null)
                     {
+                        organisedPlaylist.Add(trackIdSource);
                         organised.Add(track, double.Parse(analysedSong.Danceability.Replace(".", ",")));
                     }
                 }
