@@ -8,10 +8,11 @@ namespace Omega.Model
 {
     public class Livefusion
     {
-        Requests cr = new Requests();
         
+
         public static JArray PlaylistAnalyser(string playlists, string askedDonneesString, double ratio = 10)
         {
+            Requests cr = new Requests();
             List<string> FilteredList = new List<string>();
             MetaDonnees askedDonnees = JsonConvert.DeserializeObject<MetaDonnees>(askedDonneesString); ;
             JArray filteredArray = new JArray();
@@ -47,6 +48,7 @@ namespace Omega.Model
 
         public JArray PlaylistAnalyser(string playlists, MetaDonnees askedDonneesMax, MetaDonnees askedDonneesMin)
         {
+            Requests cr = new Requests();
             List<string> FilteredList = new List<string>();
             JArray filteredArray = new JArray();
             List<CleanTrack> cleanTracks = new List<CleanTrack>();
