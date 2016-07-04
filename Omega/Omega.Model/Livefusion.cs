@@ -10,7 +10,7 @@ namespace Omega.Model
     {
         Requests cr = new Requests();
 
-        public JArray PlaylistAnalyser(string playlists, string askedDonneesString, double ratio = 10)
+        public static JArray PlaylistAnalyser(string playlists, string askedDonneesString, double ratio = 10)
         {
             List<string> FilteredList = new List<string>();
             MetaDonnees askedDonnees = JsonConvert.DeserializeObject<MetaDonnees>(askedDonneesString); ;

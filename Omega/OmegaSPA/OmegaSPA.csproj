@@ -285,6 +285,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MeController.cs" />
     <Compile Include="Controllers\FacebookController.cs" />
+    <Compile Include="Controllers\MixController.cs" />
     <Compile Include="Controllers\SpotifyController.cs" />
     <Compile Include="GeneralModels\AuthenticationToken.cs" />
     <Compile Include="ModelsDeezer\DeezerPlaylist.cs" />
@@ -424,6 +425,10 @@
     <ProjectReference Include="..\Omega.DataManager\Omega.DataManager.csproj">
       <Project>{2335b04d-421d-4d59-a36c-c704a02b0939}</Project>
       <Name>Omega.DataManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Omega.Model\Omega.Model.csproj">
+      <Project>{40ef09d9-67d8-407a-92d0-ce44271ced3a}</Project>
+      <Name>Omega.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
