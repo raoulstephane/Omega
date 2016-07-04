@@ -182,13 +182,12 @@ namespace OmegaSPA
                             throw;
                         }
                         c.Identity.AddClaim(new Claim("http://omega.fr:user_email", currentUserEmail));
-                        c.Identity.AddClaim(new Claim("http://omega.fr:deezer_access_token", c.AccessToken));
                    }
                 }
             };
             deezerAuthOptions.Scope.Add("email");// if email is needed.
-            deezerAuthOptions.Scope.Add("basic-access");
-            deezerAuthOptions.Scope.Add("offline-access");
+            deezerAuthOptions.Scope.Add("basic_access");
+            deezerAuthOptions.Scope.Add( "offline_access" );
 
             app.UseDeezerAuthentication( deezerAuthOptions );
         }
