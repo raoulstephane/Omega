@@ -11,11 +11,6 @@ namespace Omega.Crawler
 {
     class Program
     {
-        //static Analyser a = new Analyser();
-        //static CredentialAuth c = new CredentialAuth();
-        //static Requests r = new Requests();
-        //static GetATrack gt = new GetATrack();
-        //static DatabaseCreator dc = new DatabaseCreator();
         static Controller ct = new Controller();
 
         static void Main( string[] args )

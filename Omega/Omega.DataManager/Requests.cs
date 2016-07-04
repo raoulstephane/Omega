@@ -1,9 +1,6 @@
 ﻿using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Omega.DataManager
 {
@@ -11,14 +8,11 @@ namespace Omega.DataManager
     {
         public CloudTable ConnectCleanTrackTable()
         {
-            // Retrieve the storage account from the connection string.
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
             CloudConfigurationManager.GetSetting("StorageConnectionString"));
 
-            // Create the table client.
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
 
-            // Retrieve a reference to the table.
             CloudTable table = tableClient.GetTableReference("CleanTrack");
 
             return table;
@@ -51,10 +45,8 @@ namespace Omega.DataManager
                 track.Popularity = popularity;
                 track.Energy = meta.energy;
 
-                // Create the TableOperation object that inserts the customer entity.
                 TableOperation insertOperation = TableOperation.Insert(track);
 
-                // Execute the insert operation.
                 table.Execute(insertOperation);
             }
         }
@@ -65,13 +57,10 @@ namespace Omega.DataManager
 
             CloudTable table = ConnectCleanTrackTable();
 
-            // Create a retrieve operation that takes a customer entity.
             TableOperation retrieveOperation = TableOperation.Retrieve<CleanTrack>("", trackIdSource);
 
-            // Execute the retrieve operation.
             TableResult retrievedResult = table.Execute(retrieveOperation);
 
-            // Print the phone number of the result.
             if (retrievedResult.Result != null)
                 ct = (CleanTrack)retrievedResult.Result;
 
@@ -82,13 +71,10 @@ namespace Omega.DataManager
         {
             CloudTable table = ConnectCleanTrackTable();
 
-            // Create a retrieve operation that takes a customer entity.
             TableOperation retrieveOperation = TableOperation.Retrieve<CleanTrack>("", source + ":" + trackId);
 
-            // Execute the operation.
             TableResult retrievedResult = table.Execute(retrieveOperation);
 
-            // Assign the result to a CustomerEntity object.
             CleanTrack updateEntity = (CleanTrack)retrievedResult.Result;
 
             if (updateEntity != null)
@@ -110,11 +96,28 @@ namespace Omega.DataManager
                     updateEntity.Popularity = popularity;
                     updateEntity.Energy = meta.energy;
 
-                // Create the Replace TableOperation.
                 TableOperation updateOperation = TableOperation.Replace(updateEntity);
 
-                // Execute the operation.
                 table.Execute(updateOperation);
+            }
+        }
+
+        public void DeleteTrack(string trackIdSource)
+        {
+            CleanTrack ct = new CleanTrack();
+
+            CloudTable table = ConnectCleanTrackTable();
+
+            TableOperation retrieveOperation = TableOperation.Retrieve<CleanTrack>("", trackIdSource);
+
+            TableResult retrievedResult = table.Execute(retrieveOperation);
+
+            CleanTrack deleteEntity = (CleanTrack)retrievedResult.Result;
+
+            if (deleteEntity != null)
+            {
+                TableOperation deleteOperation = TableOperation.Delete(deleteEntity);
+                table.Execute(deleteOperation);
             }
         }
     }

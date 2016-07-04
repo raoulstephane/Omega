@@ -1,10 +1,5 @@
 ﻿using NUnit.Framework;
-using Omega.DataManager;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Omega.DataManager.Test
 {
@@ -15,6 +10,43 @@ namespace Omega.DataManager.Test
         public void TestQueu()
         {
             DatabaseQueries.InsertSpotifyTrack("a","aa","aaa","aaaa","aaaaa","aaaaaa",1111111, "aaaaaaaa" );
+        }
+
+        [Test]
+        public void Create_Table()
+        {
+            Requests r = new Requests();
+            r.ConnectCleanTrackTable();
+        }
+
+        [Test]
+        public void Add_Track()
+        {
+            Requests r = new Requests();
+            r.AddSongCleanTrack(new MetaDonnees(), "", "", "2zzZCSQbKvxSCImoCLmWKz", "", "s", "", "");
+        }
+
+        [Test]
+        public void Create_DataTable()
+        {
+            DatabaseCreator dc = new DatabaseCreator();
+            dc.CreateCleanTrackTable();
+        }
+
+        [Test]
+        public void Get_Track()
+        {
+            Requests r = new Requests();
+            r.GetSongCleanTrack("s:2zzZCSQbKvxSCImoCLmWKz");
+            Console.WriteLine();
+        }
+
+        [Test]
+        public void Delete_Track()
+        {
+            Requests r = new Requests();
+            r.DeleteTrack("s:2zzZCSQbKvxSCImoCLmWKz");
+            Console.WriteLine();
         }
     }
 }

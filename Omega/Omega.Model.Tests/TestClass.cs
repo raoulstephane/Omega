@@ -2,12 +2,10 @@
 using NUnit.Framework;
 using Omega.Crawler;
 using Omega.DataManager;
-using Omega.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Omega.Model.Tests
@@ -26,10 +24,7 @@ namespace Omega.Model.Tests
             playlist.Add("s:0eGsygTp906u18L0Oimnem");
             playlist.Add("s:11hqMWwX7sF3sOGdtijofF"); 
             playlist.Add("s:06AKEBrKUckW0KREUWRnvT");
-            //double ratio = 10;
             Livefusion l = new Livefusion();
-            //var newPlaylist = l.PlaylistAnalyser("", askedDonnees, ratio);
-            //Console.WriteLine(newPlaylist);
         }
 
         [Test]
@@ -143,18 +138,6 @@ namespace Omega.Model.Tests
             {
                 Console.WriteLine((string)musique["AlbumName"]);
             }
-        }
-
-        [Test]
-        public void Agreggate_Playlist()
-        {
-            Agreggation a = new Agreggation();
-
-            //var test = a.Agreggate(GetFilledPlaylist());
-            //foreach (var item in test)
-            //{
-            //    Console.WriteLine(item);
-            //}
         }
 
         [Test]
