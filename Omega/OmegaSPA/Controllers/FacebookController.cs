@@ -140,7 +140,7 @@ namespace OmegaSPA.Controllers
         }
 
         [Route( "Facebook/group/{groupId}/playlistsGroup")]
-        public async Task<JToken> GetAllPlaylistsFromEvent( string groupId )
+        public async Task<JToken> GetAllPlaylistsFromGroup( string groupId )
         {
             List<PlaylistEntity> AllPlaylistsFromGroupMembers = new List<PlaylistEntity>();
 
@@ -152,21 +152,49 @@ namespace OmegaSPA.Controllers
             FacebookClient fbClient = new FacebookClient( accessToken );
             dynamic groupMembers = fbClient.Get( string.Format( "{0}/members", groupId ) );
             JObject groupMembersJson = JObject.FromObject( groupMembers );
-
-            //List<string> membersId = new List<string>();
+            
             foreach( var member in groupMembersJson["data"])
             {
                 string currentMemberId = (string)member["id"];
-                //membersId.Add( currentMemberId );
-                dynamic userEmail = fbClient.Get( string.Format( "{0}?fields=email", currentMemberId ) );
-                JObject fbUser = JObject.FromObject( userEmail );
-                string fbUserEmail = (string)fbUser["email"];
+                string fbUserEmail = DatabaseQueries.GetEmailByFacebookId( currentMemberId );
 
                 if (fbUserEmail != null)
                 {
                     if (DatabaseQueries.IsUserPresentInBase( fbUserEmail ))
                     {
-                        AllPlaylistsFromGroupMembers.AddRange( DatabaseQueries.GetAllPlaylistFromOwner( fbUserEmail ) );
+                        AllPlaylistsFromGroupMembers.AddRange( DatabaseQueries.GetAllPlaylistsFromOwner( fbUserEmail ) );
+                    }
+                }
+            }
+            string allPlaylistsString = JsonConvert.SerializeObject( AllPlaylistsFromGroupMembers );
+            JToken allPlaylistsJson = JToken.Parse( allPlaylistsString );
+            return allPlaylistsJson;
+        }
+
+        [Route( "Facebook/event/{eventId}/playlistsEvent" )]
+        public async Task<JToken> GetAllPlaylistsFromEvent( string eventId )
+        {
+            List<PlaylistEntity> AllPlaylistsFromGroupMembers = new List<PlaylistEntity>();
+
+            ClaimsIdentity claimsIdentity = await Request.GetOwinContext().Authentication.GetExternalIdentityAsync( DefaultAuthenticationTypes.ExternalCookie );
+            Claim claim = claimsIdentity.Claims.Single( c => c.Type == "http://omega.fr:user_email" );
+            string email = claim.Value;
+            string accessToken = DatabaseQueries.GetFacebookAccessTokenByEmail( email );
+
+            FacebookClient fbClient = new FacebookClient( accessToken );
+            dynamic eventMembers = fbClient.Get( string.Format( "{0}/attending", eventId ) );
+            JObject eventMembersJson = JObject.FromObject( eventMembers );
+
+            foreach (var member in eventMembersJson["data"])
+            {
+                string currentMemberId = (string)member["id"];
+                string fbUserEmail = DatabaseQueries.GetEmailByFacebookId( currentMemberId );
+
+                if (fbUserEmail != null)
+                {
+                    if (DatabaseQueries.IsUserPresentInBase( fbUserEmail ))
+                    {
+                        AllPlaylistsFromGroupMembers.AddRange( DatabaseQueries.GetAllPlaylistsFromOwner( fbUserEmail ) );
                     }
                 }
             }

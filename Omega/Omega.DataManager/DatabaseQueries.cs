@@ -2,6 +2,7 @@
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
+using Omega.DataManager.Models;
 using System.Collections.Generic;
 
 namespace Omega.DataManager
@@ -14,6 +15,7 @@ namespace Omega.DataManager
         static readonly CloudTable tableUser;
         static readonly CloudTable tablePlaylist;
         static readonly CloudTable tableTrack;
+        static readonly CloudTable tableFacebookUser;
         static readonly CloudQueue queue;
 
         static DatabaseQueries()
@@ -29,6 +31,7 @@ namespace Omega.DataManager
             tableUser = tableClient.GetTableReference( "User" );
             tableTrack = tableClient.GetTableReference( "Track" );
             tablePlaylist = tableClient.GetTableReference( "Playlist" );
+            tableFacebookUser = tableClient.GetTableReference( "FacebookUser" );
 
             queueClient = storageAccount.CreateCloudQueueClient();
             queue = queueClient.GetQueueReference("myqueue");
@@ -42,6 +45,18 @@ namespace Omega.DataManager
 
             UserEntity u = (UserEntity)retrievedUser.Result;
             return (u != null && u.SpotifyId != null);
+        }
+
+        public static string GetEmailByFacebookId( string facebookId )
+        {
+            TableOperation retrieveUser = TableOperation.Retrieve<FacebookUserEntity>( string.Empty, facebookId );
+            TableResult retrievedFacebookUser = tableFacebookUser.Execute( retrieveUser );
+            
+            FacebookUserEntity f = (FacebookUserEntity)retrievedFacebookUser.Result;
+            if (f == null)
+                return null;
+            else
+                return f.Email;
         }
 
         public static string GetFacebookAccessTokenByEmail( string email )
@@ -135,7 +150,7 @@ namespace Omega.DataManager
         
         public static void InsertOrUpdateUserByFacebook( UserEntity facebookUser )
         {
-            // Create a retrieve operation that takes a customer entity.
+            // Create a retrieve operation that takes a User entity.
             TableOperation retrieveOperation = TableOperation.Retrieve<UserEntity>( string.Empty, facebookUser.RowKey );
 
             // Execute the retrieve operation.
@@ -155,17 +170,28 @@ namespace Omega.DataManager
                 TableOperation insertOperation = TableOperation.Insert( facebookUser );
                 tableUser.Execute( insertOperation );
             }
+
+            TableOperation retrieveFacebookUserOperation = TableOperation.Retrieve<FacebookUserEntity>( string.Empty, facebookUser.FacebookId );
+            TableResult retrievedFacebookUserResult = tableFacebookUser.Execute( retrieveFacebookUserOperation );
+            FacebookUserEntity retrievedFacebookUser = (FacebookUserEntity)retrievedFacebookUserResult.Result;
+            if(retrievedFacebookUser == null)
+            {
+                FacebookUserEntity fUser = new FacebookUserEntity( facebookUser.FacebookId, facebookUser.Email );
+                TableOperation insertFacebookUser = TableOperation.Insert( fUser );
+                tableFacebookUser.Execute( insertFacebookUser );
+            }
         }
 
-        public static void InsertSpotifyTrack(string userId, string playlistId, string trackId, string title, string albumName, string popularity, string cover )
+        public static void InsertSpotifyTrack(string userId, string playlistId, string trackId, string title, string albumName, string popularity, int duration, string cover )
         {
             TableOperation retrieveTrackOperation = TableOperation.Retrieve<TrackEntity>( userId, "s:" +playlistId+ ":" +trackId );
             
             TableResult retrievedResult = tableTrack.Execute( retrieveTrackOperation );
-            if (retrievedResult == null)
+            TrackEntity retrievedTrack = (TrackEntity)retrievedResult.Result;
+            if (retrievedTrack == null)
             {
                 TableBatchOperation batchOperation = new TableBatchOperation();
-                TrackEntity t = new TrackEntity( "s", userId, playlistId, trackId, title, albumName, popularity, cover );
+                TrackEntity t = new TrackEntity( "s", userId, playlistId, trackId, title, albumName, popularity, duration, cover );
                 batchOperation.Insert( t );
                 tableTrack.ExecuteBatch( batchOperation );
             }
@@ -186,32 +212,29 @@ namespace Omega.DataManager
             }
         }
 
-        public static List<PlaylistEntity>GetAllPlaylistFromOwner( string email )
+        public static List<PlaylistEntity>GetAllPlaylistsFromOwner( string email )
         {
-            List<PlaylistEntity> allPlaylistsFromOwner = new List<PlaylistEntity>();
+            List<PlaylistEntity> allPlaylists = new List<PlaylistEntity>();
 
             TableQuery<PlaylistEntity> queryPlaylists = new TableQuery<PlaylistEntity>().Where(
-                    TableQuery.GenerateFilterCondition( "PartitionKey", QueryComparisons.Equal, DatabaseQueries.GetSpotifyUserIdByEmail(email) ) );
+                TableQuery.GenerateFilterCondition( "PartitionKey", QueryComparisons.Equal, GetSpotifyUserIdByEmail( email ) ) );
 
-            foreach( PlaylistEntity p in tablePlaylist.ExecuteQuery( queryPlaylists ))
+            foreach (PlaylistEntity p in tablePlaylist.ExecuteQuery( queryPlaylists ))
             {
-                List<TrackEntity> allTracksInPlaylist = new List<TrackEntity>();
+                List<TrackEntity> allTracks = new List<TrackEntity>();
 
-                TableQuery<TrackEntity> rangeQueryTracks = new TableQuery<TrackEntity>().Where(
-                    TableQuery.CombineFilters(
-                        TableQuery.GenerateFilterCondition( "PartitionKey", QueryComparisons.Equal, GetSpotifyUserIdByEmail(email) ),
-                        TableOperators.And,
-                        TableQuery.GenerateFilterCondition( "PlaylistId", QueryComparisons.Equal, p.PlaylistId ) ) );
+                TableQuery<TrackEntity> queryTracks = new TableQuery<TrackEntity>().Where(
+                TableQuery.GenerateFilterCondition( "PartitionKey", QueryComparisons.Equal, GetSpotifyUserIdByEmail( email ) ) );
 
-                foreach( TrackEntity t in tableTrack.ExecuteQuery( rangeQueryTracks ))
+                foreach (TrackEntity track in tableTrack.ExecuteQuery( queryTracks ))
                 {
-                    allTracksInPlaylist.Add( t );
+                    if(track.PlaylistId == p.PlaylistId)
+                        allTracks.Add( track );
                 }
-                p.Tracks = allTracksInPlaylist;
-                allPlaylistsFromOwner.Add( p );
+                p.Tracks = allTracks;
+                allPlaylists.Add( p );
             }
-
-            return allPlaylistsFromOwner;
+            return allPlaylists;
         }
     }
 }

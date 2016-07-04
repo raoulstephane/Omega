@@ -46,6 +46,9 @@ namespace OmegaSPA
 
             table = tableClient.GetTableReference( "User" );
             table.CreateIfNotExists();
+
+            table = tableClient.GetTableReference( "FacebookUser" );
+            table.CreateIfNotExists();
         }
     }
 }
