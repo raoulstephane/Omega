@@ -25,7 +25,7 @@ namespace Omega.Crawler
                 string responseFromServer = reader.ReadToEnd();
                 JObject rss = JObject.Parse(responseFromServer);
                 if ((string)rss["total"] == "0")
-                    Console.WriteLine("pd");
+                    Console.WriteLine("No equivalent Deezer");
                 else
                     deezerId = (string)rss["data"][0]["id"];
             }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using Omega.Crawler;
 using Omega.DataManager;
@@ -44,6 +45,25 @@ namespace Omega.Model.Tests
 
             string playlists = GetstringPlaylist();
             JArray filteredList = Livefusion.PlaylistAnalyser(playlists, GetstringMetadonnees());
+            foreach (var musique in filteredList)
+            {
+                Console.WriteLine((string)musique["AlbumName"]);
+            }
+        }
+
+        [Test]
+        public void LiveFusion_Test_With_Body_String()
+        {
+            string body = GetBodyLivefusion();
+            char[] mesLettres = { '{', '}' };
+            body = body.TrimStart(mesLettres);
+            body = body.TrimEnd(mesLettres);
+
+            JObject bodyP = JObject.Parse(body);
+            string meta = bodyP["metadata"].ToString();
+            JArray playlists = (JArray)bodyP["checkedTracks"];
+            string playlistsS = playlists.ToString();
+            JArray filteredList = Livefusion.PlaylistAnalyser(playlistsS, meta);
             foreach (var musique in filteredList)
             {
                 Console.WriteLine((string)musique["AlbumName"]);
@@ -196,6 +216,16 @@ namespace Omega.Model.Tests
         {
             string playlists;
             using (var streamReader = new StreamReader(@"C:\Users\thibault\Desktop\exemple JSON monard.txt", Encoding.UTF8))
+            {
+                playlists = streamReader.ReadToEnd();
+            }
+            return playlists;
+        }
+
+        public string GetBodyLivefusion()
+        {
+            string playlists;
+            using (var streamReader = new StreamReader(@"C:\Users\thibault\Desktop\TestBody.txt", Encoding.UTF8))
             {
                 playlists = streamReader.ReadToEnd();
             }
