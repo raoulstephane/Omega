@@ -9,7 +9,7 @@ namespace Omega.Model
     public class Livefusion
     {
         Requests cr = new Requests();
-
+        
         public JArray PlaylistAnalyser(string playlists, string askedDonneesString, double ratio = 10)
         {
             List<string> FilteredList = new List<string>();

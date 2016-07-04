@@ -83,8 +83,8 @@ namespace OmegaSPA
 
             FacebookAuthenticationOptions facebookOption = new FacebookAuthenticationOptions
             {
-                AppId = "263290184003311",
-                AppSecret = "c534799048294b0566e010a10a3ea67f",
+                AppId = "307296926269303",
+                AppSecret = "8170473baa63f83159880ef7ee66d5fb",
                 CallbackPath = new PathString( "/signin-facebook" ),
                 Provider = new FacebookAuthenticationProvider
                 {
@@ -96,10 +96,8 @@ namespace OmegaSPA
                         string email = (string)facebookUserJson["email"];
 
                         UserStorage.CreateUser( new FacebookUser( email, c.Id, c.AccessToken ) );
-
-                        c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", c.Email ) );
-                        //c.Identity.AddClaim( new Claim( "http://omega.fr:user_facebook_id", c.Id ) );
-                        //c.Identity.AddClaim( new Claim( "http://omega.fr:facebook_access_token", c.AccessToken ) );
+                        
+                        c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", email ) );
                     }
                 }
             };
@@ -112,14 +110,12 @@ namespace OmegaSPA
 
             SpotifyAuthenticationOptions spotifyAuthOptions = new SpotifyAuthenticationOptions
             {
-                ClientId = "7769a12f2f84488bb6af171b19f8504c",
-                ClientSecret = "92c2927edff84d18aab3aaaaba2b2073",
+                ClientId = "52bd6a8d6339464088df06679fc4c96a",
+                ClientSecret = "20c05410d9ae449c8d57dec06b6ba10e",
                 Provider = new SpotifyAuthenticationProvider
                 {
                     OnAuthenticated = async c =>
                     {
-                        // c.Identity.Claims to retrieve claims
-
                         var currentUserRequest = "https://api.spotify.com/v1/me";
                         WebRequest userRequest = HttpWebRequest.Create( currentUserRequest );
                         userRequest.Method = "GET";
@@ -140,8 +136,6 @@ namespace OmegaSPA
                         UserStorage.CreateUser( new SpotifyUser( currentUserEmail, c.Id, c.AccessToken, c.RefreshToken ) );
 
                         c.Identity.AddClaim( new Claim( "http://omega.fr:user_email", currentUserEmail ) );
-                        //c.Identity.AddClaim( new Claim( "http://omega.fr:spotify_access_token", c.AccessToken ) );
-                        //c.Identity.AddClaim( new Claim( "http://omega.fr:spotify_refresh_token", c.RefreshToken ) );
                     }
                 }
             };
@@ -173,24 +167,22 @@ namespace OmegaSPA
                         using (WebResponse response = await userRequest.GetResponseAsync())
                         using (Stream responseStream = response.GetResponseStream())
                         using (StreamReader reader = new StreamReader(responseStream))
-                                                    {
-                        string currentUserJson = reader.ReadToEnd();
-                        JObject rss = JObject.Parse(currentUserJson);
-                        currentUserEmail = (string)rss["email"];
-                        }
-
-                        
-                      try
-                      {
-                         UserStorage.CreateUser(new DeezerUser(currentUserEmail, c.Id, c.AccessToken));
-                      }
-                      catch (Exception ex)
                         {
-                           throw;
+                            string currentUserJson = reader.ReadToEnd();
+                            JObject rss = JObject.Parse(currentUserJson);
+                            currentUserEmail = (string)rss["email"];
+                        }
+                        
+                        try
+                        {
+                           UserStorage.CreateUser(new DeezerUser(currentUserEmail, c.Id, c.AccessToken));
+                        }
+                          catch (Exception ex)
+                        {
+                            throw;
                         }
                         c.Identity.AddClaim(new Claim("http://omega.fr:user_email", currentUserEmail));
                         c.Identity.AddClaim(new Claim("http://omega.fr:deezer_access_token", c.AccessToken));
-                        // c.Identity.AddClaim(new Claim("http://omega.fr:deezer_refresh_token", c.RefreshToken));
                    }
                 }
             };
@@ -199,8 +191,6 @@ namespace OmegaSPA
             deezerAuthOptions.Scope.Add("offline-access");
 
             app.UseDeezerAuthentication( deezerAuthOptions );
-
-
         }
     }
 }

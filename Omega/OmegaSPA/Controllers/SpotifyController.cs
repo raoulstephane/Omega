@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Omega.DataManager;
+using System;
 
 namespace OmegaSPA.Controllers
 {
@@ -45,10 +46,19 @@ namespace OmegaSPA.Controllers
                     string trackId = (string)allTracksInPlaylistJson["items"][i]["track"]["id"];
                     string albumName = (string)allTracksInPlaylistJson["items"][i]["track"]["album"]["name"];
                     string trackPopularity = (string)allTracksInPlaylistJson["items"][i]["track"]["popularity"];
+                    int duration;
+                    try
+                    {
+                        duration = (int)allTracksInPlaylistJson["items"][i]["track"]["duration_ms"];
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
                     string coverAlbum = (string)allTracksInPlaylistJson["items"][i]["track"]["album"]["images"][0]["url"];
 
-                    DatabaseQueries.InsertSpotifyTrack( userdId, playlistId, trackId, trackTitle, albumName, trackPopularity, coverAlbum );
-                    tracksInPlaylist.Add( new TrackEntity( "s", userdId, playlistId, trackId, trackTitle, albumName, trackPopularity, coverAlbum ) );
+                    DatabaseQueries.InsertSpotifyTrack( userdId, playlistId, trackId, trackTitle, albumName, trackPopularity, duration, coverAlbum );
+                    tracksInPlaylist.Add( new TrackEntity( "s", userdId, playlistId, trackId, trackTitle, albumName, trackPopularity, duration, coverAlbum ) );
                 }
             }
             return tracksInPlaylist;

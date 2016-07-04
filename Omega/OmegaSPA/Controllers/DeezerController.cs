@@ -46,10 +46,11 @@ namespace OmegaSPA.Controllers
                     string trackId = (string)allTracksInPlaylistJson["data"][i]["track"]["id"];
                     string albumName = (string)allTracksInPlaylistJson["data"][i]["track"]["album"]["name"];
                     string trackRank = (string)allTracksInPlaylistJson["data"][i]["track"]["rank"];
+                    int duration = 0;
                     string coverAlbum = (string)allTracksInPlaylistJson["data"][i]["track"]["album"]["cover-medium"][0]["url"];
 
-                    DatabaseQueries.InsertSpotifyTrack(userdId, playlistId, trackId, trackTitle, albumName, trackRank, coverAlbum);
-                    tracksInPlaylist.Add(new TrackEntity("s", userdId, playlistId, trackId, trackTitle, albumName, trackRank, coverAlbum));
+                    DatabaseQueries.InsertSpotifyTrack(userdId, playlistId, trackId, trackTitle, albumName, trackRank, duration, coverAlbum);
+                    tracksInPlaylist.Add(new TrackEntity("d", userdId, playlistId, trackId, trackTitle, albumName, trackRank, duration, coverAlbum));
                 }
             }
             return tracksInPlaylist;
