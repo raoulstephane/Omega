@@ -1,5 +1,8 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.WindowsAzure.Storage.Table;
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Omega.DataManager.Test
 {
@@ -39,6 +42,31 @@ namespace Omega.DataManager.Test
             Requests r = new Requests();
             r.GetSongCleanTrack("s:2zzZCSQbKvxSCImoCLmWKz");
             Console.WriteLine();
+        }
+
+        [Test]
+        public async Task Get_Table_Content()
+        {
+            Requests r = new Requests();
+            CloudTable table = r.ConnectCleanTrackTable();
+            TableContinuationToken continuationToken = null;
+            TableQuery<CleanTrack> tableQuery = new TableQuery<CleanTrack>();
+            TableQuerySegment<CleanTrack> tableQueryResult;
+            List<CleanTrack> list = new List<CleanTrack>();
+
+            do
+            {
+                tableQueryResult = await table.ExecuteQuerySegmentedAsync(tableQuery, continuationToken);
+                continuationToken = tableQueryResult.ContinuationToken;
+                for (int i = 0; i < tableQueryResult.Results.Count; i++)
+                {
+                    string trackId = tableQueryResult.Results[i].Id;
+                    string trackTitle = tableQueryResult.Results[i].Id;
+                    string source = tableQueryResult.Results[i].Source.Substring(0, 1);
+                    list.Add(tableQueryResult.Results[i]);
+                    //Thread.Sleep(1000);
+                }
+            } while (continuationToken != null);
         }
 
         [Test]
