@@ -132,7 +132,7 @@ namespace Omega.Model.Tests
             Console.WriteLine("Critère de recherche :\nAmbiance : Lounge");
             Console.WriteLine("---------------------------------------------------");
 
-            JArray filteredList = a.Ambiancer("Lounge", GetstringPlaylist());
+            JArray filteredList = Ambiance.Ambiancer("Lounge", GetstringPlaylist());
             foreach (var musique in filteredList)
             {
                 Console.WriteLine((string)musique["Title"]);
@@ -157,7 +157,7 @@ namespace Omega.Model.Tests
             Console.WriteLine("Critère de recherche :\nAmbiance : Dance");
             Console.WriteLine("---------------------------------------------------");
 
-            JArray filteredList = a.Ambiancer("Dance", GetstringPlaylist());
+            JArray filteredList = Ambiance.Ambiancer("Dance", GetstringPlaylist());
             foreach (var musique in filteredList)
             {
                 Console.WriteLine((string)musique["Title"]);
@@ -170,7 +170,7 @@ namespace Omega.Model.Tests
             Ambiance a = new Ambiance();
             GetATrack gt = new GetATrack();
 
-            JArray filteredList = a.Ambiancer("Dance", GetstringPlaylist());
+            JArray filteredList = Ambiance.Ambiancer("Dance", GetstringPlaylist());
             foreach (var musique in filteredList)
             {
                 Console.WriteLine((string)musique["AlbumName"]);
