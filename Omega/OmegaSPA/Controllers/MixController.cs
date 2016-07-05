@@ -13,8 +13,7 @@ namespace OmegaSPA.Controllers
             string meta = data["metadata"].ToString();
             JArray playlists = (JArray)data["checkedTracks"];
             string playlistsS = playlists.ToString();
-            throw new System.NotImplementedException();
-            //return Livefusion.PlaylistAnalyser(playlists, metaDonnees);
+            return Livefusion.PlaylistAnalyser( playlistsS, meta );
         }
     }
 }
