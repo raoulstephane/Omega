@@ -10,10 +10,9 @@ namespace Omega.Model
 {
     public class Ambiance
     {
-        Livefusion l = new Livefusion();
-
-        public JArray Ambiancer(string ambiance, string playlist)
+        public static JArray Ambiancer(string ambiance, string playlist)
         {
+            Livefusion l = new Livefusion();
             MetaDonnees metadonnéesMax = new MetaDonnees();
             MetaDonnees metadonnéesMin = new MetaDonnees();
             using (var streamReader = new StreamReader(@"D:\Intech\PI\S4\Projet\Omega\Omega\Omega\Omega.Model\Modes.txt", Encoding.UTF8))

@@ -16,5 +16,15 @@ namespace OmegaSPA.Controllers
             throw new System.NotImplementedException();
             //return Livefusion.PlaylistAnalyser(playlists, metaDonnees);
         }
+
+        [HttpPost]
+        [Route("Mix/Ambiance")]
+        public JArray MixAmbiance([FromBody] JToken data)
+        {
+            string ambiance = data["ambiance"].ToString();
+            JArray playlists = (JArray)data["checkedTracks"];
+            string playlistsS = playlists.ToString();
+            return Ambiance.Ambiancer(playlistsS, ambiance);
+        }
     }
 }
